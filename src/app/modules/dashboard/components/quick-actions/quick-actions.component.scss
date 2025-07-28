@@ -1,0 +1,33 @@
+@import '../../../../../styles/global.scss';
+
+.quick-actions-card {
+  height: fit-content;
+}
+
+.actions-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: $spacing-sm;
+}
+
+.action-button {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  gap: $spacing-xs !important;
+  padding: $spacing-md !important;
+  height: 80px !important;
+  font-size: 12px !important;
+
+  mat-icon {
+    font-size: 24px;
+    width: 24px;
+    height: 24px;
+  }
+
+  span {
+    text-transform: none;
+    line-height: 1.2;
+    text-align: center;
+  }
+}

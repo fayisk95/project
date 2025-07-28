@@ -1,0 +1,16 @@
+<div class="sidebar-content">
+  <div class="sidebar-header">
+    <h2 class="sidebar-title">Navigation</h2>
+  </div>
+
+  <mat-nav-list class="sidebar-nav">
+    <a mat-list-item 
+       *ngFor="let item of getFilteredMenuItems()" 
+       [routerLink]="item.route"
+       routerLinkActive="active-item"
+       class="nav-item">
+      <mat-icon matListIcon class="nav-icon">{{ item.icon }}</mat-icon>
+      <span matLine class="nav-label">{{ item.label }}</span>
+    </a>
+  </mat-nav-list>
+</div>

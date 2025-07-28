@@ -1,0 +1,18 @@
+<mat-card class="kpi-card" [ngClass]="'kpi-' + data.color">
+  <mat-card-content>
+    <div class="kpi-header">
+      <div class="kpi-icon">
+        <mat-icon>{{ data.icon }}</mat-icon>
+      </div>
+      <div class="kpi-trend" [ngClass]="trendClass">
+        <mat-icon class="trend-icon">{{ trendIcon }}</mat-icon>
+        <span class="trend-value">{{ data.trendValue }}%</span>
+      </div>
+    </div>
+    
+    <div class="kpi-content">
+      <h3 class="kpi-value">{{ formattedValue }}</h3>
+      <p class="kpi-title">{{ data.title }}</p>
+    </div>
+  </mat-card-content>
+</mat-card>

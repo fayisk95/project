@@ -1,0 +1,23 @@
+<mat-card class="activity-card">
+  <mat-card-header>
+    <mat-card-title>Recent Activity</mat-card-title>
+  </mat-card-header>
+  
+  <mat-card-content>
+    <div class="activity-list">
+      <div *ngFor="let activity of activities" class="activity-item">
+        <div class="activity-icon">
+          <mat-icon>{{ activity.icon }}</mat-icon>
+        </div>
+        <div class="activity-content">
+          <p class="activity-message">{{ activity.message }}</p>
+          <span class="activity-time">{{ getTimeAgo(activity.timestamp) }}</span>
+        </div>
+      </div>
+    </div>
+    
+    <div class="activity-footer">
+      <button mat-button color="primary">View All Activities</button>
+    </div>
+  </mat-card-content>
+</mat-card>

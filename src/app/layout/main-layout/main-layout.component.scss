@@ -1,0 +1,23 @@
+@import '../../../styles/global.scss';
+
+.sidenav-container {
+  height: 100vh;
+}
+
+.sidenav {
+  width: 250px;
+}
+
+.main-content {
+  padding: $spacing-lg;
+  min-height: calc(100vh - 64px);
+  background-color: get-color(neutral, 50);
+  
+  @include responsive-breakpoint(mobile) {
+    padding: $spacing-md;
+  }
+}
+
+mat-sidenav-content {
+  margin-left: 0;
+}

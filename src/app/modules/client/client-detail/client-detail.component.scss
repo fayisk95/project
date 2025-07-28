@@ -1,0 +1,245 @@
+@import '../../../../styles/global.scss';
+
+.client-detail-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: $spacing-lg;
+  background: transparent;
+}
+
+.detail-header {
+  margin-bottom: $spacing-xl;
+  padding: $spacing-lg;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(248, 250, 255, 0.9) 100%);
+  border-radius: 12px;
+  border: 1px solid get-color(primary, 100);
+  box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.1);
+  
+  .header-content {
+    @include flex-between;
+    align-items: flex-start;
+    margin-bottom: $spacing-lg;
+    
+    @include responsive-breakpoint(mobile) {
+      flex-direction: column;
+      gap: $spacing-md;
+    }
+  }
+
+  .client-info {
+    .client-name {
+      @include typography-heading(36px, $font-weight-bold);
+      margin-bottom: $spacing-xs;
+      background: linear-gradient(135deg, get-color(primary, 600) 0%, get-color(primary, 500) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .client-name-ar {
+      @include typography-body(20px, $font-weight-medium);
+      color: get-color(primary, 600);
+      margin: 0 0 $spacing-sm 0;
+    }
+
+    .client-id {
+      display: inline-block;
+      padding: 6px 16px;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, get-color(primary, 50) 100%);
+      color: get-color(primary, 700);
+      border-radius: 20px;
+      border: 2px solid get-color(primary, 200);
+      font-family: monospace;
+      font-size: 16px;
+      font-weight: $font-weight-medium;
+      box-shadow: 0 2px 4px rgba(37, 99, 235, 0.2);
+    }
+  }
+
+  .outstanding-badge {
+    text-align: right;
+    padding: $spacing-md;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, get-color(primary, 25) 100%);
+    border: 2px solid get-color(primary, 200);
+    border-radius: 12px;
+    box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.1);
+
+    &.has-outstanding {
+      background: linear-gradient(135deg, get-color(warning, 100) 0%, get-color(warning, 50) 100%);
+      border-color: get-color(warning, 300);
+      box-shadow: 0 4px 6px -1px rgba(245, 158, 11, 0.3);
+    }
+
+    .outstanding-label {
+      display: block;
+      @include typography-body(12px, $font-weight-regular);
+      color: get-color(primary, 600);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 4px;
+    }
+
+    .outstanding-amount {
+      @include typography-heading(24px, $font-weight-bold);
+      color: get-color(primary, 600);
+
+      .has-outstanding & {
+        color: get-color(warning, 700);
+      }
+    }
+  }
+
+  .header-actions {
+    @include flex-center;
+    gap: $spacing-md;
+    
+    @include responsive-breakpoint(mobile) {
+      width: 100%;
+      justify-content: space-between;
+    }
+  }
+
+  .back-button {
+    display: flex;
+    align-items: center;
+    gap: $spacing-xs;
+  }
+}
+
+.detail-content {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: $spacing-lg;
+}
+
+.info-card {
+  overflow: visible;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(248, 250, 255, 0.9) 100%);
+  border: 1px solid get-color(primary, 100);
+  box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.1);
+
+  mat-card-header {
+    margin-bottom: $spacing-md;
+    padding: $spacing-md;
+    background: linear-gradient(135deg, get-color(primary, 50) 0%, rgba(255, 255, 255, 0.8) 100%);
+    margin: -16px -16px 16px -16px;
+    border-radius: 12px 12px 0 0;
+    border-bottom: 1px solid get-color(primary, 100);
+
+    mat-card-title {
+      display: flex;
+      align-items: center;
+      gap: $spacing-sm;
+      @include typography-heading(20px, $font-weight-bold);
+      color: get-color(primary, 700);
+
+      mat-icon {
+        color: get-color(primary, 600);
+        font-size: 24px;
+        width: 24px;
+        height: 24px;
+      }
+    }
+  }
+}
+
+.info-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: $spacing-lg $spacing-xl;
+
+  @include responsive-breakpoint(mobile) {
+    grid-template-columns: 1fr;
+    gap: $spacing-md;
+  }
+}
+
+.info-item {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xs;
+  padding: $spacing-sm;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.8) 0%, rgba(248, 250, 255, 0.8) 100%);
+  border-radius: 8px;
+  border: 1px solid get-color(primary, 100);
+
+  &.full-width {
+    grid-column: 1 / -1;
+  }
+
+  label {
+    @include typography-body(12px, $font-weight-bold);
+    color: get-color(primary, 600);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  span {
+    @include typography-body(15px, $font-weight-medium);
+    color: get-color(primary, 700);
+    word-break: break-word;
+  }
+}
+
+.contact-link {
+  a {
+    color: get-color(primary, 600);
+    text-decoration: none;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    padding: 2px 4px;
+    border-radius: 4px;
+
+    &:hover {
+      color: get-color(primary, 700);
+      background: get-color(primary, 50);
+      transform: translateY(-1px);
+    }
+  }
+
+  &.whatsapp a {
+    color: get-color(success, 600);
+
+    &:hover {
+      color: get-color(success, 700);
+      background: get-color(success, 50);
+    }
+  }
+}
+
+.platform-badge {
+  display: inline-block;
+  padding: 6px 16px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, get-color(primary, 50) 100%);
+  color: get-color(primary, 700);
+  border-radius: 20px;
+  border: 1px solid get-color(primary, 200);
+  font-size: 14px;
+  font-weight: $font-weight-medium;
+  box-shadow: 0 2px 4px rgba(37, 99, 235, 0.2);
+}
+
+.account-details {
+  font-family: monospace;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, get-color(primary, 25) 100%);
+  padding: $spacing-xs $spacing-sm;
+  border-radius: 6px;
+  border: 2px solid get-color(primary, 200);
+  box-shadow: inset 0 1px 2px rgba(37, 99, 235, 0.1);
+}
+
+.loading-container {
+  @include flex-center;
+  flex-direction: column;
+  gap: $spacing-md;
+  padding: $spacing-xxl;
+  text-align: center;
+  background: linear-gradient(135deg, get-color(primary, 25) 0%, rgba(255, 255, 255, 0.9) 100%);
+  border-radius: 12px;
+  margin: $spacing-lg;
+  border: 1px solid get-color(primary, 100);
+
+  p {
+    @include typography-body(18px, $font-weight-medium);
+    color: get-color(primary, 600);
+    margin: 0;
+  }}

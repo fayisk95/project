@@ -1,0 +1,87 @@
+@import '../../../styles/global.scss';
+
+.sidebar-content {
+  height: 100%;
+  background: linear-gradient(180deg, #ffffff 0%, #f8faff 100%);
+  color: get-color(primary, 700);
+  border-right: 1px solid get-color(primary, 100);
+}
+
+.sidebar-header {
+  padding: $spacing-lg $spacing-md;
+  border-bottom: 1px solid get-color(primary, 100);
+  background: linear-gradient(135deg, get-color(primary, 50) 0%, get-color(primary, 25) 100%);
+}
+
+.sidebar-title {
+  @include typography-heading(18px, $font-weight-bold);
+  color: get-color(primary, 700);
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.sidebar-nav {
+  padding: $spacing-md 0;
+}
+
+.nav-item {
+  color: get-color(primary, 600) !important;
+  padding: $spacing-sm $spacing-md !important;
+  margin: $spacing-xs $spacing-sm;
+  border-radius: 8px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.5);
+  border: 1px solid transparent;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, get-color(primary, 100) 0%, get-color(primary, 50) 100%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  &:hover {
+    background: linear-gradient(135deg, get-color(primary, 50) 0%, get-color(primary, 25) 100%) !important;
+    color: get-color(primary, 700) !important;
+    transform: translateX(4px);
+    border-color: get-color(primary, 200);
+    box-shadow: 0 2px 4px rgba(37, 99, 235, 0.1);
+    
+    &::before {
+      opacity: 1;
+    }
+  }
+
+  &.active-item {
+    background: linear-gradient(135deg, get-color(primary, 500) 0%, get-color(primary, 600) 100%) !important;
+    color: white !important;
+    border-color: get-color(primary, 600);
+    box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.3);
+    
+    &::before {
+      opacity: 1;
+    }
+  }
+}
+
+.nav-icon {
+  color: inherit !important;
+  margin-right: $spacing-sm;
+  font-size: 20px !important;
+  width: 20px !important;
+  height: 20px !important;
+}
+
+.nav-label {
+  @include typography-body(14px, $font-weight-medium);
+  position: relative;
+  z-index: 1;
+}

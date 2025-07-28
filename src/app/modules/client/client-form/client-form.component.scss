@@ -1,0 +1,180 @@
+@import '../../../../styles/global.scss';
+
+.client-form-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: $spacing-lg;
+  background: transparent;
+}
+
+.form-header {
+  margin-bottom: $spacing-xl;
+  text-align: center;
+  padding: $spacing-lg;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(248, 250, 255, 0.9) 100%);
+  border-radius: 12px;
+  border: 1px solid get-color(primary, 100);
+  box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.1);
+  
+  .page-title {
+    @include typography-heading(36px, $font-weight-bold);
+    margin-bottom: $spacing-sm;
+    background: linear-gradient(135deg, get-color(primary, 600) 0%, get-color(primary, 500) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .page-subtitle {
+    @include typography-body(18px, $font-weight-regular);
+    color: get-color(primary, 600);
+    margin: 0;
+  }
+}
+
+.form-card {
+  overflow: visible;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(248, 250, 255, 0.9) 100%);
+  border: 1px solid get-color(primary, 100);
+  box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.1);
+}
+
+.client-form {
+  .form-section {
+    margin-bottom: $spacing-xl;
+    padding: $spacing-lg;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.8) 0%, rgba(248, 250, 255, 0.8) 100%);
+    border-radius: 8px;
+    border: 1px solid get-color(primary, 100);
+    
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  .section-title {
+    @include typography-heading(20px, $font-weight-bold);
+    margin-bottom: $spacing-lg;
+    padding-bottom: $spacing-sm;
+    background: linear-gradient(135deg, get-color(primary, 600) 0%, get-color(primary, 500) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    border-bottom: 3px solid;
+    border-image: linear-gradient(135deg, get-color(primary, 600) 0%, get-color(primary, 500) 100%) 1;
+  }
+
+  .form-row {
+    display: flex;
+    gap: $spacing-md;
+    margin-bottom: $spacing-md;
+
+    &.two-columns {
+      @include responsive-breakpoint(mobile) {
+        flex-direction: column;
+        gap: 0;
+      }
+    }
+
+    .full-width {
+      flex: 1;
+      width: 100%;
+    }
+
+    .half-width {
+      flex: 0 0 48%;
+      
+      @include responsive-breakpoint(mobile) {
+        flex: 1;
+        width: 100%;
+      }
+    }
+  }
+
+  mat-form-field {
+    &.full-width {
+      width: 100%;
+    }
+  }
+
+  textarea {
+    resize: vertical;
+    min-height: 80px;
+  }
+}
+
+.form-actions {
+  @include flex-between;
+  margin-top: $spacing-xl;
+  padding-top: $spacing-lg;
+  padding: $spacing-lg;
+  background: linear-gradient(135deg, get-color(primary, 25) 0%, rgba(255, 255, 255, 0.9) 100%);
+  border-radius: 8px;
+  border: 1px solid get-color(primary, 100);
+  border-top: 3px solid;
+  border-image: linear-gradient(135deg, get-color(primary, 600) 0%, get-color(primary, 500) 100%) 1;
+
+  @include responsive-breakpoint(mobile) {
+    flex-direction: column;
+    gap: $spacing-md;
+    align-items: stretch;
+  }
+
+  button {
+    min-width: 120px;
+    height: 48px;
+    font-weight: $font-weight-bold;
+    
+    @include responsive-breakpoint(mobile) {
+      width: 100%;
+    }
+    
+    &[color="primary"] {
+      background: linear-gradient(135deg, get-color(primary, 500) 0%, get-color(primary, 600) 100%) !important;
+      box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.3) !important;
+      
+      &:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 10px 15px -3px rgba(37, 99, 235, 0.4) !important;
+      }
+    }
+  }
+
+  mat-progress-spinner {
+    margin-right: $spacing-sm;
+  }
+}
+
+// Custom Material overrides for this form
+::ng-deep {
+  .mat-form-field-appearance-outline {
+    .mat-form-field-wrapper {
+      margin: 0;
+    }
+    
+    .mat-form-field-outline {
+      color: get-color(primary, 200) !important;
+      border-radius: 8px !important;
+    }
+
+    &.mat-focused .mat-form-field-outline-thick {
+      color: get-color(primary, 500) !important;
+      border-width: 2px !important;
+    }
+  }
+
+  .mat-form-field-label {
+    color: get-color(primary, 600) !important;
+    font-weight: 500 !important;
+    
+    &.mat-focused {
+      color: get-color(primary, 500) !important;
+    }
+  }
+  
+  .mat-select-panel {
+    border-radius: 8px !important;
+    box-shadow: 0 10px 15px -3px rgba(37, 99, 235, 0.2), 0 4px 6px -2px rgba(37, 99, 235, 0.1) !important;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 255, 0.95) 100%) !important;
+  }
+}

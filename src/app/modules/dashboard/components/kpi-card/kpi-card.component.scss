@@ -1,0 +1,133 @@
+@import '../../../../../styles/global.scss';
+
+.kpi-card {
+  height: 140px;
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, #ffffff 0%, #f8faff 100%);
+  border: 1px solid get-color(primary, 100);
+  box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.1) !important;
+
+  &.kpi-primary {
+    border-left: 4px solid get-color(primary, 500);
+    
+    &::before {
+      background: linear-gradient(135deg, get-color(primary, 50) 0%, get-color(primary, 25) 100%);
+    }
+  }
+
+  &.kpi-success {
+    border-left: 4px solid get-color(success, 500);
+    
+    &::before {
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(16, 185, 129, 0.05) 100%);
+    }
+  }
+
+  &.kpi-warning {
+    border-left: 4px solid get-color(warning, 500);
+    
+    &::before {
+      background: linear-gradient(135deg, rgba(245, 158, 11, 0.1) 0%, rgba(245, 158, 11, 0.05) 100%);
+    }
+  }
+
+  &.kpi-info {
+    border-left: 4px solid get-color(accent, 500);
+    
+    &::before {
+      background: linear-gradient(135deg, get-color(accent, 50) 0%, rgba(14, 165, 233, 0.05) 100%);
+    }
+  }
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    opacity: 0.7;
+    z-index: 0;
+  }
+  
+  mat-card-content {
+    position: relative;
+    z-index: 1;
+  }
+}
+
+.kpi-header {
+  @include flex-between;
+  margin-bottom: $spacing-sm;
+}
+
+.kpi-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  @include flex-center;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, get-color(primary, 50) 100%);
+  box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.2);
+  border: 2px solid rgba(255, 255, 255, 0.8);
+
+  mat-icon {
+    color: get-color(primary, 600);
+    font-size: 24px;
+    width: 24px;
+    height: 24px;
+  }
+}
+
+.kpi-trend {
+  @include flex-center;
+  gap: 4px;
+  padding: 4px 8px;
+  border-radius: 16px;
+  font-size: 12px;
+  font-weight: $font-weight-medium;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+
+  &.trend-up {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, get-color(success, 50) 100%);
+    color: get-color(success, 700);
+    box-shadow: 0 2px 4px rgba(16, 185, 129, 0.2);
+  }
+
+  &.trend-down {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, get-color(error, 50) 100%);
+    color: get-color(error, 700);
+    box-shadow: 0 2px 4px rgba(239, 68, 68, 0.2);
+  }
+
+  &.trend-neutral {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, get-color(neutral, 100) 100%);
+    color: get-color(neutral, 600);
+    box-shadow: 0 2px 4px rgba(107, 114, 128, 0.2);
+  }
+}
+
+.trend-icon {
+  font-size: 16px;
+  width: 16px;
+  height: 16px;
+}
+
+.kpi-content {
+  .kpi-value {
+    @include typography-heading(28px, $font-weight-bold);
+    color: get-color(primary, 700);
+    margin-bottom: 4px;
+    background: linear-gradient(135deg, get-color(primary, 700) 0%, get-color(primary, 600) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .kpi-title {
+    @include typography-body(14px, $font-weight-medium);
+    color: get-color(primary, 600);
+    margin: 0;
+  }
+}

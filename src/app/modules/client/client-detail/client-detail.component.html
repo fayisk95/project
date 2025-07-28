@@ -1,0 +1,172 @@
+<div class="client-detail-container" *ngIf="!isLoading && client">
+  <div class="detail-header">
+    <div class="header-content">
+      <div class="client-info">
+        <h1 class="client-name">{{ client.nameEn }}</h1>
+        <p *ngIf="client.nameAr" class="client-name-ar">{{ client.nameAr }}</p>
+        <span class="client-id">{{ client.clientId }}</span>
+      </div>
+      
+      <div class="outstanding-badge" 
+           [ngClass]="{'has-outstanding': client.totalOutstanding > 0}">
+        <span class="outstanding-label">Outstanding</span>
+        <span class="outstanding-amount">{{ formatCurrency(client.totalOutstanding) }}</span>
+      </div>
+    </div>
+
+    <div class="header-actions">
+      <button mat-button (click)="onBack()" class="back-button">
+        <mat-icon>arrow_back</mat-icon>
+        Back to List
+      </button>
+      
+      <button mat-raised-button color="primary" (click)="onEdit()">
+        <mat-icon>edit</mat-icon>
+        Edit Client
+      </button>
+    </div>
+  </div>
+
+  <div class="detail-content">
+    <!-- Basic Information Card -->
+    <mat-card class="info-card">
+      <mat-card-header>
+        <mat-card-title>
+          <mat-icon>business</mat-icon>
+          Basic Information
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="info-grid">
+          <div class="info-item">
+            <label>Company Name (English)</label>
+            <span>{{ client.nameEn }}</span>
+          </div>
+          
+          <div class="info-item" *ngIf="client.nameAr">
+            <label>Company Name (Arabic)</label>
+            <span>{{ client.nameAr }}</span>
+          </div>
+          
+          <div class="info-item full-width">
+            <label>Address</label>
+            <span>{{ client.address }}</span>
+          </div>
+          
+          <div class="info-item">
+            <label>Created</label>
+            <span>{{ formatDate(client.createdAt) }}</span>
+          </div>
+          
+          <div class="info-item">
+            <label>Last Updated</label>
+            <span>{{ formatDate(client.updatedAt) }}</span>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Contact Information Card -->
+    <mat-card class="info-card">
+      <mat-card-header>
+        <mat-card-title>
+          <mat-icon>contact_phone</mat-icon>
+          Contact Information
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="info-grid">
+          <div class="info-item">
+            <label>Email</label>
+            <span class="contact-link">
+              <a [href]="'mailto:' + client.email">{{ client.email }}</a>
+            </span>
+          </div>
+          
+          <div class="info-item">
+            <label>Contact Number</label>
+            <span class="contact-link">
+              <a [href]="'tel:' + client.contactNumber">{{ client.contactNumber }}</a>
+            </span>
+          </div>
+          
+          <div class="info-item">
+            <label>WhatsApp</label>
+            <span class="contact-link whatsapp">
+              <a [href]="getWhatsappLink(client.whatsappNumber)" 
+                 target="_blank">
+                {{ client.whatsappNumber }}
+              </a>
+            </span>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Point of Contact Card -->
+    <mat-card class="info-card">
+      <mat-card-header>
+        <mat-card-title>
+          <mat-icon>person</mat-icon>
+          Point of Contact (POC)
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="info-grid">
+          <div class="info-item">
+            <label>POC Email</label>
+            <span class="contact-link">
+              <a [href]="'mailto:' + client.poc.email">{{ client.poc.email }}</a>
+            </span>
+          </div>
+          
+          <div class="info-item">
+            <label>POC Contact</label>
+            <span class="contact-link">
+              <a [href]="'tel:' + client.poc.contactNumber">{{ client.poc.contactNumber }}</a>
+            </span>
+          </div>
+          
+          <div class="info-item">
+            <label>POC WhatsApp</label>
+            <span class="contact-link whatsapp">
+              <a [href]="getWhatsappLink(client.whatsappNumber)"
+                 target="_blank">
+                {{ client.poc.whatsappNumber }}
+              </a>
+            </span>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Hosting Information Card -->
+    <mat-card class="info-card">
+      <mat-card-header>
+        <mat-card-title>
+          <mat-icon>cloud</mat-icon>
+          Hosting Platform
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="info-grid">
+          <div class="info-item">
+            <label>Platform Name</label>
+            <span class="platform-badge">{{ client.hostingPlatform.name }}</span>
+          </div>
+          
+          <div class="info-item">
+            <label>Account Details</label>
+            <span class="account-details">{{ client.hostingPlatform.accountDetails }}</span>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
+
+<!-- Loading State -->
+<div class="loading-container" *ngIf="isLoading">
+  <mat-progress-spinner mode="indeterminate" diameter="50"></mat-progress-spinner>
+  <p>Loading client details...</p>
+</div>

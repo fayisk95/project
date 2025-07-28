@@ -1,0 +1,213 @@
+// Global SCSS with theme variables, mixins, and common styles
+
+@import '@angular/material/theming';
+
+// Custom theme colors
+$primary-color: #2563eb;
+$accent-color: #3b82f6;
+$warn-color: #ef4444;
+$success-color: #10b981;
+$info-color: #0ea5e9;
+
+// Typography variables
+$font-family-primary: 'Roboto', 'Helvetica Neue', sans-serif;
+$font-weight-light: 300;
+$font-weight-regular: 400;
+$font-weight-medium: 500;
+$font-weight-bold: 700;
+
+// Spacing system (8px grid)
+$spacing-xs: 4px;
+$spacing-sm: 8px;
+$spacing-md: 16px;
+$spacing-lg: 24px;
+$spacing-xl: 32px;
+$spacing-xxl: 48px;
+
+// Color palette
+$colors: (
+  primary: (
+    25: #f8faff,
+    50: #eff6ff,
+    100: #dbeafe,
+    200: #bfdbfe,
+    300: #93c5fd,
+    400: #60a5fa,
+    500: #3b82f6,
+    600: #2563eb,
+    700: #1d4ed8,
+    800: #1e40af,
+    900: #1e3a8a
+  ),
+  accent: (
+    50: #f0f9ff,
+    100: #e0f2fe,
+    500: #0ea5e9,
+    600: #0284c7,
+    700: #0369a1
+  ),
+  success: (
+    50: #ecfdf5,
+    100: #d1fae5,
+    500: #10b981,
+    700: #059669,
+    900: #064e3b
+  ),
+  warning: (
+    50: #fffbeb,
+    100: #fef3c7,
+    500: #f59e0b,
+    700: #d97706,
+    900: #92400e
+  ),
+  error: (
+    50: #fef2f2,
+    100: #fee2e2,
+    500: #ef4444,
+    700: #dc2626,
+    900: #991b1b
+  ),
+  neutral: (
+    25: #fcfcfd,
+    50: #f9fafb,
+    100: #f3f4f6,
+    200: #e5e7eb,
+    300: #d1d5db,
+    400: #9ca3af,
+    500: #6b7280,
+    600: #4b5563,
+    700: #374151,
+    800: #1f2937,
+    900: #111827
+  )
+);
+
+// Mixins
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+@mixin card-shadow {
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+}
+
+@mixin hover-lift {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  
+  &:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  }
+}
+
+@mixin typography-heading($size: 24px, $weight: $font-weight-medium) {
+  font-family: $font-family-primary;
+  font-size: $size;
+  font-weight: $weight;
+  line-height: 1.2;
+  margin: 0;
+}
+
+@mixin typography-body($size: 14px, $weight: $font-weight-regular) {
+  font-family: $font-family-primary;
+  font-size: $size;
+  font-weight: $weight;
+  line-height: 1.5;
+}
+
+@mixin responsive-breakpoint($breakpoint) {
+  @if $breakpoint == mobile {
+    @media (max-width: 767px) { @content; }
+  }
+  @if $breakpoint == tablet {
+    @media (min-width: 768px) and (max-width: 1023px) { @content; }
+  }
+  @if $breakpoint == desktop {
+    @media (min-width: 1024px) { @content; }
+  }
+}
+
+// Utility function to get color
+@function get-color($color-name, $shade: 500) {
+  @return map-get(map-get($colors, $color-name), $shade);
+}
+
+// Global styles
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: $font-family-primary;
+  background: linear-gradient(135deg, #f8faff 0%, #ffffff 50%, #f0f9ff 100%);
+  min-height: 100vh;
+  color: get-color(neutral, 900);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.mt-sm { margin-top: $spacing-sm; }
+.mt-md { margin-top: $spacing-md; }
+.mt-lg { margin-top: $spacing-lg; }
+
+.mb-sm { margin-bottom: $spacing-sm; }
+.mb-md { margin-bottom: $spacing-md; }
+.mb-lg { margin-bottom: $spacing-lg; }
+
+.p-sm { padding: $spacing-sm; }
+.p-md { padding: $spacing-md; }
+.p-lg { padding: $spacing-lg; }
+
+// Custom Material overrides
+.mat-toolbar {
+  background: linear-gradient(135deg, #ffffff 0%, #f8faff 100%) !important;
+  color: get-color(primary, 700) !important;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06) !important;
+  border-bottom: 1px solid get-color(primary, 100) !important;
+}
+
+.mat-sidenav {
+  width: 250px;
+  background: linear-gradient(180deg, #ffffff 0%, #f8faff 100%) !important;
+  border-right: 1px solid get-color(primary, 100) !important;
+}
+
+.mat-card {
+  @include card-shadow;
+  @include hover-lift;
+  border-radius: 12px !important;
+  border: 1px solid get-color(primary, 100) !important;
+  background: linear-gradient(135deg, #ffffff 0%, #f8faff 100%) !important;
+}
+
+.mat-button, .mat-raised-button, .mat-fab, .mat-mini-fab {
+  border-radius: 8px !important;
+  font-weight: 500 !important;
+  text-transform: none !important;
+}
+
+.mat-raised-button {
+  box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.2), 0 2px 4px -1px rgba(37, 99, 235, 0.1) !important;
+  
+  &:hover {
+    box-shadow: 0 10px 15px -3px rgba(37, 99, 235, 0.3), 0 4px 6px -2px rgba(37, 99, 235, 0.2) !important;
+  }
+}

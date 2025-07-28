@@ -1,0 +1,222 @@
+@import '../../../../styles/global.scss';
+
+.client-list-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: $spacing-lg;
+  background: transparent;
+}
+
+.list-header {
+  @include flex-between;
+  margin-bottom: $spacing-xl;
+  padding: $spacing-lg;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(248, 250, 255, 0.9) 100%);
+  border-radius: 12px;
+  border: 1px solid get-color(primary, 100);
+  box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.1);
+
+  @include responsive-breakpoint(mobile) {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: $spacing-md;
+  }
+}
+
+.header-content {
+  .page-title {
+    @include typography-heading(36px, $font-weight-bold);
+    margin-bottom: $spacing-sm;
+    background: linear-gradient(135deg, get-color(primary, 600) 0%, get-color(primary, 500) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .page-subtitle {
+    @include typography-body(18px, $font-weight-regular);
+    color: get-color(primary, 600);
+    margin: 0;
+  }
+}
+
+.add-button {
+  display: flex;
+  align-items: center;
+  gap: $spacing-xs;
+  padding: 0 $spacing-md;
+  background: linear-gradient(135deg, get-color(primary, 500) 0%, get-color(primary, 600) 100%) !important;
+  box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.3) !important;
+  
+  &:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 10px 15px -3px rgba(37, 99, 235, 0.4) !important;
+  }
+}
+
+.client-card {
+  overflow: hidden;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(248, 250, 255, 0.9) 100%);
+  border: 1px solid get-color(primary, 100);
+  box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.1);
+}
+
+.search-container {
+  margin-bottom: $spacing-lg;
+  padding: $spacing-md;
+  background: linear-gradient(135deg, get-color(primary, 25) 0%, rgba(255, 255, 255, 0.8) 100%);
+  border-radius: 8px;
+  border: 1px solid get-color(primary, 100);
+}
+
+.search-field {
+  width: 100%;
+  max-width: 400px;
+}
+
+.table-container {
+  overflow-x: auto;
+  margin: 0 -#{$spacing-md};
+  border-radius: 8px;
+}
+
+.clients-table {
+  width: 100%;
+  min-width: 800px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 255, 0.95) 100%);
+
+  .mat-column-clientId {
+    width: 100px;
+  }
+
+  .mat-column-nameEn {
+    width: 200px;
+  }
+
+  .mat-column-email {
+    width: 200px;
+  }
+
+  .mat-column-contactNumber {
+    width: 150px;
+  }
+
+  .mat-column-totalOutstanding {
+    width: 120px;
+  }
+
+  .mat-column-actions {
+    width: 150px;
+  }
+  
+  .mat-header-row {
+    background: linear-gradient(135deg, get-color(primary, 100) 0%, get-color(primary, 50) 100%);
+    
+    .mat-header-cell {
+      color: get-color(primary, 700);
+      font-weight: $font-weight-bold;
+      border-bottom: 2px solid get-color(primary, 300);
+    }
+  }
+}
+
+.client-id {
+  font-family: monospace;
+  font-weight: $font-weight-medium;
+  color: get-color(primary, 600);
+  background: get-color(primary, 50);
+  padding: 2px 6px;
+  border-radius: 4px;
+  border: 1px solid get-color(primary, 200);
+}
+
+.client-name {
+  .name-en {
+    display: block;
+    @include typography-body(15px, $font-weight-bold);
+    color: get-color(primary, 700);
+  }
+
+  .name-ar {
+    display: block;
+    @include typography-body(12px, $font-weight-regular);
+    color: get-color(primary, 500);
+    margin-top: 2px;
+  }
+}
+
+.outstanding-amount {
+  @include typography-body(14px, $font-weight-bold);
+  color: get-color(primary, 600);
+  padding: 4px 8px;
+  border-radius: 16px;
+  background: get-color(primary, 50);
+  border: 1px solid get-color(primary, 200);
+
+  &.has-outstanding {
+    color: get-color(warning, 700);
+    background: get-color(warning, 100);
+    border-color: get-color(warning, 300);
+    box-shadow: 0 2px 4px rgba(245, 158, 11, 0.2);
+  }
+}
+
+.action-buttons {
+  display: flex;
+  gap: $spacing-xs;
+  
+  button {
+    border-radius: 50% !important;
+    width: 36px !important;
+    height: 36px !important;
+    min-width: 36px !important;
+    
+    &:hover {
+      transform: scale(1.1);
+    }
+    
+    &[color="primary"]:hover {
+      background-color: get-color(primary, 50) !important;
+    }
+  }
+}
+
+.client-row {
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+  &:hover {
+    background: linear-gradient(135deg, get-color(primary, 50) 0%, rgba(255, 255, 255, 0.9) 100%);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.2);
+  }
+}
+
+.no-clients {
+  text-align: center;
+  padding: $spacing-xxl;
+  background: linear-gradient(135deg, get-color(primary, 25) 0%, rgba(255, 255, 255, 0.9) 100%);
+  border-radius: 12px;
+  margin: $spacing-lg;
+  border: 1px solid get-color(primary, 100);
+}
+
+.no-clients-icon {
+  font-size: 64px;
+  width: 64px;
+  height: 64px;
+  color: get-color(primary, 400);
+  margin-bottom: $spacing-md;
+}
+
+.no-clients-text {
+  @include typography-heading(20px, $font-weight-bold);
+  color: get-color(primary, 600);
+  margin-bottom: $spacing-sm;
+}
+
+.no-clients-subtext {
+  @include typography-body(16px, $font-weight-regular);
+  color: get-color(primary, 500);
+  margin: 0;
+}

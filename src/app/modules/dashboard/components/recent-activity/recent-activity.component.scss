@@ -1,0 +1,62 @@
+@import '../../../../../styles/global.scss';
+
+.activity-card {
+  height: fit-content;
+}
+
+.activity-list {
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.activity-item {
+  display: flex;
+  align-items: flex-start;
+  gap: $spacing-sm;
+  padding: $spacing-sm 0;
+  border-bottom: 1px solid get-color(neutral, 200);
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.activity-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: get-color(primary, 50);
+  @include flex-center;
+  flex-shrink: 0;
+
+  mat-icon {
+    font-size: 18px;
+    width: 18px;
+    height: 18px;
+    color: get-color(primary, 600);
+  }
+}
+
+.activity-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.activity-message {
+  @include typography-body(14px, $font-weight-regular);
+  color: get-color(neutral, 900);
+  margin: 0 0 4px 0;
+  line-height: 1.4;
+}
+
+.activity-time {
+  @include typography-body(12px, $font-weight-regular);
+  color: get-color(neutral, 500);
+}
+
+.activity-footer {
+  margin-top: $spacing-md;
+  text-align: center;
+  padding-top: $spacing-md;
+  border-top: 1px solid get-color(neutral, 200);
+}

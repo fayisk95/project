@@ -1,0 +1,35 @@
+@import '../../../../../styles/global.scss';
+
+.chart-container {
+  height: 250px;
+  width: 100%;
+}
+
+.chart-placeholder {
+  height: 100%;
+  @include flex-center;
+  flex-direction: column;
+  background-color: get-color(neutral, 50);
+  border: 2px dashed get-color(neutral, 300);
+  border-radius: 8px;
+}
+
+.chart-icon {
+  font-size: 48px;
+  width: 48px;
+  height: 48px;
+  color: get-color(neutral, 400);
+  margin-bottom: $spacing-sm;
+}
+
+.chart-text {
+  @include typography-body(16px, $font-weight-medium);
+  color: get-color(neutral, 600);
+  margin: 0 0 4px 0;
+}
+
+.chart-subtext {
+  @include typography-body(12px, $font-weight-regular);
+  color: get-color(neutral, 500);
+  margin: 0;
+}

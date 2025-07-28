@@ -1,0 +1,58 @@
+@import '../../../styles/global.scss';
+
+.header-toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  @include flex-between;
+  height: 64px;
+  padding: 0 $spacing-md;
+  backdrop-filter: blur(10px);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 255, 0.95) 100%) !important;
+  border-bottom: 1px solid get-color(primary, 200);
+  box-shadow: 0 1px 3px 0 rgba(37, 99, 235, 0.1) !important;
+}
+
+.menu-button {
+  margin-right: $spacing-md;
+  color: get-color(primary, 600) !important;
+  
+  &:hover {
+    background-color: get-color(primary, 50) !important;
+  }
+}
+
+.logo-container {
+  @include flex-center;
+  gap: $spacing-sm;
+}
+
+.logo {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 2px 4px rgba(37, 99, 235, 0.2);
+  border: 2px solid get-color(primary, 100);
+}
+
+.app-title {
+  @include typography-heading(20px, $font-weight-bold);
+  background: linear-gradient(135deg, get-color(primary, 600) 0%, get-color(primary, 500) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.spacer {
+  flex: 1;
+}
+
+.user-menu {
+  margin-left: $spacing-sm;
+  color: get-color(primary, 600) !important;
+  
+  &:hover {
+    background-color: get-color(primary, 50) !important;
+  }
+}
