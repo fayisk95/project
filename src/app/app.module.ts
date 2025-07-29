@@ -5,6 +5,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { CoreModule } from './core/core.module';
 import { LayoutModule } from './layout/layout.module';
 import { DashboardModule } from './modules/dashboard/dashboard.module';
 import { ClientModule } from './modules/client/client.module';
@@ -19,6 +20,7 @@ import { SharedModule } from './shared/shared.module';
     BrowserAnimationsModule,
     ReactiveFormsModule,
     FormsModule,
+    CoreModule,
     AppRoutingModule,
     LayoutModule,
     DashboardModule,

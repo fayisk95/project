@@ -1,7 +1,6 @@
 @import '../../../styles/global.scss';
 
 .dashboard-container {
-  max-width: 1200px;
   margin: 0 auto;
   padding: $spacing-lg;
   background: transparent;
@@ -15,24 +14,22 @@
   border-radius: 16px;
   border: 1px solid get-color(primary, 100);
   box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.1);
-  
+
   @include responsive-breakpoint(tablet) {
     text-align: left;
   }
 }
 
 .page-title {
-  @include typography-heading(36px, $font-weight-bold);
+  @include typography-heading(32px, $font-weight-semibold);
   margin-bottom: $spacing-sm;
-  background: linear-gradient(135deg, get-color(primary, 600) 0%, get-color(primary, 500) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: get-color(neutral, 900);
+  letter-spacing: -0.02em;
 }
 
 .page-subtitle {
-  @include typography-body(18px, $font-weight-regular);
-  color: get-color(primary, 600);
+  @include typography-body(16px, $font-weight-regular);
+  color: get-color(neutral, 600);
   margin: 0;
 }
 
@@ -75,14 +72,14 @@
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(248, 250, 255, 0.9) 100%);
   border: 1px solid get-color(primary, 100);
   box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.1);
-  
+
   mat-card-header {
     background: linear-gradient(135deg, get-color(primary, 50) 0%, rgba(255, 255, 255, 0.8) 100%);
     margin: -16px -16px 16px -16px;
     padding: $spacing-md;
     border-radius: 12px 12px 0 0;
     border-bottom: 1px solid get-color(primary, 100);
-    
+
     mat-card-title {
       color: get-color(primary, 700);
       font-weight: $font-weight-bold;

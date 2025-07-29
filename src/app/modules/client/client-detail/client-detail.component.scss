@@ -28,17 +28,15 @@
 
   .client-info {
     .client-name {
-      @include typography-heading(28px, $font-weight-bold);
+      @include typography-heading(24px, $font-weight-semibold);
       margin-bottom: 4px;
-      background: linear-gradient(135deg, get-color(primary, 600) 0%, get-color(primary, 500) 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
+      color: get-color(neutral, 900);
+      letter-spacing: -0.02em;
     }
 
     .client-name-ar {
-      @include typography-body(16px, $font-weight-medium);
-      color: get-color(primary, 600);
+      @include typography-body(15px, $font-weight-regular);
+      color: get-color(neutral, 600);
       margin: 0 0 6px 0;
     }
 
@@ -53,7 +51,7 @@
       display: inline-block;
       padding: 2px 8px;
       background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, get-color(primary, 50) 100%);
-      color: get-color(primary, 700);
+      color: get-color(neutral, 700);
       border-radius: 12px;
       border: 1px solid get-color(primary, 200);
       font-family: monospace;
@@ -64,7 +62,7 @@
 
     .client-date {
       @include typography-body(12px, $font-weight-regular);
-      color: get-color(primary, 500);
+      color: get-color(neutral, 500);
       padding: 2px 6px;
       background: rgba(255, 255, 255, 0.7);
       border-radius: 8px;
@@ -90,15 +88,15 @@
     .outstanding-label {
       display: block;
       @include typography-body(10px, $font-weight-regular);
-      color: get-color(primary, 600);
+      color: get-color(neutral, 600);
       text-transform: uppercase;
       letter-spacing: 0.5px;
       margin-bottom: 2px;
     }
 
     .outstanding-amount {
-      @include typography-heading(18px, $font-weight-bold);
-      color: get-color(primary, 600);
+      @include typography-heading(16px, $font-weight-semibold);
+      color: get-color(neutral, 800);
 
       .has-outstanding & {
         color: get-color(warning, 700);
@@ -140,13 +138,13 @@
 
   .mat-tab-label {
     font-weight: $font-weight-medium;
-    color: get-color(primary, 600);
+    color: get-color(neutral, 700);
     opacity: 0.7;
     transition: all 0.3s ease;
 
     &.mat-tab-label-active {
       opacity: 1;
-      color: get-color(primary, 700);
+      color: get-color(neutral, 900);
     }
   }
 
@@ -174,11 +172,12 @@
   display: flex;
   align-items: center;
   gap: 6px;
-  @include typography-heading(16px, $font-weight-bold);
+  @include typography-heading(15px, $font-weight-semibold);
   margin-bottom: $spacing-md;
   padding-bottom: 6px;
-  color: get-color(primary, 700);
+  color: get-color(neutral, 800);
   border-bottom: 2px solid get-color(primary, 200);
+  letter-spacing: -0.01em;
 
   mat-icon {
     color: get-color(primary, 600);
@@ -217,14 +216,14 @@
 
   label {
     @include typography-body(10px, $font-weight-bold);
-    color: get-color(primary, 600);
+    color: get-color(neutral, 600);
     text-transform: uppercase;
     letter-spacing: 0.5px;
   }
 
   span {
-    @include typography-body(13px, $font-weight-medium);
-    color: get-color(primary, 700);
+    @include typography-body(13px, $font-weight-regular);
+    color: get-color(neutral, 800);
     word-break: break-word;
   }
 }
@@ -289,21 +288,21 @@
     label {
       display: block;
       @include typography-body(10px, $font-weight-bold);
-      color: get-color(primary, 600);
+      color: get-color(neutral, 600);
       text-transform: uppercase;
       letter-spacing: 0.5px;
       margin-bottom: 2px;
     }
 
     .contact-link {
-      @include typography-body(13px, $font-weight-medium);
-      color: get-color(primary, 600);
+      @include typography-body(13px, $font-weight-regular);
+      color: get-color(neutral, 700);
       text-decoration: none;
       transition: all 0.3s ease;
       word-break: break-all;
 
       &:hover {
-        color: get-color(primary, 700);
+        color: get-color(neutral, 900);
         text-decoration: underline;
       }
     }

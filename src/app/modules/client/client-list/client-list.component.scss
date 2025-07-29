@@ -24,17 +24,15 @@
 
 .header-content {
   .page-title {
-    @include typography-heading(36px, $font-weight-bold);
+    @include typography-heading(28px, $font-weight-semibold);
     margin-bottom: $spacing-sm;
-    background: linear-gradient(135deg, get-color(primary, 600) 0%, get-color(primary, 500) 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    color: get-color(neutral, 900);
+    letter-spacing: -0.02em;
   }
 
   .page-subtitle {
-    @include typography-body(18px, $font-weight-regular);
-    color: get-color(primary, 600);
+    @include typography-body(16px, $font-weight-regular);
+    color: get-color(neutral, 600);
     margin: 0;
   }
 }
@@ -112,9 +110,11 @@
     background: linear-gradient(135deg, get-color(primary, 100) 0%, get-color(primary, 50) 100%);
 
     .mat-header-cell {
-      color: get-color(primary, 700);
-      font-weight: $font-weight-bold;
+      color: get-color(neutral, 800);
+      font-weight: $font-weight-semibold;
       border-bottom: 2px solid get-color(primary, 300);
+      font-size: 13px;
+      letter-spacing: -0.01em;
     }
   }
 }
@@ -122,35 +122,38 @@
 .client-id {
   font-family: monospace;
   font-weight: $font-weight-medium;
-  color: get-color(primary, 600);
+  color: get-color(neutral, 700);
   background: get-color(primary, 50);
   padding: 2px 6px;
   border-radius: 4px;
   border: 1px solid get-color(primary, 200);
+  font-size: 12px;
 }
 
 .client-name {
   .name-en {
     display: block;
-    @include typography-body(15px, $font-weight-bold);
-    color: get-color(primary, 700);
+    @include typography-body(14px, $font-weight-medium);
+    color: get-color(neutral, 900);
+    letter-spacing: -0.01em;
   }
 
   .name-ar {
     display: block;
-    @include typography-body(12px, $font-weight-regular);
-    color: get-color(primary, 500);
+    @include typography-body(11px, $font-weight-regular);
+    color: get-color(neutral, 600);
     margin-top: 2px;
   }
 }
 
 .outstanding-amount {
-  @include typography-body(14px, $font-weight-bold);
-  color: get-color(primary, 600);
+  @include typography-body(13px, $font-weight-medium);
+  color: get-color(neutral, 700);
   padding: 4px 8px;
   border-radius: 16px;
   background: get-color(primary, 50);
   border: 1px solid get-color(primary, 200);
+  font-family: $font-family-primary;
 
   &.has-outstanding {
     color: get-color(warning, 700);

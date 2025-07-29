@@ -3,7 +3,7 @@
 .sidebar-content {
   height: 100%;
   background: linear-gradient(180deg, #ffffff 0%, #f8faff 100%);
-  color: get-color(primary, 700);
+  color: get-color(neutral, 800);
   border-right: 1px solid get-color(primary, 100);
 }
 
@@ -14,11 +14,12 @@
 }
 
 .sidebar-title {
-  @include typography-heading(18px, $font-weight-bold);
-  color: get-color(primary, 700);
+  @include typography-heading(16px, $font-weight-semibold);
+  color: get-color(neutral, 800);
   margin: 0;
   text-transform: uppercase;
-  letter-spacing: 1px;
+  letter-spacing: 0.05em;
+  font-size: 14px;
 }
 
 .sidebar-nav {
@@ -26,7 +27,7 @@
 }
 
 .nav-item {
-  color: get-color(primary, 600) !important;
+  color: get-color(neutral, 700) !important;
   padding: $spacing-sm $spacing-md !important;
   margin: $spacing-xs $spacing-sm;
   border-radius: 8px;
@@ -50,7 +51,7 @@
 
   &:hover {
     background: linear-gradient(135deg, get-color(primary, 50) 0%, get-color(primary, 25) 100%) !important;
-    color: get-color(primary, 700) !important;
+    color: get-color(neutral, 800) !important;
     transform: translateX(4px);
     border-color: get-color(primary, 200);
     box-shadow: 0 2px 4px rgba(37, 99, 235, 0.1);
@@ -81,7 +82,8 @@
 }
 
 .nav-label {
-  @include typography-body(14px, $font-weight-medium);
+  @include typography-body(14px, $font-weight-regular);
   position: relative;
   z-index: 1;
+  letter-spacing: -0.01em;
 }

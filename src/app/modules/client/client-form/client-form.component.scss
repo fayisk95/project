@@ -17,17 +17,15 @@
   backdrop-filter: blur(10px);
 
   .page-title {
-    @include typography-heading(28px, $font-weight-bold);
+    @include typography-heading(24px, $font-weight-semibold);
     margin-bottom: 6px;
-    background: linear-gradient(135deg, get-color(primary, 600) 0%, get-color(primary, 500) 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    color: get-color(neutral, 900);
+    letter-spacing: -0.02em;
   }
 
   .page-subtitle {
     @include typography-body(14px, $font-weight-regular);
-    color: get-color(primary, 600);
+    color: get-color(neutral, 600);
     margin: 0;
   }
 }
@@ -51,14 +49,14 @@
 
     .mat-tab-label {
       font-weight: $font-weight-medium;
-      color: get-color(primary, 600);
+      color: get-color(neutral, 700);
       opacity: 0.7;
       transition: all 0.3s ease;
       min-width: 100px;
 
       &.mat-tab-label-active {
         opacity: 1;
-        color: get-color(primary, 700);
+        color: get-color(neutral, 900);
       }
     }
 
@@ -87,11 +85,12 @@
   display: flex;
   align-items: center;
   gap: 6px;
-  @include typography-heading(16px, $font-weight-bold);
+  @include typography-heading(15px, $font-weight-semibold);
   margin-bottom: $spacing-md;
   padding-bottom: 6px;
-  color: get-color(primary, 700);
+  color: get-color(neutral, 800);
   border-bottom: 2px solid get-color(primary, 200);
+  letter-spacing: -0.01em;
 
   mat-icon {
     color: get-color(primary, 600);

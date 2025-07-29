@@ -116,18 +116,16 @@
 
 .kpi-content {
   .kpi-value {
-    @include typography-heading(28px, $font-weight-bold);
-    color: get-color(primary, 700);
+    @include typography-heading(24px, $font-weight-semibold);
+    color: get-color(neutral, 900);
     margin-bottom: 4px;
-    background: linear-gradient(135deg, get-color(primary, 700) 0%, get-color(primary, 600) 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    letter-spacing: -0.02em;
   }
 
   .kpi-title {
-    @include typography-body(14px, $font-weight-medium);
-    color: get-color(primary, 600);
+    @include typography-body(13px, $font-weight-regular);
+    color: get-color(neutral, 600);
     margin: 0;
+    letter-spacing: -0.01em;
   }
 }

@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { AuthService } from '../../core/services/auth.service';
 
 interface MenuItem {
   label: string;
@@ -13,7 +14,11 @@ interface MenuItem {
   styleUrls: ['./sidebar.component.scss']
 })
 export class SidebarComponent {
-  userRole = 'admin'; // This would come from auth service
+  constructor(private authService: AuthService) {}
+
+  get userRole(): string {
+    return this.authService.getCurrentUser()?.role || 'user';
+  }
 
   menuItems: MenuItem[] = [
     {

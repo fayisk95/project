@@ -11,11 +11,28 @@
 
   <div class="spacer"></div>
 
-  <button mat-icon-button [matMenuTriggerFor]="userMenu" class="user-menu">
-    <mat-icon>account_circle</mat-icon>
-  </button>
+  <div class="user-info" *ngIf="currentUser">
+    <span class="user-name">{{ currentUser.name }}</span>
+    <button mat-icon-button [matMenuTriggerFor]="userMenu" class="user-menu">
+      <img *ngIf="currentUser.avatar; else defaultAvatar" 
+           [src]="currentUser.avatar" 
+           [alt]="currentUser.name"
+           class="user-avatar">
+      <ng-template #defaultAvatar>
+        <mat-icon>account_circle</mat-icon>
+      </ng-template>
+    </button>
+  </div>
 
   <mat-menu #userMenu="matMenu">
+    <div class="user-menu-header">
+      <div class="user-details">
+        <span class="user-menu-name">{{ currentUser?.name }}</span>
+        <span class="user-menu-email">{{ currentUser?.email }}</span>
+        <span class="user-menu-role">{{ currentUser?.role | titlecase }}</span>
+      </div>
+    </div>
+    <mat-divider></mat-divider>
     <button mat-menu-item (click)="onSettings()">
       <mat-icon>settings</mat-icon>
       <span>Settings</span>

@@ -1,0 +1,278 @@
+@import '../../../styles/global.scss';
+
+.login-container {
+  min-height: 100vh;
+  @include flex-center;
+  flex-direction: column;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: $spacing-lg;
+  position: relative;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="75" cy="75" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="50" cy="10" r="0.5" fill="rgba(255,255,255,0.05)"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+    opacity: 0.3;
+  }
+}
+
+.login-card {
+  width: 100%;
+  max-width: 420px;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 16px;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  overflow: hidden;
+  position: relative;
+  z-index: 1;
+}
+
+.login-header {
+  padding: $spacing-xl $spacing-lg $spacing-lg;
+  text-align: center;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(248, 250, 255, 0.9) 100%);
+  border-bottom: 1px solid get-color(primary, 100);
+}
+
+.logo-section {
+  .login-logo {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: $spacing-md;
+    box-shadow: 0 8px 16px rgba(37, 99, 235, 0.3);
+    border: 3px solid rgba(255, 255, 255, 0.8);
+  }
+
+  .login-title {
+    @include typography-heading(28px, $font-weight-bold);
+    color: get-color(neutral, 900);
+    margin-bottom: $spacing-xs;
+    letter-spacing: -0.02em;
+  }
+
+  .login-subtitle {
+    @include typography-body(16px, $font-weight-regular);
+    color: get-color(neutral, 600);
+    margin: 0;
+  }
+}
+
+.login-form {
+  padding: $spacing-lg;
+}
+
+.form-fields {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-md;
+  margin-bottom: $spacing-lg;
+}
+
+.form-field {
+  width: 100%;
+
+  ::ng-deep {
+    .mat-form-field-outline {
+      border-radius: 8px !important;
+    }
+
+    .mat-form-field-label {
+      color: get-color(neutral, 700) !important;
+      font-weight: $font-weight-medium !important;
+    }
+
+    .mat-input-element {
+      color: get-color(neutral, 900) !important;
+    }
+
+    .mat-form-field-suffix mat-icon {
+      color: get-color(primary, 500) !important;
+    }
+  }
+}
+
+.login-button {
+  width: 100%;
+  height: 48px;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: $spacing-xs !important;
+  background: linear-gradient(135deg, get-color(primary, 500) 0%, get-color(primary, 600) 100%) !important;
+  box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.3) !important;
+  font-weight: $font-weight-semibold !important;
+  font-size: 16px !important;
+  border-radius: 8px !important;
+
+  &:hover:not(:disabled) {
+    transform: translateY(-1px);
+    box-shadow: 0 10px 15px -3px rgba(37, 99, 235, 0.4) !important;
+  }
+
+  &:disabled {
+    opacity: 0.7;
+  }
+}
+
+.login-spinner {
+  margin-right: $spacing-xs;
+}
+
+.demo-section {
+  padding: $spacing-lg;
+  background: linear-gradient(135deg, get-color(primary, 25) 0%, rgba(255, 255, 255, 0.8) 100%);
+  border-top: 1px solid get-color(primary, 100);
+}
+
+.demo-header {
+  display: flex;
+  align-items: center;
+  gap: $spacing-xs;
+  margin-bottom: $spacing-sm;
+
+  mat-icon {
+    color: get-color(primary, 600);
+    font-size: 18px;
+    width: 18px;
+    height: 18px;
+  }
+
+  span {
+    @include typography-body(14px, $font-weight-semibold);
+    color: get-color(primary, 700);
+  }
+}
+
+.demo-description {
+  @include typography-body(13px, $font-weight-regular);
+  color: get-color(neutral, 600);
+  margin: 0 0 $spacing-md 0;
+}
+
+.demo-accounts {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xs;
+  margin-bottom: $spacing-md;
+}
+
+.demo-account-button {
+  width: 100% !important;
+  padding: $spacing-sm !important;
+  text-align: left !important;
+  border: 1px solid get-color(primary, 200) !important;
+  background: rgba(255, 255, 255, 0.8) !important;
+  border-radius: 6px !important;
+
+  &:hover {
+    background: get-color(primary, 50) !important;
+    border-color: get-color(primary, 300) !important;
+  }
+
+  .demo-account-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+
+    .demo-email {
+      @include typography-body(13px, $font-weight-medium);
+      color: get-color(neutral, 800);
+    }
+
+    .demo-role {
+      @include typography-body(11px, $font-weight-regular);
+      color: get-color(primary, 600);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+  }
+}
+
+.demo-password-info {
+  display: flex;
+  align-items: center;
+  gap: $spacing-xs;
+  padding: $spacing-sm;
+  background: rgba(255, 255, 255, 0.6);
+  border-radius: 6px;
+  border: 1px solid get-color(primary, 200);
+
+  mat-icon {
+    color: get-color(warning, 600);
+    font-size: 16px;
+    width: 16px;
+    height: 16px;
+  }
+
+  span {
+    @include typography-body(12px, $font-weight-regular);
+    color: get-color(neutral, 700);
+
+    code {
+      background: get-color(neutral, 100);
+      padding: 2px 4px;
+      border-radius: 3px;
+      font-family: monospace;
+      font-size: 11px;
+      color: get-color(neutral, 800);
+      border: 1px solid get-color(neutral, 200);
+    }
+  }
+}
+
+.login-footer {
+  margin-top: $spacing-lg;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+
+  p {
+    @include typography-body(12px, $font-weight-regular);
+    color: rgba(255, 255, 255, 0.8);
+    margin: 0;
+  }
+}
+
+// Responsive design
+@include responsive-breakpoint(mobile) {
+  .login-container {
+    padding: $spacing-md;
+  }
+
+  .login-card {
+    max-width: 100%;
+  }
+
+  .login-header {
+    padding: $spacing-lg $spacing-md $spacing-md;
+  }
+
+  .login-form {
+    padding: $spacing-md;
+  }
+
+  .demo-section {
+    padding: $spacing-md;
+  }
+}
+
+// Custom snackbar styles
+::ng-deep {
+  .success-snackbar {
+    background: get-color(success, 600) !important;
+    color: white !important;
+  }
+
+  .error-snackbar {
+    background: get-color(error, 600) !important;
+    color: white !important;
+  }
+}
