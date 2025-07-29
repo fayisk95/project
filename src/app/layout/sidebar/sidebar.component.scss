@@ -2,6 +2,7 @@
 
 .sidebar-content {
   height: 100%;
+  overflow: hidden;
   background: linear-gradient(180deg, #ffffff 0%, #f8faff 100%);
   color: get-color(neutral, 800);
   border-right: 1px solid get-color(primary, 100);
@@ -24,6 +25,8 @@
 
 .sidebar-nav {
   padding: $spacing-md 0;
+  overflow: visible;
+  height: auto;
 }
 
 .nav-item {

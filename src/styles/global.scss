@@ -192,6 +192,7 @@ body {
   width: 250px;
   background: linear-gradient(180deg, #ffffff 0%, #f8faff 100%) !important;
   border-right: 1px solid get-color(primary, 100) !important;
+  overflow: hidden !important;
 }
 
 .mat-card {
