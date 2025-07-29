@@ -1,0 +1,260 @@
+@import '../../../../styles/global.scss';
+
+.product-list-container {
+  margin: 0 auto;
+  padding: $spacing-lg;
+  background: transparent;
+}
+
+.list-header {
+  @include flex-between;
+  margin-bottom: $spacing-xl;
+  padding: $spacing-lg;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(248, 250, 255, 0.9) 100%);
+  border-radius: 12px;
+  border: 1px solid get-color(primary, 100);
+  box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.1);
+
+  @include responsive-breakpoint(mobile) {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: $spacing-md;
+  }
+}
+
+.header-content {
+  .page-title {
+    @include typography-heading(28px, $font-weight-semibold);
+    margin-bottom: $spacing-sm;
+    color: get-color(neutral, 900);
+    letter-spacing: -0.02em;
+  }
+
+  .page-subtitle {
+    @include typography-body(16px, $font-weight-regular);
+    color: get-color(neutral, 600);
+    margin: 0;
+  }
+}
+
+.add-button {
+  display: flex;
+  align-items: center;
+  gap: $spacing-xs;
+  padding: 0 $spacing-md;
+  background: linear-gradient(135deg, get-color(primary, 500) 0%, get-color(primary, 600) 100%) !important;
+  box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.3) !important;
+
+  &:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 10px 15px -3px rgba(37, 99, 235, 0.4) !important;
+  }
+}
+
+.product-card {
+  overflow: hidden;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(248, 250, 255, 0.9) 100%);
+  border: 1px solid get-color(primary, 100);
+  box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.1);
+}
+
+.search-container {
+  margin-bottom: $spacing-lg;
+  padding: $spacing-md;
+  background: linear-gradient(135deg, get-color(primary, 25) 0%, rgba(255, 255, 255, 0.8) 100%);
+  border-radius: 8px;
+  border: 1px solid get-color(primary, 100);
+}
+
+.search-field {
+  width: 100%;
+  max-width: 400px;
+}
+
+.table-container {
+  overflow-x: auto;
+  margin: 0 -#{$spacing-md};
+  border-radius: 8px;
+}
+
+.products-table {
+  width: 100%;
+  min-width: 900px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 255, 0.95) 100%);
+
+  .mat-header-row {
+    background: linear-gradient(135deg, get-color(primary, 100) 0%, get-color(primary, 50) 100%);
+
+    .mat-header-cell {
+      color: get-color(neutral, 800);
+      font-weight: $font-weight-semibold;
+      border-bottom: 2px solid get-color(primary, 300);
+      font-size: 13px;
+      letter-spacing: -0.01em;
+    }
+  }
+}
+
+.product-id {
+  font-family: monospace;
+  font-weight: $font-weight-medium;
+  color: get-color(neutral, 700);
+  background: get-color(primary, 50);
+  padding: 2px 6px;
+  border-radius: 4px;
+  border: 1px solid get-color(primary, 200);
+  font-size: 12px;
+}
+
+.product-name {
+  .name {
+    display: block;
+    @include typography-body(14px, $font-weight-medium);
+    color: get-color(neutral, 900);
+    letter-spacing: -0.01em;
+    margin-bottom: 4px;
+  }
+
+  .status-badge {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 10px;
+    font-weight: $font-weight-bold;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+
+    &.active {
+      background: get-color(success, 100);
+      color: get-color(success, 700);
+      border: 1px solid get-color(success, 300);
+    }
+
+    &.inactive {
+      background: get-color(neutral, 100);
+      color: get-color(neutral, 600);
+      border: 1px solid get-color(neutral, 300);
+    }
+
+    &.overdue {
+      background: get-color(error, 100);
+      color: get-color(error, 700);
+      border: 1px solid get-color(error, 300);
+    }
+
+    &.due-soon {
+      background: get-color(warning, 100);
+      color: get-color(warning, 700);
+      border: 1px solid get-color(warning, 300);
+    }
+  }
+}
+
+.payment-amount {
+  @include typography-body(14px, $font-weight-semibold);
+  color: get-color(neutral, 800);
+  padding: 4px 8px;
+  border-radius: 16px;
+  background: get-color(primary, 50);
+  border: 1px solid get-color(primary, 200);
+  font-family: $font-family-primary;
+}
+
+.recurring-info {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+
+  .recurring-icon {
+    font-size: 18px;
+    width: 18px;
+    height: 18px;
+    color: get-color(neutral, 500);
+
+    &.recurring {
+      color: get-color(success, 600);
+    }
+  }
+
+  span {
+    @include typography-body(13px, $font-weight-regular);
+    color: get-color(neutral, 700);
+  }
+}
+
+.due-date {
+  @include typography-body(13px, $font-weight-medium);
+  color: get-color(neutral, 700);
+  padding: 4px 8px;
+  border-radius: 16px;
+  background: get-color(primary, 50);
+  border: 1px solid get-color(primary, 200);
+
+  &.overdue {
+    background: get-color(error, 100);
+    color: get-color(error, 700);
+    border-color: get-color(error, 300);
+  }
+
+  &.due-soon {
+    background: get-color(warning, 100);
+    color: get-color(warning, 700);
+    border-color: get-color(warning, 300);
+  }
+}
+
+.action-buttons {
+  display: flex;
+  gap: $spacing-xs;
+
+  button {
+    border-radius: 50% !important;
+    width: 36px !important;
+    height: 36px !important;
+    min-width: 36px !important;
+
+    &:hover {
+      transform: scale(1.1);
+    }
+  }
+}
+
+.product-row {
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+  &:hover {
+    background: linear-gradient(135deg, get-color(primary, 50) 0%, rgba(255, 255, 255, 0.9) 100%);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.2);
+  }
+}
+
+.no-products {
+  text-align: center;
+  padding: $spacing-xxl;
+  background: linear-gradient(135deg, get-color(primary, 25) 0%, rgba(255, 255, 255, 0.9) 100%);
+  border-radius: 12px;
+  margin: $spacing-lg;
+  border: 1px solid get-color(primary, 100);
+}
+
+.no-products-icon {
+  font-size: 64px;
+  width: 64px;
+  height: 64px;
+  color: get-color(primary, 400);
+  margin-bottom: $spacing-md;
+}
+
+.no-products-text {
+  @include typography-heading(20px, $font-weight-bold);
+  color: get-color(primary, 600);
+  margin-bottom: $spacing-sm;
+}
+
+.no-products-subtext {
+  @include typography-body(16px, $font-weight-regular);
+  color: get-color(primary, 500);
+  margin: 0;
+}

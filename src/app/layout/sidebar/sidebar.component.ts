@@ -32,6 +32,11 @@ export class SidebarComponent {
       route: '/clients'
     },
     {
+      label: 'Products',
+      icon: 'inventory_2',
+      route: '/products'
+    },
+    {
       label: 'Invoices',
       icon: 'receipt',
       route: '/invoices',

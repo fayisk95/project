@@ -1,0 +1,276 @@
+@import '../../../../styles/global.scss';
+
+.product-form-container {
+  margin: 0 auto;
+  padding: $spacing-md;
+  background: transparent;
+}
+
+.form-header {
+  margin-bottom: $spacing-md;
+  text-align: center;
+  padding: $spacing-md;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 255, 0.95) 100%);
+  border-radius: 12px;
+  border: 1px solid get-color(primary, 100);
+  box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.1);
+  backdrop-filter: blur(10px);
+
+  .page-title {
+    @include typography-heading(24px, $font-weight-semibold);
+    margin-bottom: 6px;
+    color: get-color(neutral, 900);
+    letter-spacing: -0.02em;
+  }
+
+  .page-subtitle {
+    @include typography-body(14px, $font-weight-regular);
+    color: get-color(neutral, 600);
+    margin: 0;
+  }
+}
+
+.form-card {
+  overflow: visible;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 255, 0.95) 100%);
+  border: 1px solid get-color(primary, 100);
+  box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.1);
+  backdrop-filter: blur(10px);
+}
+
+.product-form {
+  .form-content {
+    padding: $spacing-md;
+  }
+}
+
+.form-section {
+  margin-bottom: $spacing-lg;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.section-title {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  @include typography-heading(15px, $font-weight-semibold);
+  margin-bottom: $spacing-md;
+  padding-bottom: 6px;
+  color: get-color(neutral, 800);
+  border-bottom: 2px solid get-color(primary, 200);
+  letter-spacing: -0.01em;
+
+  mat-icon {
+    color: get-color(primary, 600);
+    font-size: 18px;
+    width: 18px;
+    height: 18px;
+  }
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: $spacing-md;
+
+  @include responsive-breakpoint(mobile) {
+    grid-template-columns: 1fr;
+    gap: $spacing-sm;
+  }
+}
+
+.form-field {
+  &.full-width {
+    grid-column: 1 / -1;
+  }
+
+  &.checkbox-field {
+    display: flex;
+    align-items: center;
+    padding: $spacing-sm 0;
+  }
+
+  .mat-form-field-wrapper {
+    margin-bottom: 0;
+  }
+}
+
+.recurring-section {
+  .recurring-toggle {
+    margin-bottom: $spacing-md;
+    padding: $spacing-md;
+    background: linear-gradient(135deg, get-color(primary, 25) 0%, rgba(255, 255, 255, 0.8) 100%);
+    border-radius: 8px;
+    border: 1px solid get-color(primary, 100);
+
+    .recurring-help {
+      @include typography-body(12px, $font-weight-regular);
+      color: get-color(neutral, 600);
+      margin: 6px 0 0 32px;
+      font-style: italic;
+    }
+  }
+
+  .recurring-details {
+    padding: $spacing-md;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, get-color(primary, 25) 100%);
+    border-radius: 8px;
+    border: 1px solid get-color(primary, 200);
+    margin-top: $spacing-md;
+  }
+}
+
+.recurring-info {
+  display: flex;
+  gap: $spacing-sm;
+  margin-top: $spacing-md;
+  padding: $spacing-md;
+  background: linear-gradient(135deg, get-color(accent, 50) 0%, rgba(255, 255, 255, 0.9) 100%);
+  border-radius: 8px;
+  border: 1px solid get-color(accent, 200);
+
+  .info-icon {
+    color: get-color(accent, 600);
+    font-size: 20px;
+    width: 20px;
+    height: 20px;
+    margin-top: 2px;
+    flex-shrink: 0;
+  }
+
+  .info-content {
+    h4 {
+      @include typography-heading(13px, $font-weight-semibold);
+      color: get-color(accent, 700);
+      margin: 0 0 6px 0;
+    }
+
+    ul {
+      margin: 0;
+      padding-left: $spacing-md;
+
+      li {
+        @include typography-body(12px, $font-weight-regular);
+        color: get-color(accent, 600);
+        margin-bottom: 4px;
+
+        &:last-child {
+          margin-bottom: 0;
+        }
+      }
+    }
+  }
+}
+
+.form-actions {
+  @include flex-between;
+  margin-top: $spacing-lg;
+  padding: $spacing-md;
+  background: linear-gradient(135deg, get-color(primary, 25) 0%, rgba(255, 255, 255, 0.9) 100%);
+  border-radius: 8px;
+  border: 1px solid get-color(primary, 100);
+  border-top: 3px solid;
+  border-image: linear-gradient(135deg, get-color(primary, 600) 0%, get-color(primary, 500) 100%) 1;
+
+  @include responsive-breakpoint(mobile) {
+    flex-direction: column;
+    gap: $spacing-sm;
+    align-items: stretch;
+  }
+
+  .cancel-button,
+  .submit-button {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    min-width: 120px;
+    height: 40px;
+    font-weight: $font-weight-bold;
+
+    @include responsive-breakpoint(mobile) {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+
+  .submit-button {
+    background: linear-gradient(135deg, get-color(primary, 500) 0%, get-color(primary, 600) 100%) !important;
+    box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.3) !important;
+
+    &:hover:not(:disabled) {
+      transform: translateY(-1px);
+      box-shadow: 0 10px 15px -3px rgba(37, 99, 235, 0.4) !important;
+    }
+
+    mat-progress-spinner {
+      margin-right: 4px;
+    }
+  }
+}
+
+// Custom Material overrides
+::ng-deep {
+  .mat-form-field-appearance-outline {
+    .mat-form-field-wrapper {
+      margin: 0;
+    }
+
+    .mat-form-field-outline {
+      color: get-color(primary, 200) !important;
+      border-radius: 6px !important;
+    }
+
+    &.mat-focused .mat-form-field-outline-thick {
+      color: get-color(primary, 500) !important;
+      border-width: 2px !important;
+    }
+
+    &.mat-form-field-invalid .mat-form-field-outline-thick {
+      color: get-color(error, 500) !important;
+    }
+  }
+
+  .mat-form-field-label {
+    color: get-color(primary, 600) !important;
+    font-weight: 500 !important;
+
+    &.mat-focused {
+      color: get-color(primary, 500) !important;
+    }
+  }
+
+  .mat-form-field-suffix mat-icon {
+    color: get-color(primary, 500) !important;
+  }
+
+  .mat-select-panel {
+    border-radius: 6px !important;
+    box-shadow: 0 10px 15px -3px rgba(37, 99, 235, 0.2), 0 4px 6px -2px rgba(37, 99, 235, 0.1) !important;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 255, 0.95) 100%) !important;
+    backdrop-filter: blur(10px);
+  }
+
+  .mat-option {
+    &:hover {
+      background: get-color(primary, 50) !important;
+    }
+
+    &.mat-selected {
+      background: get-color(primary, 100) !important;
+      color: get-color(primary, 700) !important;
+    }
+  }
+
+  .mat-checkbox {
+    .mat-checkbox-frame {
+      border-color: get-color(primary, 400) !important;
+    }
+
+    &.mat-checkbox-checked .mat-checkbox-background {
+      background-color: get-color(primary, 500) !important;
+    }
+  }
+}

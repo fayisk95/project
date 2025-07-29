@@ -1,0 +1,181 @@
+<div class="product-detail-container" *ngIf="!isLoading && product">
+  <div class="detail-header">
+    <div class="header-content">
+      <div class="product-info">
+        <h1 class="product-name">{{ product.name }}</h1>
+        <div class="product-meta">
+          <span class="product-id">{{ product.productId }}</span>
+          <span class="client-name">{{ product.clientName }}</span>
+          <span class="status-badge" [ngClass]="getStatusClass()">
+            {{ product.isActive ? 'Active' : 'Inactive' }}
+          </span>
+        </div>
+      </div>
+      
+      <div class="amount-badge">
+        <span class="amount-label">Payment Amount</span>
+        <span class="amount-value">{{ formatCurrency(product.paymentAmount) }}</span>
+      </div>
+    </div>
+
+    <div class="header-actions">
+      <button mat-button (click)="onBack()" class="back-button">
+        <mat-icon>arrow_back</mat-icon>
+        Back to Products
+      </button>
+      
+      <button mat-raised-button color="primary" (click)="onEdit()">
+        <mat-icon>edit</mat-icon>
+        Edit Product
+      </button>
+    </div>
+  </div>
+
+  <mat-card class="detail-card">
+    <mat-tab-group class="product-tabs" animationDuration="300ms">
+      <!-- Product Information Tab -->
+      <mat-tab label="Product Info">
+        <ng-template matTabContent>
+          <div class="tab-content">
+            <div class="info-section">
+              <h3 class="section-title">
+                <mat-icon>inventory_2</mat-icon>
+                Product Details
+              </h3>
+              <div class="info-grid">
+                <div class="info-item">
+                  <label>Product Name</label>
+                  <span>{{ product.name }}</span>
+                </div>
+                <div class="info-item">
+                  <label>Product ID</label>
+                  <span class="product-id-value">{{ product.productId }}</span>
+                </div>
+                <div class="info-item">
+                  <label>Client</label>
+                  <span>{{ product.clientName }}</span>
+                </div>
+                <div class="info-item">
+                  <label>Payment Amount</label>
+                  <span class="amount">{{ formatCurrency(product.paymentAmount) }}</span>
+                </div>
+                <div class="info-item">
+                  <label>Status</label>
+                  <span class="status" [ngClass]="getStatusClass()">
+                    {{ product.isActive ? 'Active' : 'Inactive' }}
+                  </span>
+                </div>
+                <div class="info-item">
+                  <label>Created Date</label>
+                  <span>{{ formatDate(product.createdAt) }}</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="info-section">
+              <h3 class="section-title">
+                <mat-icon>repeat</mat-icon>
+                Recurring Settings
+              </h3>
+              <div class="recurring-info">
+                <div class="recurring-status">
+                  <mat-icon [ngClass]="{'recurring': product.isRecurring}">
+                    {{ product.isRecurring ? 'repeat' : 'schedule' }}
+                  </mat-icon>
+                  <div class="recurring-details">
+                    <span class="recurring-label">{{ getRecurringText() }}</span>
+                    <span *ngIf="product.isRecurring" class="recurring-frequency">
+                      Billed {{ product.recurringFrequency }}
+                    </span>
+                  </div>
+                </div>
+
+                <div *ngIf="product.isRecurring" class="recurring-dates">
+                  <div class="date-item">
+                    <label>Start Date</label>
+                    <span>{{ formatDate(product.recurringStartDate) }}</span>
+                  </div>
+                  <div class="date-item">
+                    <label>Next Due Date</label>
+                    <span class="next-due" [ngClass]="getStatusClass()">
+                      {{ formatDate(product.nextDueDate) }}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </ng-template>
+      </mat-tab>
+
+      <!-- Payment History Tab -->
+      <mat-tab label="Payment History">
+        <ng-template matTabContent>
+          <div class="tab-content">
+            <div class="info-section">
+              <h3 class="section-title">
+                <mat-icon>receipt_long</mat-icon>
+                Payment Dues
+              </h3>
+              
+              <div class="dues-list" *ngIf="dues$ | async as dues; else noDues">
+                <div *ngFor="let due of dues" class="due-item" [ngClass]="getDueStatusClass(due)">
+                  <div class="due-header">
+                    <div class="due-info">
+                      <span class="due-id">{{ due.dueId }}</span>
+                      <span class="due-amount">{{ formatCurrency(due.amount) }}</span>
+                    </div>
+                    <div class="due-status">
+                      <span class="status-badge" [ngClass]="getDueStatusClass(due)">
+                        {{ due.status | titlecase }}
+                      </span>
+                    </div>
+                  </div>
+                  
+                  <div class="due-details">
+                    <div class="due-dates">
+                      <div class="date-info">
+                        <mat-icon>event</mat-icon>
+                        <span>Due: {{ formatDate(due.dueDate) }}</span>
+                      </div>
+                      <div class="date-info">
+                        <mat-icon>schedule</mat-icon>
+                        <span>Expires: {{ formatDate(due.expiryDate) }}</span>
+                      </div>
+                    </div>
+                    
+                    <div class="due-actions" *ngIf="due.status === 'pending'">
+                      <button mat-raised-button 
+                              color="primary" 
+                              size="small"
+                              (click)="markDueAsPaid(due)">
+                        <mat-icon>payment</mat-icon>
+                        Mark as Paid
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <ng-template #noDues>
+                <div class="no-dues">
+                  <mat-icon class="no-dues-icon">receipt_long</mat-icon>
+                  <p class="no-dues-text">No payment dues found</p>
+                  <p class="no-dues-subtext">
+                    {{ product.isRecurring ? 'Dues will be generated automatically based on the recurring schedule' : 'This is a one-time payment product' }}
+                  </p>
+                </div>
+              </ng-template>
+            </div>
+          </div>
+        </ng-template>
+      </mat-tab>
+    </mat-tab-group>
+  </mat-card>
+</div>
+
+<!-- Loading State -->
+<div class="loading-container" *ngIf="isLoading">
+  <mat-progress-spinner mode="indeterminate" diameter="50"></mat-progress-spinner>
+  <p>Loading product details...</p>
+</div>

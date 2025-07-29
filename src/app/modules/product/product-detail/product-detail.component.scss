@@ -1,0 +1,539 @@
+@import '../../../../styles/global.scss';
+
+.product-detail-container {
+  margin: 0 auto;
+  padding: $spacing-md;
+  background: transparent;
+}
+
+.detail-header {
+  margin-bottom: $spacing-md;
+  padding: $spacing-md;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 255, 0.95) 100%);
+  border-radius: 12px;
+  border: 1px solid get-color(primary, 100);
+  box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.1);
+  backdrop-filter: blur(10px);
+
+  .header-content {
+    @include flex-between;
+    align-items: flex-start;
+    margin-bottom: $spacing-sm;
+
+    @include responsive-breakpoint(mobile) {
+      flex-direction: column;
+      gap: $spacing-sm;
+    }
+  }
+
+  .product-info {
+    .product-name {
+      @include typography-heading(24px, $font-weight-semibold);
+      margin-bottom: 6px;
+      color: get-color(neutral, 900);
+      letter-spacing: -0.02em;
+    }
+
+    .product-meta {
+      display: flex;
+      align-items: center;
+      gap: $spacing-sm;
+      flex-wrap: wrap;
+    }
+
+    .product-id {
+      display: inline-block;
+      padding: 2px 8px;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, get-color(primary, 50) 100%);
+      color: get-color(neutral, 700);
+      border-radius: 12px;
+      border: 1px solid get-color(primary, 200);
+      font-family: monospace;
+      font-size: 12px;
+      font-weight: $font-weight-medium;
+      box-shadow: 0 2px 4px rgba(37, 99, 235, 0.15);
+    }
+
+    .client-name {
+      @include typography-body(12px, $font-weight-medium);
+      color: get-color(neutral, 600);
+      padding: 2px 6px;
+      background: rgba(255, 255, 255, 0.7);
+      border-radius: 8px;
+      border: 1px solid get-color(primary, 100);
+    }
+
+    .status-badge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 12px;
+      font-size: 10px;
+      font-weight: $font-weight-bold;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+
+      &.active {
+        background: get-color(success, 100);
+        color: get-color(success, 700);
+        border: 1px solid get-color(success, 300);
+      }
+
+      &.inactive {
+        background: get-color(neutral, 100);
+        color: get-color(neutral, 600);
+        border: 1px solid get-color(neutral, 300);
+      }
+
+      &.overdue {
+        background: get-color(error, 100);
+        color: get-color(error, 700);
+        border: 1px solid get-color(error, 300);
+      }
+
+      &.due-soon {
+        background: get-color(warning, 100);
+        color: get-color(warning, 700);
+        border: 1px solid get-color(warning, 300);
+      }
+    }
+  }
+
+  .amount-badge {
+    text-align: right;
+    padding: $spacing-sm;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, get-color(primary, 25) 100%);
+    border: 1px solid get-color(primary, 200);
+    border-radius: 8px;
+    box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.1);
+    min-width: 140px;
+
+    .amount-label {
+      display: block;
+      @include typography-body(10px, $font-weight-regular);
+      color: get-color(neutral, 600);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 2px;
+    }
+
+    .amount-value {
+      @include typography-heading(18px, $font-weight-semibold);
+      color: get-color(neutral, 800);
+    }
+  }
+
+  .header-actions {
+    @include flex-center;
+    gap: $spacing-sm;
+
+    @include responsive-breakpoint(mobile) {
+      width: 100%;
+      justify-content: space-between;
+    }
+  }
+
+  .back-button {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+}
+
+.detail-card {
+  overflow: visible;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 255, 0.95) 100%);
+  border: 1px solid get-color(primary, 100);
+  box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.1);
+  backdrop-filter: blur(10px);
+}
+
+.product-tabs {
+  .mat-tab-header {
+    border-bottom: 2px solid get-color(primary, 100);
+    background: linear-gradient(135deg, get-color(primary, 25) 0%, rgba(255, 255, 255, 0.8) 100%);
+    border-radius: 8px 8px 0 0;
+  }
+
+  .mat-tab-label {
+    font-weight: $font-weight-medium;
+    color: get-color(neutral, 700);
+    opacity: 0.7;
+    transition: all 0.3s ease;
+
+    &.mat-tab-label-active {
+      opacity: 1;
+      color: get-color(neutral, 900);
+    }
+  }
+
+  .mat-ink-bar {
+    background-color: get-color(primary, 500);
+    height: 3px;
+    border-radius: 2px;
+  }
+}
+
+.tab-content {
+  padding: $spacing-md;
+  min-height: 300px;
+}
+
+.info-section {
+  margin-bottom: $spacing-lg;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.section-title {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  @include typography-heading(15px, $font-weight-semibold);
+  margin-bottom: $spacing-md;
+  padding-bottom: 6px;
+  color: get-color(neutral, 800);
+  border-bottom: 2px solid get-color(primary, 200);
+  letter-spacing: -0.01em;
+
+  mat-icon {
+    color: get-color(primary, 600);
+    font-size: 18px;
+    width: 18px;
+    height: 18px;
+  }
+}
+
+.info-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+
+  @include responsive-breakpoint(mobile) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.info-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 8px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.8) 0%, rgba(248, 250, 255, 0.8) 100%);
+  border-radius: 6px;
+  border: 1px solid get-color(primary, 100);
+
+  label {
+    @include typography-body(10px, $font-weight-bold);
+    color: get-color(neutral, 600);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  span {
+    @include typography-body(13px, $font-weight-regular);
+    color: get-color(neutral, 800);
+    word-break: break-word;
+
+    &.product-id-value {
+      font-family: monospace;
+      background: get-color(primary, 50);
+      padding: 2px 4px;
+      border-radius: 3px;
+      border: 1px solid get-color(primary, 200);
+    }
+
+    &.amount {
+      font-weight: $font-weight-semibold;
+      color: get-color(primary, 700);
+    }
+
+    &.status {
+      font-weight: $font-weight-medium;
+      padding: 2px 6px;
+      border-radius: 10px;
+      font-size: 11px;
+
+      &.active {
+        background: get-color(success, 100);
+        color: get-color(success, 700);
+      }
+
+      &.inactive {
+        background: get-color(neutral, 100);
+        color: get-color(neutral, 600);
+      }
+    }
+  }
+}
+
+.recurring-info {
+  .recurring-status {
+    display: flex;
+    align-items: center;
+    gap: $spacing-sm;
+    padding: $spacing-md;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(248, 250, 255, 0.9) 100%);
+    border-radius: 8px;
+    border: 1px solid get-color(primary, 100);
+    margin-bottom: $spacing-md;
+
+    mat-icon {
+      width: 32px;
+      height: 32px;
+      font-size: 24px;
+      color: get-color(neutral, 500);
+
+      &.recurring {
+        color: get-color(success, 600);
+      }
+    }
+
+    .recurring-details {
+      .recurring-label {
+        display: block;
+        @include typography-body(14px, $font-weight-semibold);
+        color: get-color(neutral, 800);
+        margin-bottom: 2px;
+      }
+
+      .recurring-frequency {
+        @include typography-body(12px, $font-weight-regular);
+        color: get-color(neutral, 600);
+        text-transform: capitalize;
+      }
+    }
+  }
+
+  .recurring-dates {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: $spacing-sm;
+
+    @include responsive-breakpoint(mobile) {
+      grid-template-columns: 1fr;
+    }
+
+    .date-item {
+      padding: $spacing-sm;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.8) 0%, rgba(248, 250, 255, 0.8) 100%);
+      border-radius: 6px;
+      border: 1px solid get-color(primary, 100);
+
+      label {
+        display: block;
+        @include typography-body(10px, $font-weight-bold);
+        color: get-color(neutral, 600);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 4px;
+      }
+
+      span {
+        @include typography-body(13px, $font-weight-regular);
+        color: get-color(neutral, 800);
+
+        &.next-due {
+          font-weight: $font-weight-medium;
+
+          &.overdue {
+            color: get-color(error, 700);
+          }
+
+          &.due-soon {
+            color: get-color(warning, 700);
+          }
+        }
+      }
+    }
+  }
+}
+
+.dues-list {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-sm;
+}
+
+.due-item {
+  padding: $spacing-md;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(248, 250, 255, 0.9) 100%);
+  border-radius: 8px;
+  border: 1px solid get-color(primary, 100);
+  box-shadow: 0 2px 4px rgba(37, 99, 235, 0.1);
+
+  &.paid {
+    background: linear-gradient(135deg, get-color(success, 50) 0%, rgba(255, 255, 255, 0.9) 100%);
+    border-color: get-color(success, 200);
+  }
+
+  &.expired {
+    background: linear-gradient(135deg, get-color(error, 50) 0%, rgba(255, 255, 255, 0.9) 100%);
+    border-color: get-color(error, 200);
+  }
+
+  &.cancelled {
+    background: linear-gradient(135deg, get-color(neutral, 50) 0%, rgba(255, 255, 255, 0.9) 100%);
+    border-color: get-color(neutral, 200);
+    opacity: 0.7;
+  }
+
+  .due-header {
+    @include flex-between;
+    margin-bottom: $spacing-sm;
+
+    .due-info {
+      display: flex;
+      align-items: center;
+      gap: $spacing-sm;
+
+      .due-id {
+        font-family: monospace;
+        font-size: 12px;
+        font-weight: $font-weight-medium;
+        color: get-color(neutral, 700);
+        background: rgba(255, 255, 255, 0.8);
+        padding: 2px 6px;
+        border-radius: 4px;
+        border: 1px solid get-color(primary, 200);
+      }
+
+      .due-amount {
+        @include typography-body(14px, $font-weight-semibold);
+        color: get-color(neutral, 800);
+      }
+    }
+
+    .due-status {
+      .status-badge {
+        padding: 4px 8px;
+        border-radius: 12px;
+        font-size: 10px;
+        font-weight: $font-weight-bold;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+
+        &.pending {
+          background: get-color(warning, 100);
+          color: get-color(warning, 700);
+          border: 1px solid get-color(warning, 300);
+        }
+
+        &.paid {
+          background: get-color(success, 100);
+          color: get-color(success, 700);
+          border: 1px solid get-color(success, 300);
+        }
+
+        &.expired {
+          background: get-color(error, 100);
+          color: get-color(error, 700);
+          border: 1px solid get-color(error, 300);
+        }
+
+        &.cancelled {
+          background: get-color(neutral, 100);
+          color: get-color(neutral, 600);
+          border: 1px solid get-color(neutral, 300);
+        }
+      }
+    }
+  }
+
+  .due-details {
+    @include flex-between;
+    align-items: flex-end;
+
+    @include responsive-breakpoint(mobile) {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: $spacing-sm;
+    }
+
+    .due-dates {
+      display: flex;
+      gap: $spacing-md;
+
+      @include responsive-breakpoint(mobile) {
+        flex-direction: column;
+        gap: $spacing-xs;
+      }
+
+      .date-info {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+
+        mat-icon {
+          font-size: 16px;
+          width: 16px;
+          height: 16px;
+          color: get-color(primary, 500);
+        }
+
+        span {
+          @include typography-body(12px, $font-weight-regular);
+          color: get-color(neutral, 600);
+        }
+      }
+    }
+
+    .due-actions {
+      button {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        font-size: 12px;
+        padding: 6px 12px;
+        height: 32px;
+      }
+    }
+  }
+}
+
+.no-dues {
+  text-align: center;
+  padding: $spacing-xxl;
+  background: linear-gradient(135deg, get-color(primary, 25) 0%, rgba(255, 255, 255, 0.9) 100%);
+  border-radius: 12px;
+  border: 1px solid get-color(primary, 100);
+}
+
+.no-dues-icon {
+  font-size: 64px;
+  width: 64px;
+  height: 64px;
+  color: get-color(primary, 400);
+  margin-bottom: $spacing-md;
+}
+
+.no-dues-text {
+  @include typography-heading(20px, $font-weight-bold);
+  color: get-color(primary, 600);
+  margin-bottom: $spacing-sm;
+}
+
+.no-dues-subtext {
+  @include typography-body(16px, $font-weight-regular);
+  color: get-color(primary, 500);
+  margin: 0;
+}
+
+.loading-container {
+  @include flex-center;
+  flex-direction: column;
+  gap: $spacing-sm;
+  padding: $spacing-xl;
+  text-align: center;
+  background: linear-gradient(135deg, get-color(primary, 25) 0%, rgba(255, 255, 255, 0.9) 100%);
+  border-radius: 8px;
+  margin: $spacing-md;
+  border: 1px solid get-color(primary, 100);
+
+  p {
+    @include typography-body(16px, $font-weight-medium);
+    color: get-color(primary, 600);
+    margin: 0;
+  }
+}

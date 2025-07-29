@@ -1,0 +1,126 @@
+<div class="product-form-container">
+  <div class="form-header">
+    <h1 class="page-title">{{ isEditMode ? 'Edit Product' : 'Add New Product' }}</h1>
+    <p class="page-subtitle">
+      {{ isEditMode ? 'Update product information' : 'Create a new product or service offering' }}
+    </p>
+  </div>
+
+  <mat-card class="form-card">
+    <form [formGroup]="productForm" (ngSubmit)="onSubmit()" class="product-form">
+
+      <div class="form-content">
+        <!-- Basic Information Section -->
+        <div class="form-section">
+          <h3 class="section-title">
+            <mat-icon>inventory_2</mat-icon>
+            Product Information
+          </h3>
+
+          <div class="form-grid">
+            <mat-form-field appearance="outline" class="form-field">
+              <mat-label>Product Name *</mat-label>
+              <input matInput formControlName="name" placeholder="Enter product name">
+              <mat-icon matSuffix>label</mat-icon>
+              <mat-error>{{ getErrorMessage('name') }}</mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="form-field">
+              <mat-label>Client *</mat-label>
+              <mat-select formControlName="clientId">
+                <mat-option *ngFor="let client of clients$ | async" [value]="client.id">
+                  {{ client.nameEn }}
+                </mat-option>
+              </mat-select>
+              <mat-icon matSuffix>business</mat-icon>
+              <mat-error>{{ getErrorMessage('clientId') }}</mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="form-field">
+              <mat-label>Payment Amount ($) *</mat-label>
+              <input matInput type="number" formControlName="paymentAmount" placeholder="0.00" min="0" step="0.01">
+              <mat-icon matSuffix>attach_money</mat-icon>
+              <mat-error>{{ getErrorMessage('paymentAmount') }}</mat-error>
+            </mat-form-field>
+
+            <div class="form-field checkbox-field">
+              <mat-checkbox formControlName="isActive" color="primary">
+                Product is Active
+              </mat-checkbox>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recurring Settings Section -->
+        <div class="form-section">
+          <h3 class="section-title">
+            <mat-icon>repeat</mat-icon>
+            Recurring Settings
+          </h3>
+
+          <div class="recurring-section">
+            <div class="recurring-toggle">
+              <mat-checkbox formControlName="isRecurring" color="primary">
+                This is a recurring product/service
+              </mat-checkbox>
+              <p class="recurring-help">
+                Enable this to automatically generate payment dues at regular intervals
+              </p>
+            </div>
+
+            <div *ngIf="isRecurring" class="recurring-details">
+              <div class="form-grid">
+                <mat-form-field appearance="outline" class="form-field">
+                  <mat-label>Recurring Frequency *</mat-label>
+                  <mat-select formControlName="recurringFrequency">
+                    <mat-option *ngFor="let freq of recurringFrequencies" [value]="freq.value">
+                      {{ freq.label }}
+                    </mat-option>
+                  </mat-select>
+                  <mat-icon matSuffix>schedule</mat-icon>
+                  <mat-error>{{ getErrorMessage('recurringFrequency') }}</mat-error>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="form-field">
+                  <mat-label>Start Date *</mat-label>
+                  <input matInput type="date" formControlName="recurringStartDate">
+                  <!-- [min]="(new Date().toISOString().split('T')[0])" -->
+                  <mat-icon matSuffix>event</mat-icon>
+                  <mat-error>{{ getErrorMessage('recurringStartDate') }}</mat-error>
+                </mat-form-field>
+              </div>
+
+              <div class="recurring-info">
+                <mat-icon class="info-icon">info</mat-icon>
+                <div class="info-content">
+                  <h4>Automatic Due Generation</h4>
+                  <ul>
+                    <li>Payment dues will be automatically created based on the selected frequency</li>
+                    <li>Each due will expire 30 days after the due date</li>
+                    <li>Clients will be notified when new dues are generated</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Form Actions -->
+      <div class="form-actions">
+        <button mat-button type="button" (click)="onCancel()" [disabled]="isLoading" class="cancel-button">
+          <mat-icon>close</mat-icon>
+          Cancel
+        </button>
+
+        <button mat-raised-button color="primary" type="submit" [disabled]="productForm.invalid || isLoading"
+          class="submit-button">
+          <mat-progress-spinner *ngIf="isLoading" diameter="20" mode="indeterminate">
+          </mat-progress-spinner>
+          <mat-icon *ngIf="!isLoading">{{ isEditMode ? 'save' : 'add' }}</mat-icon>
+          <span>{{ isEditMode ? 'Update Product' : 'Create Product' }}</span>
+        </button>
+      </div>
+    </form>
+  </mat-card>
+</div>

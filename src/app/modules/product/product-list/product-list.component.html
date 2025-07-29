@@ -1,0 +1,122 @@
+<div class="product-list-container">
+  <div class="list-header">
+    <div class="header-content">
+      <h1 class="page-title">Products</h1>
+      <p class="page-subtitle">Manage your product catalog and recurring services</p>
+    </div>
+    
+    <button mat-raised-button color="primary" (click)="onAddProduct()" class="add-button">
+      <mat-icon>add</mat-icon>
+      Add Product
+    </button>
+  </div>
+
+  <mat-card class="product-card">
+    <mat-card-content>
+      <!-- Search Bar -->
+      <div class="search-container">
+        <mat-form-field appearance="outline" class="search-field">
+          <mat-label>Search products...</mat-label>
+          <input matInput 
+                 [(ngModel)]="searchTerm" 
+                 placeholder="Search by name, client, or ID">
+          <mat-icon matSuffix>search</mat-icon>
+        </mat-form-field>
+      </div>
+
+      <!-- Products Table -->
+      <div class="table-container">
+        <table mat-table [dataSource]="filteredProducts" class="products-table">
+          <ng-container matColumnDef="productId">
+            <th mat-header-cell *matHeaderCellDef>Product ID</th>
+            <td mat-cell *matCellDef="let product">
+              <span class="product-id">{{ product.productId }}</span>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef>Product Name</th>
+            <td mat-cell *matCellDef="let product">
+              <div class="product-name">
+                <span class="name">{{ product.name }}</span>
+                <span class="status-badge" [ngClass]="getStatusClass(product)">
+                  {{ product.isActive ? 'Active' : 'Inactive' }}
+                </span>
+              </div>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="clientName">
+            <th mat-header-cell *matHeaderCellDef>Client</th>
+            <td mat-cell *matCellDef="let product">{{ product.clientName }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="paymentAmount">
+            <th mat-header-cell *matHeaderCellDef>Amount</th>
+            <td mat-cell *matCellDef="let product">
+              <span class="payment-amount">{{ formatCurrency(product.paymentAmount) }}</span>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="isRecurring">
+            <th mat-header-cell *matHeaderCellDef>Recurring</th>
+            <td mat-cell *matCellDef="let product">
+              <div class="recurring-info">
+                <mat-icon class="recurring-icon" [ngClass]="{'recurring': product.isRecurring}">
+                  {{ product.isRecurring ? 'repeat' : 'schedule' }}
+                </mat-icon>
+                <span>{{ getRecurringText(product) }}</span>
+              </div>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="nextDueDate">
+            <th mat-header-cell *matHeaderCellDef>Next Due</th>
+            <td mat-cell *matCellDef="let product">
+              <span class="due-date" [ngClass]="getStatusClass(product)">
+                {{ formatDate(product.nextDueDate) }}
+              </span>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef>Actions</th>
+            <td mat-cell *matCellDef="let product">
+              <div class="action-buttons">
+                <button mat-icon-button 
+                        color="primary" 
+                        (click)="onViewProduct(product)"
+                        matTooltip="View Details">
+                  <mat-icon>visibility</mat-icon>
+                </button>
+                <button mat-icon-button 
+                        color="accent" 
+                        (click)="onEditProduct(product)"
+                        matTooltip="Edit Product">
+                  <mat-icon>edit</mat-icon>
+                </button>
+                <button mat-icon-button 
+                        color="warn" 
+                        (click)="onDeleteProduct(product)"
+                        matTooltip="Delete Product">
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </div>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="product-row"></tr>
+        </table>
+      </div>
+
+      <div *ngIf="filteredProducts.length === 0" class="no-products">
+        <mat-icon class="no-products-icon">inventory_2</mat-icon>
+        <p class="no-products-text">No products found</p>
+        <p class="no-products-subtext">
+          {{ searchTerm ? 'Try adjusting your search criteria' : 'Start by adding your first product' }}
+        </p>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>
