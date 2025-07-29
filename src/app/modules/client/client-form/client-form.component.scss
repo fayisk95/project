@@ -1,24 +1,24 @@
 @import '../../../../styles/global.scss';
 
 .client-form-container {
-  max-width: 800px;
   margin: 0 auto;
-  padding: $spacing-lg;
+  padding: $spacing-md;
   background: transparent;
 }
 
 .form-header {
-  margin-bottom: $spacing-xl;
+  margin-bottom: $spacing-md;
   text-align: center;
-  padding: $spacing-lg;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(248, 250, 255, 0.9) 100%);
+  padding: $spacing-md;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 255, 0.95) 100%);
   border-radius: 12px;
   border: 1px solid get-color(primary, 100);
   box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.1);
-  
+  backdrop-filter: blur(10px);
+
   .page-title {
-    @include typography-heading(36px, $font-weight-bold);
-    margin-bottom: $spacing-sm;
+    @include typography-heading(28px, $font-weight-bold);
+    margin-bottom: 6px;
     background: linear-gradient(135deg, get-color(primary, 600) 0%, get-color(primary, 500) 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -26,7 +26,7 @@
   }
 
   .page-subtitle {
-    @include typography-body(18px, $font-weight-regular);
+    @include typography-body(14px, $font-weight-regular);
     color: get-color(primary, 600);
     margin: 0;
   }
@@ -34,80 +34,98 @@
 
 .form-card {
   overflow: visible;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(248, 250, 255, 0.9) 100%);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 255, 0.95) 100%);
   border: 1px solid get-color(primary, 100);
   box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.1);
+  backdrop-filter: blur(10px);
 }
 
 .client-form {
-  .form-section {
-    margin-bottom: $spacing-xl;
-    padding: $spacing-lg;
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.8) 0%, rgba(248, 250, 255, 0.8) 100%);
-    border-radius: 8px;
-    border: 1px solid get-color(primary, 100);
-    
-    &:last-child {
-      margin-bottom: 0;
+  .form-tabs {
+    .mat-tab-header {
+      border-bottom: 2px solid get-color(primary, 100);
+      background: linear-gradient(135deg, get-color(primary, 25) 0%, rgba(255, 255, 255, 0.8) 100%);
+      border-radius: 8px 8px 0 0;
+      margin: -16px -16px 0 -16px;
     }
-  }
 
-  .section-title {
-    @include typography-heading(20px, $font-weight-bold);
-    margin-bottom: $spacing-lg;
-    padding-bottom: $spacing-sm;
-    background: linear-gradient(135deg, get-color(primary, 600) 0%, get-color(primary, 500) 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    border-bottom: 3px solid;
-    border-image: linear-gradient(135deg, get-color(primary, 600) 0%, get-color(primary, 500) 100%) 1;
-  }
+    .mat-tab-label {
+      font-weight: $font-weight-medium;
+      color: get-color(primary, 600);
+      opacity: 0.7;
+      transition: all 0.3s ease;
+      min-width: 100px;
 
-  .form-row {
-    display: flex;
-    gap: $spacing-md;
-    margin-bottom: $spacing-md;
-
-    &.two-columns {
-      @include responsive-breakpoint(mobile) {
-        flex-direction: column;
-        gap: 0;
+      &.mat-tab-label-active {
+        opacity: 1;
+        color: get-color(primary, 700);
       }
     }
 
-    .full-width {
-      flex: 1;
-      width: 100%;
-    }
-
-    .half-width {
-      flex: 0 0 48%;
-      
-      @include responsive-breakpoint(mobile) {
-        flex: 1;
-        width: 100%;
-      }
+    .mat-ink-bar {
+      background-color: get-color(primary, 500);
+      height: 3px;
+      border-radius: 2px;
     }
   }
+}
 
-  mat-form-field {
-    &.full-width {
-      width: 100%;
-    }
+.tab-content {
+  padding: $spacing-md;
+  min-height: 300px;
+}
+
+.form-section {
+  margin-bottom: $spacing-lg;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.section-title {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  @include typography-heading(16px, $font-weight-bold);
+  margin-bottom: $spacing-md;
+  padding-bottom: 6px;
+  color: get-color(primary, 700);
+  border-bottom: 2px solid get-color(primary, 200);
+
+  mat-icon {
+    color: get-color(primary, 600);
+    font-size: 18px;
+    width: 18px;
+    height: 18px;
+  }
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: $spacing-md;
+
+  @include responsive-breakpoint(mobile) {
+    grid-template-columns: 1fr;
+    gap: $spacing-sm;
+  }
+}
+
+.form-field {
+  &.full-width {
+    grid-column: 1 / -1;
   }
 
-  textarea {
-    resize: vertical;
-    min-height: 80px;
+  .mat-form-field-wrapper {
+    margin-bottom: 0;
   }
 }
 
 .form-actions {
   @include flex-between;
-  margin-top: $spacing-xl;
-  padding-top: $spacing-lg;
-  padding: $spacing-lg;
+  margin-top: $spacing-lg;
+  padding: $spacing-md;
   background: linear-gradient(135deg, get-color(primary, 25) 0%, rgba(255, 255, 255, 0.9) 100%);
   border-radius: 8px;
   border: 1px solid get-color(primary, 100);
@@ -116,65 +134,95 @@
 
   @include responsive-breakpoint(mobile) {
     flex-direction: column;
-    gap: $spacing-md;
+    gap: $spacing-sm;
     align-items: stretch;
   }
 
-  button {
+  .cancel-button,
+  .submit-button {
+    display: flex;
+    align-items: center;
+    gap: 4px;
     min-width: 120px;
-    height: 48px;
+    height: 40px;
     font-weight: $font-weight-bold;
-    
+
     @include responsive-breakpoint(mobile) {
       width: 100%;
-    }
-    
-    &[color="primary"] {
-      background: linear-gradient(135deg, get-color(primary, 500) 0%, get-color(primary, 600) 100%) !important;
-      box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.3) !important;
-      
-      &:hover {
-        transform: translateY(-1px);
-        box-shadow: 0 10px 15px -3px rgba(37, 99, 235, 0.4) !important;
-      }
+      justify-content: center;
     }
   }
 
-  mat-progress-spinner {
-    margin-right: $spacing-sm;
+  .submit-button {
+    background: linear-gradient(135deg, get-color(primary, 500) 0%, get-color(primary, 600) 100%) !important;
+    box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.3) !important;
+
+    &:hover:not(:disabled) {
+      transform: translateY(-1px);
+      box-shadow: 0 10px 15px -3px rgba(37, 99, 235, 0.4) !important;
+    }
+
+    mat-progress-spinner {
+      margin-right: 4px;
+    }
   }
 }
 
-// Custom Material overrides for this form
+// Custom Material overrides
 ::ng-deep {
   .mat-form-field-appearance-outline {
     .mat-form-field-wrapper {
       margin: 0;
     }
-    
+
     .mat-form-field-outline {
       color: get-color(primary, 200) !important;
-      border-radius: 8px !important;
+      border-radius: 6px !important;
     }
 
     &.mat-focused .mat-form-field-outline-thick {
       color: get-color(primary, 500) !important;
       border-width: 2px !important;
     }
+
+    &.mat-form-field-invalid .mat-form-field-outline-thick {
+      color: get-color(error, 500) !important;
+    }
   }
 
   .mat-form-field-label {
     color: get-color(primary, 600) !important;
     font-weight: 500 !important;
-    
+
     &.mat-focused {
       color: get-color(primary, 500) !important;
     }
   }
-  
+
+  .mat-form-field-suffix mat-icon {
+    color: get-color(primary, 500) !important;
+  }
+
   .mat-select-panel {
-    border-radius: 8px !important;
+    border-radius: 6px !important;
     box-shadow: 0 10px 15px -3px rgba(37, 99, 235, 0.2), 0 4px 6px -2px rgba(37, 99, 235, 0.1) !important;
     background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 255, 0.95) 100%) !important;
+    backdrop-filter: blur(10px);
+  }
+
+  .mat-option {
+    &:hover {
+      background: get-color(primary, 50) !important;
+    }
+
+    &.mat-selected {
+      background: get-color(primary, 100) !important;
+      color: get-color(primary, 700) !important;
+    }
+  }
+
+  textarea.mat-input-element {
+    resize: vertical;
+    min-height: 60px;
   }
 }

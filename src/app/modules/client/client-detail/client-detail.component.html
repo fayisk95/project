@@ -4,7 +4,10 @@
       <div class="client-info">
         <h1 class="client-name">{{ client.nameEn }}</h1>
         <p *ngIf="client.nameAr" class="client-name-ar">{{ client.nameAr }}</p>
-        <span class="client-id">{{ client.clientId }}</span>
+        <div class="client-meta">
+          <span class="client-id">{{ client.clientId }}</span>
+          <span class="client-date">Created {{ formatDate(client.createdAt) }}</span>
+        </div>
       </div>
       
       <div class="outstanding-badge" 
@@ -27,142 +30,191 @@
     </div>
   </div>
 
-  <div class="detail-content">
-    <!-- Basic Information Card -->
-    <mat-card class="info-card">
-      <mat-card-header>
-        <mat-card-title>
-          <mat-icon>business</mat-icon>
-          Basic Information
-        </mat-card-title>
-      </mat-card-header>
-      <mat-card-content>
-        <div class="info-grid">
-          <div class="info-item">
-            <label>Company Name (English)</label>
-            <span>{{ client.nameEn }}</span>
+  <mat-card class="detail-card">
+    <mat-tab-group class="client-tabs" animationDuration="300ms">
+      <!-- Basic Information Tab -->
+      <mat-tab label="Basic Info">
+        <ng-template matTabContent>
+          <div class="tab-content">
+            <div class="info-section">
+              <h3 class="section-title">
+                <mat-icon>business</mat-icon>
+                Company Information
+              </h3>
+              <div class="info-grid compact">
+                <div class="info-item">
+                  <label>Company Name (EN)</label>
+                  <span>{{ client.nameEn }}</span>
+                </div>
+                <div class="info-item" *ngIf="client.nameAr">
+                  <label>Company Name (AR)</label>
+                  <span>{{ client.nameAr }}</span>
+                </div>
+                <div class="info-item full-width">
+                  <label>Address</label>
+                  <span>{{ client.address }}</span>
+                </div>
+                <div class="info-item">
+                  <label>Created Date</label>
+                  <span>{{ formatDate(client.createdAt) }}</span>
+                </div>
+                <div class="info-item">
+                  <label>Last Updated</label>
+                  <span>{{ formatDate(client.updatedAt) }}</span>
+                </div>
+              </div>
+            </div>
           </div>
-          
-          <div class="info-item" *ngIf="client.nameAr">
-            <label>Company Name (Arabic)</label>
-            <span>{{ client.nameAr }}</span>
-          </div>
-          
-          <div class="info-item full-width">
-            <label>Address</label>
-            <span>{{ client.address }}</span>
-          </div>
-          
-          <div class="info-item">
-            <label>Created</label>
-            <span>{{ formatDate(client.createdAt) }}</span>
-          </div>
-          
-          <div class="info-item">
-            <label>Last Updated</label>
-            <span>{{ formatDate(client.updatedAt) }}</span>
-          </div>
-        </div>
-      </mat-card-content>
-    </mat-card>
+        </ng-template>
+      </mat-tab>
 
-    <!-- Contact Information Card -->
-    <mat-card class="info-card">
-      <mat-card-header>
-        <mat-card-title>
-          <mat-icon>contact_phone</mat-icon>
-          Contact Information
-        </mat-card-title>
-      </mat-card-header>
-      <mat-card-content>
-        <div class="info-grid">
-          <div class="info-item">
-            <label>Email</label>
-            <span class="contact-link">
-              <a [href]="'mailto:' + client.email">{{ client.email }}</a>
-            </span>
-          </div>
-          
-          <div class="info-item">
-            <label>Contact Number</label>
-            <span class="contact-link">
-              <a [href]="'tel:' + client.contactNumber">{{ client.contactNumber }}</a>
-            </span>
-          </div>
-          
-          <div class="info-item">
-            <label>WhatsApp</label>
-            <span class="contact-link whatsapp">
-              <a [href]="getWhatsappLink(client.whatsappNumber)" 
-                 target="_blank">
-                {{ client.whatsappNumber }}
-              </a>
-            </span>
-          </div>
-        </div>
-      </mat-card-content>
-    </mat-card>
+      <!-- Contact Information Tab -->
+      <mat-tab label="Contact">
+        <ng-template matTabContent>
+          <div class="tab-content">
+            <div class="contact-sections">
+              <div class="info-section">
+                <h3 class="section-title">
+                  <mat-icon>contact_phone</mat-icon>
+                  Primary Contact
+                </h3>
+                <div class="contact-cards">
+                  <div class="contact-card">
+                    <mat-icon class="contact-icon">email</mat-icon>
+                    <div class="contact-details">
+                      <label>Email</label>
+                      <a [href]="'mailto:' + client.email" class="contact-link">{{ client.email }}</a>
+                    </div>
+                  </div>
+                  <div class="contact-card">
+                    <mat-icon class="contact-icon">phone</mat-icon>
+                    <div class="contact-details">
+                      <label>Phone</label>
+                      <a [href]="'tel:' + client.contactNumber" class="contact-link">{{ client.contactNumber }}</a>
+                    </div>
+                  </div>
+                  <div class="contact-card whatsapp">
+                    <mat-icon class="contact-icon">chat</mat-icon>
+                    <div class="contact-details">
+                      <label>WhatsApp</label>
+                      <a [href]="getWhatsappLink(client.whatsappNumber)" target="_blank" class="contact-link">{{ client.whatsappNumber }}</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
 
-    <!-- Point of Contact Card -->
-    <mat-card class="info-card">
-      <mat-card-header>
-        <mat-card-title>
-          <mat-icon>person</mat-icon>
-          Point of Contact (POC)
-        </mat-card-title>
-      </mat-card-header>
-      <mat-card-content>
-        <div class="info-grid">
-          <div class="info-item">
-            <label>POC Email</label>
-            <span class="contact-link">
-              <a [href]="'mailto:' + client.poc.email">{{ client.poc.email }}</a>
-            </span>
+              <div class="info-section">
+                <h3 class="section-title">
+                  <mat-icon>person</mat-icon>
+                  Point of Contact (POC)
+                </h3>
+                <div class="contact-cards">
+                  <div class="contact-card">
+                    <mat-icon class="contact-icon">email</mat-icon>
+                    <div class="contact-details">
+                      <label>POC Email</label>
+                      <a [href]="'mailto:' + client.poc.email" class="contact-link">{{ client.poc.email }}</a>
+                    </div>
+                  </div>
+                  <div class="contact-card">
+                    <mat-icon class="contact-icon">phone</mat-icon>
+                    <div class="contact-details">
+                      <label>POC Phone</label>
+                      <a [href]="'tel:' + client.poc.contactNumber" class="contact-link">{{ client.poc.contactNumber }}</a>
+                    </div>
+                  </div>
+                  <div class="contact-card whatsapp">
+                    <mat-icon class="contact-icon">chat</mat-icon>
+                    <div class="contact-details">
+                      <label>POC WhatsApp</label>
+                      <a [href]="getWhatsappLink(client.poc.whatsappNumber)" target="_blank" class="contact-link">{{ client.poc.whatsappNumber }}</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
-          
-          <div class="info-item">
-            <label>POC Contact</label>
-            <span class="contact-link">
-              <a [href]="'tel:' + client.poc.contactNumber">{{ client.poc.contactNumber }}</a>
-            </span>
-          </div>
-          
-          <div class="info-item">
-            <label>POC WhatsApp</label>
-            <span class="contact-link whatsapp">
-              <a [href]="getWhatsappLink(client.whatsappNumber)"
-                 target="_blank">
-                {{ client.poc.whatsappNumber }}
-              </a>
-            </span>
-          </div>
-        </div>
-      </mat-card-content>
-    </mat-card>
+        </ng-template>
+      </mat-tab>
 
-    <!-- Hosting Information Card -->
-    <mat-card class="info-card">
-      <mat-card-header>
-        <mat-card-title>
-          <mat-icon>cloud</mat-icon>
-          Hosting Platform
-        </mat-card-title>
-      </mat-card-header>
-      <mat-card-content>
-        <div class="info-grid">
-          <div class="info-item">
-            <label>Platform Name</label>
-            <span class="platform-badge">{{ client.hostingPlatform.name }}</span>
+      <!-- Technical Information Tab -->
+      <mat-tab label="Technical">
+        <ng-template matTabContent>
+          <div class="tab-content">
+            <div class="info-section">
+              <h3 class="section-title">
+                <mat-icon>cloud</mat-icon>
+                Hosting Platform
+              </h3>
+              <div class="tech-info">
+                <div class="platform-card">
+                  <div class="platform-header">
+                    <mat-icon class="platform-icon">dns</mat-icon>
+                    <div class="platform-details">
+                      <h4>{{ client.hostingPlatform.name }}</h4>
+                      <span class="platform-type">Cloud Platform</span>
+                    </div>
+                  </div>
+                  <div class="platform-account">
+                    <label>Account Details</label>
+                    <code class="account-code">{{ client.hostingPlatform.accountDetails }}</code>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="info-section">
+              <h3 class="section-title">
+                <mat-icon>account_balance_wallet</mat-icon>
+                Financial Summary
+              </h3>
+              <div class="financial-cards">
+                <div class="financial-card" [ngClass]="{'has-outstanding': client.totalOutstanding > 0}">
+                  <div class="financial-icon">
+                    <mat-icon>{{ client.totalOutstanding > 0 ? 'warning' : 'check_circle' }}</mat-icon>
+                  </div>
+                  <div class="financial-details">
+                    <span class="financial-amount">{{ formatCurrency(client.totalOutstanding) }}</span>
+                    <span class="financial-label">Total Outstanding</span>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
-          
-          <div class="info-item">
-            <label>Account Details</label>
-            <span class="account-details">{{ client.hostingPlatform.accountDetails }}</span>
+        </ng-template>
+      </mat-tab>
+
+      <!-- Activity Tab -->
+      <mat-tab label="Activity">
+        <ng-template matTabContent>
+          <div class="tab-content">
+            <div class="info-section">
+              <h3 class="section-title">
+                <mat-icon>history</mat-icon>
+                Recent Activity
+              </h3>
+              <div class="activity-timeline">
+                <div class="activity-item">
+                  <div class="activity-dot"></div>
+                  <div class="activity-content">
+                    <span class="activity-title">Client Created</span>
+                    <span class="activity-date">{{ formatDate(client.createdAt) }}</span>
+                  </div>
+                </div>
+                <div class="activity-item">
+                  <div class="activity-dot"></div>
+                  <div class="activity-content">
+                    <span class="activity-title">Last Updated</span>
+                    <span class="activity-date">{{ formatDate(client.updatedAt) }}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
-      </mat-card-content>
-    </mat-card>
-  </div>
+        </ng-template>
+      </mat-tab>
+    </mat-tab-group>
+  </mat-card>
 </div>
 
 <!-- Loading State -->

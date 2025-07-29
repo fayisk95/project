@@ -1,7 +1,6 @@
 @import '../../../../styles/global.scss';
 
 .client-list-container {
-  max-width: 1200px;
   margin: 0 auto;
   padding: $spacing-lg;
   background: transparent;
@@ -47,7 +46,7 @@
   padding: 0 $spacing-md;
   background: linear-gradient(135deg, get-color(primary, 500) 0%, get-color(primary, 600) 100%) !important;
   box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.3) !important;
-  
+
   &:hover {
     transform: translateY(-1px);
     box-shadow: 0 10px 15px -3px rgba(37, 99, 235, 0.4) !important;
@@ -108,10 +107,10 @@
   .mat-column-actions {
     width: 150px;
   }
-  
+
   .mat-header-row {
     background: linear-gradient(135deg, get-color(primary, 100) 0%, get-color(primary, 50) 100%);
-    
+
     .mat-header-cell {
       color: get-color(primary, 700);
       font-weight: $font-weight-bold;
@@ -164,17 +163,17 @@
 .action-buttons {
   display: flex;
   gap: $spacing-xs;
-  
+
   button {
     border-radius: 50% !important;
     width: 36px !important;
     height: 36px !important;
     min-width: 36px !important;
-    
+
     &:hover {
       transform: scale(1.1);
     }
-    
+
     &[color="primary"]:hover {
       background-color: get-color(primary, 50) !important;
     }
