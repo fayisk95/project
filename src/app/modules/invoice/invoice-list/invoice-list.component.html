@@ -1,0 +1,129 @@
+<div class="invoice-list-container">
+  <div class="list-header">
+    <div class="header-content">
+      <h1 class="page-title">Invoices</h1>
+      <p class="page-subtitle">Manage and track all your invoices</p>
+    </div>
+    
+    <button mat-raised-button color="primary" (click)="onCreateInvoice()" class="create-button">
+      <mat-icon>add</mat-icon>
+      Create Invoice
+    </button>
+  </div>
+
+  <mat-card class="invoice-card">
+    <mat-card-content>
+      <!-- Filters -->
+      <div class="filters-container">
+        <mat-form-field appearance="outline" class="search-field">
+          <mat-label>Search invoices...</mat-label>
+          <input matInput 
+                 [(ngModel)]="searchTerm" 
+                 (input)="onSearchChange()"
+                 placeholder="Search by invoice ID or client name">
+          <mat-icon matSuffix>search</mat-icon>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="filter-field">
+          <mat-label>Status Filter</mat-label>
+          <mat-select [(value)]="statusFilter" (selectionChange)="onStatusFilterChange()">
+            <mat-option *ngFor="let option of statusOptions" [value]="option.value">
+              {{ option.label }}
+            </mat-option>
+          </mat-select>
+          <mat-icon matSuffix>filter_list</mat-icon>
+        </mat-form-field>
+      </div>
+
+      <!-- Invoices Table -->
+      <div class="table-container">
+        <table mat-table [dataSource]="filteredInvoices" class="invoices-table">
+          <ng-container matColumnDef="invoiceId">
+            <th mat-header-cell *matHeaderCellDef>Invoice ID</th>
+            <td mat-cell *matCellDef="let invoice">
+              <span class="invoice-id">{{ invoice.invoiceId }}</span>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="clientName">
+            <th mat-header-cell *matHeaderCellDef>Client</th>
+            <td mat-cell *matCellDef="let invoice">{{ invoice.clientName }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="total">
+            <th mat-header-cell *matHeaderCellDef>Total</th>
+            <td mat-cell *matCellDef="let invoice">
+              <span class="invoice-amount">{{ formatCurrency(invoice.total) }}</span>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="status">
+            <th mat-header-cell *matHeaderCellDef>Status</th>
+            <td mat-cell *matCellDef="let invoice">
+              <span class="status-tag" [ngClass]="getStatusClass(invoice.status)">
+                {{ getStatusText(invoice.status) }}
+              </span>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="issueDate">
+            <th mat-header-cell *matHeaderCellDef>Issue Date</th>
+            <td mat-cell *matCellDef="let invoice">{{ formatDate(invoice.issueDate) }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="dueDate">
+            <th mat-header-cell *matHeaderCellDef>Due Date</th>
+            <td mat-cell *matCellDef="let invoice">{{ formatDate(invoice.dueDate) }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef>Actions</th>
+            <td mat-cell *matCellDef="let invoice">
+              <div class="action-buttons">
+                <button mat-icon-button 
+                        color="primary" 
+                        (click)="onViewInvoice(invoice)"
+                        matTooltip="View Details">
+                  <mat-icon>visibility</mat-icon>
+                </button>
+                <button mat-icon-button 
+                        color="accent" 
+                        (click)="onDownloadPDF(invoice, $event)"
+                        matTooltip="Download PDF">
+                  <mat-icon>download</mat-icon>
+                </button>
+                <button mat-icon-button 
+                        color="primary" 
+                        *ngIf="invoice.status !== 'paid'"
+                        (click)="onMarkAsPaid(invoice, $event)"
+                        matTooltip="Mark as Paid">
+                  <mat-icon>payment</mat-icon>
+                </button>
+                <button mat-icon-button 
+                        color="warn" 
+                        (click)="onDeleteInvoice(invoice, $event)"
+                        matTooltip="Delete Invoice">
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </div>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;" 
+              class="invoice-row" 
+              [ngClass]="getStatusClass(row.status)"
+              (click)="onViewInvoice(row)"></tr>
+        </table>
+      </div>
+
+      <div *ngIf="filteredInvoices.length === 0" class="no-invoices">
+        <mat-icon class="no-invoices-icon">receipt</mat-icon>
+        <p class="no-invoices-text">No invoices found</p>
+        <p class="no-invoices-subtext">
+          {{ searchTerm || statusFilter !== 'all' ? 'Try adjusting your search or filter criteria' : 'Create your first invoice to get started' }}
+        </p>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

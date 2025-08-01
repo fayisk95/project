@@ -1,0 +1,148 @@
+<div class="invoice-form-container">
+  <div class="form-header">
+    <h1 class="page-title">Create Invoice</h1>
+    <p class="page-subtitle">Generate an invoice from pending client dues</p>
+  </div>
+
+  <mat-card class="form-card">
+    <form [formGroup]="invoiceForm" (ngSubmit)="onSubmit()" class="invoice-form">
+      
+      <!-- Client Selection -->
+      <div class="form-section">
+        <h3 class="section-title">
+          <mat-icon>business</mat-icon>
+          Client Selection
+        </h3>
+        
+        <mat-form-field appearance="outline" class="form-field full-width">
+          <mat-label>Select Client *</mat-label>
+          <mat-select formControlName="clientId" [disabled]="!!preselectedClientId">
+            <mat-option *ngFor="let client of clients$ | async" [value]="client.id">
+              {{ client.nameEn }}
+            </mat-option>
+          </mat-select>
+          <mat-icon matSuffix>business</mat-icon>
+          <mat-error>{{ getErrorMessage('clientId') }}</mat-error>
+        </mat-form-field>
+      </div>
+
+      <!-- Due Selection -->
+      <div class="form-section" *ngIf="selectedClientDues$ | async as dues">
+        <h3 class="section-title">
+          <mat-icon>receipt_long</mat-icon>
+          Select Pending Dues
+        </h3>
+        
+        <div *ngIf="dues.length > 0; else noDues" class="dues-selection">
+          <div *ngFor="let due of dues" class="due-item">
+            <mat-checkbox 
+              [checked]="isDueSelected(due)"
+              (change)="onDueSelectionChange(due, $event.checked)"
+              color="primary">
+            </mat-checkbox>
+            
+            <div class="due-details">
+              <div class="due-header">
+                <span class="due-id">{{ due.dueId }}</span>
+                <span class="due-amount">{{ formatCurrency(due.amount) }}</span>
+              </div>
+              <div class="due-info">
+                <span class="product-name">{{ due.productName }}</span>
+                <span class="due-date">Due: {{ formatDate(due.dueDate) }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <ng-template #noDues>
+          <div class="no-dues">
+            <mat-icon class="no-dues-icon">check_circle</mat-icon>
+            <p class="no-dues-text">No pending dues found</p>
+            <p class="no-dues-subtext">This client has no outstanding payments at the moment.</p>
+          </div>
+        </ng-template>
+      </div>
+
+      <!-- Invoice Settings -->
+      <div class="form-section">
+        <h3 class="section-title">
+          <mat-icon>settings</mat-icon>
+          Invoice Settings
+        </h3>
+        
+        <div class="form-grid">
+          <mat-form-field appearance="outline" class="form-field">
+            <mat-label>Tax Rate (%)</mat-label>
+            <input matInput 
+                   type="number" 
+                   formControlName="taxRate" 
+                   placeholder="0"
+                   min="0"
+                   max="100"
+                   step="0.01">
+            <mat-icon matSuffix>percent</mat-icon>
+            <mat-error>{{ getErrorMessage('taxRate') }}</mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="form-field full-width">
+            <mat-label>Notes (Optional)</mat-label>
+            <textarea matInput 
+                     formControlName="notes" 
+                     placeholder="Add any additional notes or terms"
+                     rows="3"></textarea>
+            <mat-icon matSuffix>note</mat-icon>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <!-- Invoice Summary -->
+      <div class="form-section" *ngIf="getSelectedDuesTotal() > 0">
+        <h3 class="section-title">
+          <mat-icon>calculate</mat-icon>
+          Invoice Summary
+        </h3>
+        
+        <div class="invoice-summary">
+          <div class="summary-row">
+            <span class="summary-label">Subtotal:</span>
+            <span class="summary-value">{{ formatCurrency(getSelectedDuesTotal()) }}</span>
+          </div>
+          <div class="summary-row" *ngIf="getTaxAmount() > 0">
+            <span class="summary-label">Tax ({{ invoiceForm.get('taxRate')?.value }}%):</span>
+            <span class="summary-value">{{ formatCurrency(getTaxAmount()) }}</span>
+          </div>
+          <div class="summary-row total">
+            <span class="summary-label">Total:</span>
+            <span class="summary-value">{{ formatCurrency(getGrandTotal()) }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Form Actions -->
+      <div class="form-actions">
+        <button mat-button 
+                type="button" 
+                (click)="onCancel()"
+                [disabled]="isLoading"
+                class="cancel-button">
+          <mat-icon>close</mat-icon>
+          Cancel
+        </button>
+        
+        <button mat-raised-button 
+                color="primary" 
+                type="submit"
+                [disabled]="invoiceForm.invalid || isLoading || getSelectedDuesTotal() === 0"
+                class="submit-button">
+          <mat-progress-spinner 
+            *ngIf="isLoading"
+            diameter="20"
+            mode="indeterminate">
+          </mat-progress-spinner>
+          <mat-icon *ngIf="!isLoading">receipt</mat-icon>
+          <span>Create Invoice</span>
+        </button>
+      </div>
+    </form>
+  </mat-card>
+</div>

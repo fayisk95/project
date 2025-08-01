@@ -1,0 +1,220 @@
+<div class="invoice-detail-container" *ngIf="!isLoading && invoice">
+  <div class="detail-header">
+    <div class="header-content">
+      <div class="invoice-info">
+        <h1 class="invoice-title">Invoice {{ invoice.invoiceId }}</h1>
+        <div class="invoice-meta">
+          <span class="client-name">{{ invoice.clientName }}</span>
+          <span class="status-badge" [ngClass]="getStatusClass()">
+            {{ getStatusText() }}
+          </span>
+        </div>
+      </div>
+      
+      <div class="amount-badge">
+        <span class="amount-label">Total Amount</span>
+        <span class="amount-value">{{ formatCurrency(invoice.total) }}</span>
+      </div>
+    </div>
+
+    <div class="header-actions">
+      <button mat-button (click)="onBack()" class="back-button">
+        <mat-icon>arrow_back</mat-icon>
+        Back to Invoices
+      </button>
+      
+      <button mat-stroked-button color="primary" (click)="onDownloadPDF()">
+        <mat-icon>download</mat-icon>
+        Download PDF
+      </button>
+
+      <button mat-raised-button 
+              color="primary" 
+              *ngIf="invoice.status !== 'paid'"
+              (click)="onMarkAsPaid()">
+        <mat-icon>payment</mat-icon>
+        Mark as Paid
+      </button>
+    </div>
+  </div>
+
+  <mat-card class="detail-card">
+    <mat-tab-group class="invoice-tabs" animationDuration="300ms">
+      <!-- Invoice Details Tab -->
+      <mat-tab label="Invoice Details">
+        <ng-template matTabContent>
+          <div class="tab-content">
+            <div class="invoice-overview">
+              <div class="overview-section">
+                <h3 class="section-title">
+                  <mat-icon>business</mat-icon>
+                  Client Information
+                </h3>
+                <div class="client-details">
+                  <div class="detail-item">
+                    <label>Client Name</label>
+                    <span>{{ invoice.clientName }}</span>
+                  </div>
+                  <div class="detail-item">
+                    <label>Email</label>
+                    <span>{{ invoice.clientEmail }}</span>
+                  </div>
+                  <div class="detail-item full-width">
+                    <label>Address</label>
+                    <span>{{ invoice.clientAddress }}</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="overview-section">
+                <h3 class="section-title">
+                  <mat-icon>receipt</mat-icon>
+                  Invoice Information
+                </h3>
+                <div class="invoice-details">
+                  <div class="detail-item">
+                    <label>Invoice ID</label>
+                    <span class="invoice-id-value">{{ invoice.invoiceId }}</span>
+                  </div>
+                  <div class="detail-item">
+                    <label>Issue Date</label>
+                    <span>{{ formatDate(invoice.issueDate) }}</span>
+                  </div>
+                  <div class="detail-item">
+                    <label>Due Date</label>
+                    <span>{{ formatDate(invoice.dueDate) }}</span>
+                  </div>
+                  <div class="detail-item" *ngIf="invoice.paidDate">
+                    <label>Paid Date</label>
+                    <span>{{ formatDate(invoice.paidDate) }}</span>
+                  </div>
+                  <div class="detail-item">
+                    <label>Status</label>
+                    <span class="status" [ngClass]="getStatusClass()">
+                      {{ getStatusText() }}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="items-section">
+              <h3 class="section-title">
+                <mat-icon>list</mat-icon>
+                Invoice Items
+              </h3>
+              
+              <div class="items-table-container">
+                <table class="items-table">
+                  <thead>
+                    <tr>
+                      <th>Product/Service</th>
+                      <th>Due Date</th>
+                      <th>Description</th>
+                      <th class="amount-column">Amount</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let item of invoice.items">
+                      <td class="product-name">{{ item.productName }}</td>
+                      <td>{{ formatDate(item.dueDate) }}</td>
+                      <td class="description">{{ item.description || '-' }}</td>
+                      <td class="amount">{{ formatCurrency(item.amount) }}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <div class="totals-section">
+                <div class="totals-table">
+                  <div class="total-row">
+                    <span class="total-label">Subtotal:</span>
+                    <span class="total-value">{{ formatCurrency(invoice.subtotal) }}</span>
+                  </div>
+                  <div class="total-row" *ngIf="invoice.tax > 0">
+                    <span class="total-label">Tax ({{ invoice.taxRate }}%):</span>
+                    <span class="total-value">{{ formatCurrency(invoice.tax) }}</span>
+                  </div>
+                  <div class="total-row grand-total">
+                    <span class="total-label">Total:</span>
+                    <span class="total-value">{{ formatCurrency(invoice.total) }}</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="notes-section" *ngIf="invoice.notes">
+                <h4 class="notes-title">Notes</h4>
+                <p class="notes-content">{{ invoice.notes }}</p>
+              </div>
+            </div>
+          </div>
+        </ng-template>
+      </mat-tab>
+
+      <!-- Payment History Tab -->
+      <mat-tab label="Payment History">
+        <ng-template matTabContent>
+          <div class="tab-content">
+            <div class="payments-section">
+              <div class="section-header">
+                <h3 class="section-title">
+                  <mat-icon>payment</mat-icon>
+                  Payment Records
+                </h3>
+                <button mat-stroked-button 
+                        color="primary" 
+                        (click)="onViewPaymentHistory()">
+                  <mat-icon>history</mat-icon>
+                  View All Client Payments
+                </button>
+              </div>
+              
+              <div class="payments-list" *ngIf="payments$ | async as payments; else noPayments">
+                <div *ngFor="let payment of payments" class="payment-item">
+                  <div class="payment-header">
+                    <div class="payment-info">
+                      <span class="payment-id">{{ payment.paymentId }}</span>
+                      <span class="payment-amount">{{ formatCurrency(payment.amount) }}</span>
+                    </div>
+                    <div class="payment-date">{{ formatDate(payment.paymentDate) }}</div>
+                  </div>
+                  
+                  <div class="payment-details">
+                    <div class="payment-method">
+                      <mat-icon>credit_card</mat-icon>
+                      <span>{{ getPaymentMethodText(payment.paymentMethod) }}</span>
+                    </div>
+                    <div class="payment-reference" *ngIf="payment.reference">
+                      <mat-icon>confirmation_number</mat-icon>
+                      <span>Ref: {{ payment.reference }}</span>
+                    </div>
+                  </div>
+                  
+                  <div class="payment-notes" *ngIf="payment.notes">
+                    <p>{{ payment.notes }}</p>
+                  </div>
+                </div>
+              </div>
+
+              <ng-template #noPayments>
+                <div class="no-payments">
+                  <mat-icon class="no-payments-icon">payment</mat-icon>
+                  <p class="no-payments-text">No payments recorded</p>
+                  <p class="no-payments-subtext">
+                    {{ invoice.status === 'paid' ? 'Payment information may be recorded elsewhere' : 'This invoice has not been paid yet' }}
+                  </p>
+                </div>
+              </ng-template>
+            </div>
+          </div>
+        </ng-template>
+      </mat-tab>
+    </mat-tab-group>
+  </mat-card>
+</div>
+
+<!-- Loading State -->
+<div class="loading-container" *ngIf="isLoading">
+  <mat-progress-spinner mode="indeterminate" diameter="50"></mat-progress-spinner>
+  <p>Loading invoice details...</p>
+</div>

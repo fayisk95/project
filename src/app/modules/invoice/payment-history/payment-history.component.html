@@ -1,0 +1,193 @@
+<div class="payment-history-container" *ngIf="!isLoading && client">
+  <div class="history-header">
+    <div class="header-content">
+      <div class="client-info">
+        <h1 class="page-title">Payment History</h1>
+        <p class="client-name">{{ client.nameEn }}</p>
+        <p class="page-subtitle">Complete payment and invoice history for this client</p>
+      </div>
+    </div>
+
+    <div class="header-actions">
+      <button mat-button (click)="onBack()" class="back-button">
+        <mat-icon>arrow_back</mat-icon>
+        Back to Invoices
+      </button>
+    </div>
+  </div>
+
+  <!-- Payment Statistics -->
+  <div class="stats-section" *ngIf="paymentStats$ | async as stats">
+    <div class="stats-grid">
+      <mat-card class="stat-card">
+        <mat-card-content>
+          <div class="stat-header">
+            <mat-icon class="stat-icon">payment</mat-icon>
+            <span class="stat-label">Total Payments</span>
+          </div>
+          <div class="stat-value">{{ stats.totalPayments }}</div>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card class="stat-card">
+        <mat-card-content>
+          <div class="stat-header">
+            <mat-icon class="stat-icon">account_balance_wallet</mat-icon>
+            <span class="stat-label">Total Amount</span>
+          </div>
+          <div class="stat-value">{{ formatCurrency(stats.totalAmount) }}</div>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card class="stat-card">
+        <mat-card-content>
+          <div class="stat-header">
+            <mat-icon class="stat-icon">trending_up</mat-icon>
+            <span class="stat-label">Average Payment</span>
+          </div>
+          <div class="stat-value">{{ formatCurrency(stats.averagePaymentAmount) }}</div>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card class="stat-card" *ngIf="stats.lastPaymentDate">
+        <mat-card-content>
+          <div class="stat-header">
+            <mat-icon class="stat-icon">schedule</mat-icon>
+            <span class="stat-label">Last Payment</span>
+          </div>
+          <div class="stat-value">{{ formatDate(stats.lastPaymentDate) }}</div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+
+  <mat-card class="history-card">
+    <mat-tab-group class="history-tabs" animationDuration="300ms">
+      <!-- Payment History Tab -->
+      <mat-tab label="Payment Records">
+        <ng-template matTabContent>
+          <div class="tab-content">
+            <div class="payments-section">
+              <h3 class="section-title">
+                <mat-icon>payment</mat-icon>
+                Payment Records
+              </h3>
+              
+              <div class="payments-list" *ngIf="payments$ | async as payments; else noPayments">
+                <div *ngFor="let payment of payments" class="payment-item">
+                  <div class="payment-header">
+                    <div class="payment-info">
+                      <span class="payment-id">{{ payment.paymentId }}</span>
+                      <span class="payment-amount">{{ formatCurrency(payment.amount) }}</span>
+                    </div>
+                    <div class="payment-date">{{ formatDateTime(payment.paymentDate) }}</div>
+                  </div>
+                  
+                  <div class="payment-details">
+                    <div class="payment-method">
+                      <mat-icon>credit_card</mat-icon>
+                      <span>{{ getPaymentMethodText(payment.paymentMethod) }}</span>
+                    </div>
+                    <div class="payment-reference" *ngIf="payment.reference">
+                      <mat-icon>confirmation_number</mat-icon>
+                      <span>Ref: {{ payment.reference }}</span>
+                    </div>
+                    <div class="payment-invoice">
+                      <mat-icon>receipt</mat-icon>
+                      <button mat-button 
+                              color="primary" 
+                              (click)="onViewInvoice(payment.invoiceId)"
+                              class="invoice-link">
+                        View Invoice
+                      </button>
+                    </div>
+                  </div>
+                  
+                  <div class="payment-notes" *ngIf="payment.notes">
+                    <p>{{ payment.notes }}</p>
+                  </div>
+                </div>
+              </div>
+
+              <ng-template #noPayments>
+                <div class="no-payments">
+                  <mat-icon class="no-payments-icon">payment</mat-icon>
+                  <p class="no-payments-text">No payments recorded</p>
+                  <p class="no-payments-subtext">This client has not made any payments yet.</p>
+                </div>
+              </ng-template>
+            </div>
+          </div>
+        </ng-template>
+      </mat-tab>
+
+      <!-- Invoice History Tab -->
+      <mat-tab label="Invoice History">
+        <ng-template matTabContent>
+          <div class="tab-content">
+            <div class="invoices-section">
+              <h3 class="section-title">
+                <mat-icon>receipt_long</mat-icon>
+                Invoice History
+              </h3>
+              
+              <div class="invoices-list" *ngIf="invoices$ | async as invoices; else noInvoices">
+                <div *ngFor="let invoice of invoices" class="invoice-item" (click)="onViewInvoice(invoice.id)">
+                  <div class="invoice-header">
+                    <div class="invoice-info">
+                      <span class="invoice-id">{{ invoice.invoiceId }}</span>
+                      <span class="invoice-amount">{{ formatCurrency(invoice.total) }}</span>
+                    </div>
+                    <div class="invoice-status">
+                      <span class="status-badge" [ngClass]="getInvoiceStatusClass(invoice.status)">
+                        {{ getInvoiceStatusText(invoice.status) }}
+                      </span>
+                    </div>
+                  </div>
+                  
+                  <div class="invoice-details">
+                    <div class="invoice-dates">
+                      <div class="date-info">
+                        <mat-icon>event</mat-icon>
+                        <span>Issued: {{ formatDate(invoice.issueDate) }}</span>
+                      </div>
+                      <div class="date-info">
+                        <mat-icon>schedule</mat-icon>
+                        <span>Due: {{ formatDate(invoice.dueDate) }}</span>
+                      </div>
+                      <div class="date-info" *ngIf="invoice.paidDate">
+                        <mat-icon>check_circle</mat-icon>
+                        <span>Paid: {{ formatDate(invoice.paidDate) }}</span>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div class="invoice-items">
+                    <p class="items-summary">
+                      {{ invoice.items.length }} item{{ invoice.items.length !== 1 ? 's' : '' }}
+                      <span *ngIf="invoice.items.length > 0"> - {{ invoice.items[0].productName }}{{ invoice.items.length > 1 ? ' and ' + (invoice.items.length - 1) + ' more' : '' }}</span>
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <ng-template #noInvoices>
+                <div class="no-invoices">
+                  <mat-icon class="no-invoices-icon">receipt_long</mat-icon>
+                  <p class="no-invoices-text">No invoices found</p>
+                  <p class="no-invoices-subtext">No invoices have been created for this client yet.</p>
+                </div>
+              </ng-template>
+            </div>
+          </div>
+        </ng-template>
+      </mat-tab>
+    </mat-tab-group>
+  </mat-card>
+</div>
+
+<!-- Loading State -->
+<div class="loading-container" *ngIf="isLoading">
+  <mat-progress-spinner mode="indeterminate" diameter="50"></mat-progress-spinner>
+  <p>Loading payment history...</p>
+</div>

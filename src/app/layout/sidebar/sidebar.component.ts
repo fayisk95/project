@@ -42,10 +42,9 @@ export class SidebarComponent {
       route: '/dues'
     },
     {
-      label: 'Invoices',
+      label: 'Collections',
       icon: 'receipt',
-      route: '/invoices',
-      roles: ['admin', 'manager']
+      route: '/invoices'
     },
     {
       label: 'Subscriptions',
