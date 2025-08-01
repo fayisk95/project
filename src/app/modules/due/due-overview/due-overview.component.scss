@@ -1,0 +1,387 @@
+@import '../../../../styles/global.scss';
+
+.due-overview-container {
+  margin: 0 auto;
+  padding: $spacing-lg;
+  background: transparent;
+}
+
+.overview-header {
+  @include flex-between;
+  margin-bottom: $spacing-xl;
+  padding: $spacing-lg;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(248, 250, 255, 0.9) 100%);
+  border-radius: 12px;
+  border: 1px solid get-color(primary, 100);
+  box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.1);
+
+  @include responsive-breakpoint(mobile) {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: $spacing-md;
+  }
+}
+
+.header-content {
+  .page-title {
+    @include typography-heading(28px, $font-weight-semibold);
+    margin-bottom: $spacing-sm;
+    color: get-color(neutral, 900);
+    letter-spacing: -0.02em;
+  }
+
+  .page-subtitle {
+    @include typography-body(16px, $font-weight-regular);
+    color: get-color(neutral, 600);
+    margin: 0;
+  }
+}
+
+.view-all-button {
+  display: flex;
+  align-items: center;
+  gap: $spacing-xs;
+  padding: 0 $spacing-md;
+  background: linear-gradient(135deg, get-color(primary, 500) 0%, get-color(primary, 600) 100%) !important;
+  box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.3) !important;
+
+  &:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 10px 15px -3px rgba(37, 99, 235, 0.4) !important;
+  }
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: $spacing-lg;
+  margin-bottom: $spacing-xl;
+
+  @include responsive-breakpoint(mobile) {
+    grid-template-columns: 1fr;
+    gap: $spacing-md;
+  }
+}
+
+.stat-card {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(248, 250, 255, 0.9) 100%);
+  border: 1px solid get-color(primary, 100);
+  box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.1);
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+  }
+
+  &.pending::before {
+    background: linear-gradient(135deg, get-color(warning, 500) 0%, get-color(warning, 600) 100%);
+  }
+
+  &.overdue::before {
+    background: linear-gradient(135deg, get-color(error, 500) 0%, get-color(error, 600) 100%);
+  }
+
+  &.upcoming::before {
+    background: linear-gradient(135deg, get-color(accent, 500) 0%, get-color(accent, 600) 100%);
+  }
+
+  .stat-header {
+    display: flex;
+    align-items: center;
+    gap: $spacing-xs;
+    margin-bottom: $spacing-sm;
+
+    .stat-icon {
+      width: 24px;
+      height: 24px;
+      font-size: 24px;
+    }
+
+    .stat-label {
+      @include typography-body(14px, $font-weight-medium);
+      color: get-color(neutral, 700);
+    }
+  }
+
+  .stat-value {
+    @include typography-heading(32px, $font-weight-bold);
+    color: get-color(neutral, 900);
+    margin-bottom: 4px;
+    letter-spacing: -0.02em;
+  }
+
+  .stat-amount {
+    @include typography-body(14px, $font-weight-medium);
+    color: get-color(neutral, 600);
+  }
+
+  &.pending {
+    .stat-icon { color: get-color(warning, 600); }
+    .stat-value { color: get-color(warning, 700); }
+  }
+
+  &.overdue {
+    .stat-icon { color: get-color(error, 600); }
+    .stat-value { color: get-color(error, 700); }
+  }
+
+  &.upcoming {
+    .stat-icon { color: get-color(accent, 600); }
+    .stat-value { color: get-color(accent, 700); }
+  }
+}
+
+.due-sections {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-lg;
+}
+
+.due-section {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(248, 250, 255, 0.9) 100%);
+  border: 1px solid get-color(primary, 100);
+  box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.1);
+
+  &.overdue-section {
+    border-left: 4px solid get-color(error, 500);
+    
+    .section-title {
+      color: get-color(error, 700);
+      
+      mat-icon {
+        color: get-color(error, 600);
+      }
+    }
+  }
+
+  &.current-section {
+    border-left: 4px solid get-color(warning, 500);
+    
+    .section-title {
+      color: get-color(warning, 700);
+      
+      mat-icon {
+        color: get-color(warning, 600);
+      }
+    }
+  }
+
+  &.upcoming-section {
+    border-left: 4px solid get-color(accent, 500);
+    
+    .section-title {
+      color: get-color(accent, 700);
+      
+      mat-icon {
+        color: get-color(accent, 600);
+      }
+    }
+  }
+
+  mat-card-header {
+    background: linear-gradient(135deg, get-color(primary, 25) 0%, rgba(255, 255, 255, 0.8) 100%);
+    margin: -16px -16px 16px -16px;
+    padding: $spacing-md;
+    border-bottom: 1px solid get-color(primary, 100);
+  }
+
+  .section-title {
+    display: flex;
+    align-items: center;
+    gap: $spacing-xs;
+    @include typography-heading(18px, $font-weight-semibold);
+    margin: 0;
+
+    mat-icon {
+      font-size: 20px;
+      width: 20px;
+      height: 20px;
+    }
+  }
+}
+
+.due-list {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-sm;
+}
+
+.due-item {
+  padding: $spacing-md;
+  border-radius: 8px;
+  border: 1px solid;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 16px -4px rgba(0, 0, 0, 0.1);
+  }
+
+  &.overdue {
+    background: linear-gradient(135deg, get-color(error, 50) 0%, rgba(255, 255, 255, 0.9) 100%);
+    border-color: get-color(error, 200);
+
+    &:hover {
+      box-shadow: 0 8px 16px -4px rgba(239, 68, 68, 0.3);
+    }
+  }
+
+  &.current {
+    background: linear-gradient(135deg, get-color(warning, 50) 0%, rgba(255, 255, 255, 0.9) 100%);
+    border-color: get-color(warning, 200);
+
+    &:hover {
+      box-shadow: 0 8px 16px -4px rgba(245, 158, 11, 0.3);
+    }
+  }
+
+  &.upcoming {
+    background: linear-gradient(135deg, get-color(accent, 50) 0%, rgba(255, 255, 255, 0.9) 100%);
+    border-color: get-color(accent, 200);
+
+    &:hover {
+      box-shadow: 0 8px 16px -4px rgba(14, 165, 233, 0.3);
+    }
+  }
+
+  .due-main {
+    @include flex-between;
+    margin-bottom: $spacing-sm;
+
+    .due-info {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+
+      .due-id {
+        font-family: monospace;
+        font-size: 12px;
+        font-weight: $font-weight-medium;
+        color: get-color(neutral, 700);
+        background: rgba(255, 255, 255, 0.8);
+        padding: 2px 6px;
+        border-radius: 4px;
+        border: 1px solid get-color(primary, 200);
+        align-self: flex-start;
+      }
+
+      .product-name {
+        @include typography-body(16px, $font-weight-semibold);
+        color: get-color(neutral, 900);
+      }
+
+      .client-name {
+        @include typography-body(14px, $font-weight-regular);
+        color: get-color(neutral, 600);
+      }
+    }
+
+    .due-amount {
+      @include typography-heading(20px, $font-weight-bold);
+      color: get-color(neutral, 900);
+      text-align: right;
+    }
+  }
+
+  .due-meta {
+    @include flex-between;
+    align-items: flex-end;
+
+    @include responsive-breakpoint(mobile) {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: $spacing-sm;
+    }
+
+    .due-dates {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+
+      span {
+        @include typography-body(12px, $font-weight-regular);
+        color: get-color(neutral, 600);
+      }
+
+      .days-until {
+        color: get-color(accent, 600);
+        font-weight: $font-weight-medium;
+      }
+    }
+
+    .due-actions {
+      display: flex;
+      align-items: center;
+      gap: $spacing-sm;
+    }
+  }
+}
+
+.status-tag {
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 10px;
+  font-weight: $font-weight-bold;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border: 1px solid;
+
+  &.overdue {
+    background: get-color(error, 100);
+    color: get-color(error, 700);
+    border-color: get-color(error, 300);
+  }
+
+  &.current {
+    background: get-color(warning, 100);
+    color: get-color(warning, 700);
+    border-color: get-color(warning, 300);
+  }
+
+  &.upcoming {
+    background: get-color(accent, 100);
+    color: get-color(accent, 700);
+    border-color: get-color(accent, 300);
+  }
+
+  &.paid {
+    background: get-color(success, 100);
+    color: get-color(success, 700);
+    border-color: get-color(success, 300);
+  }
+}
+
+.no-dues {
+  text-align: center;
+  padding: $spacing-xxl;
+  background: linear-gradient(135deg, get-color(success, 25) 0%, rgba(255, 255, 255, 0.9) 100%);
+  border-radius: 12px;
+  border: 1px solid get-color(success, 100);
+}
+
+.no-dues-icon {
+  font-size: 64px;
+  width: 64px;
+  height: 64px;
+  color: get-color(success, 500);
+  margin-bottom: $spacing-md;
+}
+
+.no-dues-text {
+  @include typography-heading(24px, $font-weight-bold);
+  color: get-color(success, 700);
+  margin-bottom: $spacing-sm;
+}
+
+.no-dues-subtext {
+  @include typography-body(16px, $font-weight-regular);
+  color: get-color(success, 600);
+  margin: 0;
+}

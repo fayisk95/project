@@ -1,0 +1,177 @@
+<div class="due-overview-container">
+  <div class="overview-header">
+    <div class="header-content">
+      <h1 class="page-title">Due Management</h1>
+      <p class="page-subtitle">Monitor and manage payment dues across all clients</p>
+    </div>
+    
+    <button mat-raised-button color="primary" (click)="onViewAllDues()" class="view-all-button">
+      <mat-icon>list</mat-icon>
+      View All Dues
+    </button>
+  </div>
+
+  <!-- Statistics Cards -->
+  <div class="stats-grid" *ngIf="dueStats$ | async as stats">
+    <mat-card class="stat-card pending">
+      <mat-card-content>
+        <div class="stat-header">
+          <mat-icon class="stat-icon">schedule</mat-icon>
+          <span class="stat-label">Current Dues</span>
+        </div>
+        <div class="stat-value">{{ stats.totalPending }}</div>
+        <div class="stat-amount">{{ formatCurrency(stats.totalAmount) }}</div>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="stat-card overdue">
+      <mat-card-content>
+        <div class="stat-header">
+          <mat-icon class="stat-icon">warning</mat-icon>
+          <span class="stat-label">Overdue</span>
+        </div>
+        <div class="stat-value">{{ stats.totalOverdue }}</div>
+        <div class="stat-amount">{{ formatCurrency(stats.overdueAmount) }}</div>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="stat-card upcoming">
+      <mat-card-content>
+        <div class="stat-header">
+          <mat-icon class="stat-icon">upcoming</mat-icon>
+          <span class="stat-label">Upcoming (7 days)</span>
+        </div>
+        <div class="stat-value">{{ stats.totalUpcoming }}</div>
+        <div class="stat-amount">{{ formatCurrency(stats.upcomingAmount) }}</div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <!-- Due Categories -->
+  <div class="due-sections" *ngIf="duesByStatus$ | async as categorized">
+    
+    <!-- Overdue Dues -->
+    <mat-card class="due-section overdue-section" *ngIf="categorized.overdue.length > 0">
+      <mat-card-header>
+        <mat-card-title class="section-title">
+          <mat-icon>warning</mat-icon>
+          Overdue Payments ({{ categorized.overdue.length }})
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="due-list">
+          <div *ngFor="let due of categorized.overdue" 
+               class="due-item overdue"
+               (click)="onViewDueDetail(due)">
+            <div class="due-main">
+              <div class="due-info">
+                <span class="due-id">{{ due.dueId }}</span>
+                <span class="product-name">{{ due.productName }}</span>
+                <span class="client-name">{{ due.clientName }}</span>
+              </div>
+              <div class="due-amount">{{ formatCurrency(due.amount) }}</div>
+            </div>
+            <div class="due-meta">
+              <div class="due-dates">
+                <span class="due-date">Due: {{ formatDate(due.dueDate) }}</span>
+                <span class="expiry-date">Expired: {{ formatDate(due.expiryDate) }}</span>
+              </div>
+              <div class="due-actions">
+                <span class="status-tag overdue">{{ getDueStatusText(due) }}</span>
+                <button mat-icon-button 
+                        color="primary"
+                        (click)="markDueAsPaid(due, $event)"
+                        matTooltip="Mark as Paid">
+                  <mat-icon>payment</mat-icon>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Current Dues -->
+    <mat-card class="due-section current-section" *ngIf="categorized.pending.length > 0">
+      <mat-card-header>
+        <mat-card-title class="section-title">
+          <mat-icon>schedule</mat-icon>
+          Current Dues ({{ categorized.pending.length }})
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="due-list">
+          <div *ngFor="let due of categorized.pending" 
+               class="due-item current"
+               (click)="onViewDueDetail(due)">
+            <div class="due-main">
+              <div class="due-info">
+                <span class="due-id">{{ due.dueId }}</span>
+                <span class="product-name">{{ due.productName }}</span>
+                <span class="client-name">{{ due.clientName }}</span>
+              </div>
+              <div class="due-amount">{{ formatCurrency(due.amount) }}</div>
+            </div>
+            <div class="due-meta">
+              <div class="due-dates">
+                <span class="due-date">Due: {{ formatDate(due.dueDate) }}</span>
+                <span class="expiry-date">Expires: {{ formatDate(due.expiryDate) }}</span>
+              </div>
+              <div class="due-actions">
+                <span class="status-tag current">{{ getDueStatusText(due) }}</span>
+                <button mat-icon-button 
+                        color="primary"
+                        (click)="markDueAsPaid(due, $event)"
+                        matTooltip="Mark as Paid">
+                  <mat-icon>payment</mat-icon>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Upcoming Dues -->
+    <mat-card class="due-section upcoming-section" *ngIf="categorized.upcoming.length > 0">
+      <mat-card-header>
+        <mat-card-title class="section-title">
+          <mat-icon>upcoming</mat-icon>
+          Upcoming Payments ({{ categorized.upcoming.length }})
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="due-list">
+          <div *ngFor="let due of categorized.upcoming" 
+               class="due-item upcoming"
+               (click)="onViewDueDetail(due)">
+            <div class="due-main">
+              <div class="due-info">
+                <span class="due-id">{{ due.dueId }}</span>
+                <span class="product-name">{{ due.productName }}</span>
+                <span class="client-name">{{ due.clientName }}</span>
+              </div>
+              <div class="due-amount">{{ formatCurrency(due.amount) }}</div>
+            </div>
+            <div class="due-meta">
+              <div class="due-dates">
+                <span class="due-date">Due: {{ formatDate(due.dueDate) }}</span>
+                <span class="days-until">{{ getDaysUntilDue(due.dueDate) }} days</span>
+              </div>
+              <div class="due-actions">
+                <span class="status-tag upcoming">{{ getDueStatusText(due) }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- No Dues Message -->
+    <div class="no-dues" *ngIf="categorized.pending.length === 0 && categorized.overdue.length === 0 && categorized.upcoming.length === 0">
+      <mat-icon class="no-dues-icon">check_circle</mat-icon>
+      <p class="no-dues-text">All caught up!</p>
+      <p class="no-dues-subtext">No pending, overdue, or upcoming dues at the moment.</p>
+    </div>
+  </div>
+</div>
