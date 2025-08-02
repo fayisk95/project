@@ -1,0 +1,47 @@
+<div class="skeleton-container" [ngClass]="'skeleton-' + type">
+  <ng-container [ngSwitch]="type">
+    <!-- Text Skeleton -->
+    <div *ngSwitchCase="'text'" class="skeleton-text-container">
+      <div *ngFor="let line of skeletonLines" 
+           class="skeleton-line"
+           [style.height]="height"
+           [style.width]="line === skeletonLines.length - 1 ? '70%' : width">
+      </div>
+    </div>
+
+    <!-- Card Skeleton -->
+    <div *ngSwitchCase="'card'" class="skeleton-card">
+      <div class="skeleton-header">
+        <div class="skeleton-avatar"></div>
+        <div class="skeleton-title-group">
+          <div class="skeleton-title"></div>
+          <div class="skeleton-subtitle"></div>
+        </div>
+      </div>
+      <div class="skeleton-content">
+        <div *ngFor="let line of skeletonLines" class="skeleton-line"></div>
+      </div>
+    </div>
+
+    <!-- Table Skeleton -->
+    <div *ngSwitchCase="'table'" class="skeleton-table">
+      <div class="skeleton-table-header">
+        <div class="skeleton-table-cell" *ngFor="let col of [1,2,3,4]"></div>
+      </div>
+      <div class="skeleton-table-row" *ngFor="let row of skeletonLines">
+        <div class="skeleton-table-cell" *ngFor="let col of [1,2,3,4]"></div>
+      </div>
+    </div>
+
+    <!-- List Skeleton -->
+    <div *ngSwitchCase="'list'" class="skeleton-list">
+      <div class="skeleton-list-item" *ngFor="let item of skeletonLines">
+        <div class="skeleton-list-icon"></div>
+        <div class="skeleton-list-content">
+          <div class="skeleton-list-title"></div>
+          <div class="skeleton-list-subtitle"></div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+</div>

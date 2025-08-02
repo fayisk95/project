@@ -11,7 +11,7 @@
           </span>
         </div>
       </div>
-      
+
       <div class="amount-badge">
         <span class="amount-label">Payment Amount</span>
         <span class="amount-value">{{ formatCurrency(product.paymentAmount) }}</span>
@@ -23,7 +23,7 @@
         <mat-icon>arrow_back</mat-icon>
         Back to Products
       </button>
-      
+
       <button mat-raised-button color="primary" (click)="onEdit()">
         <mat-icon>edit</mat-icon>
         Edit Product
@@ -117,7 +117,7 @@
                 <mat-icon>receipt_long</mat-icon>
                 Payment Dues
               </h3>
-              
+
               <div class="dues-list" *ngIf="dues$ | async as dues; else noDues">
                 <div *ngFor="let due of dues" class="due-item" [ngClass]="getDueStatusClass(due)">
                   <div class="due-header">
@@ -131,7 +131,7 @@
                       </span>
                     </div>
                   </div>
-                  
+
                   <div class="due-details">
                     <div class="due-dates">
                       <div class="date-info">
@@ -143,12 +143,9 @@
                         <span>Expires: {{ formatDate(due.expiryDate) }}</span>
                       </div>
                     </div>
-                    
+
                     <div class="due-actions" *ngIf="due.status === 'pending'">
-                      <button mat-raised-button 
-                              color="primary" 
-                              size="small"
-                              (click)="markDueAsPaid(due)">
+                      <button mat-raised-button color="primary" size="small" (click)="markDueAsPaid(due)">
                         <mat-icon>payment</mat-icon>
                         Mark as Paid
                       </button>
@@ -162,7 +159,8 @@
                   <mat-icon class="no-dues-icon">receipt_long</mat-icon>
                   <p class="no-dues-text">No payment dues found</p>
                   <p class="no-dues-subtext">
-                    {{ product.isRecurring ? 'Dues will be generated automatically based on the recurring schedule' : 'This is a one-time payment product' }}
+                    {{ product.isRecurring ? 'Dues will be generated automatically based on the recurring schedule' :
+                    'This is a one-time payment product' }}
                   </p>
                 </div>
               </ng-template>

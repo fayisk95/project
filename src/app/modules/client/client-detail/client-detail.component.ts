@@ -47,6 +47,12 @@ getWhatsappLink(number: string): string {
     }
   }
 
+  onViewStatement() {
+    if (this.client) {
+      this.router.navigate(['/client-statement', this.client.id]);
+    }
+  }
+
   onBack() {
     this.router.navigate(['/clients']);
   }

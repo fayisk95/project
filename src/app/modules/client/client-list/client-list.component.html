@@ -76,9 +76,21 @@
                 </button>
                 <button mat-icon-button 
                         color="accent" 
+                        (click)="onViewStatement(client)"
+                        matTooltip="View Statement">
+                  <mat-icon>description</mat-icon>
+                </button>
+                <button mat-icon-button 
+                        color="accent" 
                         (click)="onEditClient(client)"
                         matTooltip="Edit Client">
                   <mat-icon>edit</mat-icon>
+                </button>
+                <button mat-icon-button 
+                        color="primary" 
+                        (click)="onCreateInvoice(client)"
+                        matTooltip="Create Invoice">
+                  <mat-icon>receipt_long</mat-icon>
                 </button>
                 <button mat-icon-button 
                         color="warn" 

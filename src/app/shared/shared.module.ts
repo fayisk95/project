@@ -19,6 +19,10 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { ConfirmationDialogComponent } from './components/confirmation-dialog/confirmation-dialog.component';
+import { LoadingSkeletonComponent } from './components/loading-skeleton/loading-skeleton.component';
+import { ConfirmationService } from './services/confirmation.service';
 
 const MaterialModules = [
   MatButtonModule,
@@ -39,18 +43,27 @@ const MaterialModules = [
   MatTabsModule,
   MatDatepickerModule,
   MatNativeDateModule,
-  MatCheckboxModule
+  MatCheckboxModule,
+  MatTooltipModule
 ];
 
 @NgModule({
-  declarations: [],
+  declarations: [
+    ConfirmationDialogComponent,
+    LoadingSkeletonComponent
+  ],
   imports: [
     CommonModule,
     ...MaterialModules
   ],
   exports: [
     CommonModule,
-    ...MaterialModules
+    ...MaterialModules,
+    ConfirmationDialogComponent,
+    LoadingSkeletonComponent
+  ],
+  providers: [
+    ConfirmationService
   ]
 })
 export class SharedModule { }

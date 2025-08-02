@@ -14,7 +14,7 @@ interface MenuItem {
   styleUrls: ['./sidebar.component.scss']
 })
 export class SidebarComponent {
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService) { }
 
   get userRole(): string {
     return this.authService.getCurrentUser()?.role || 'user';
@@ -45,28 +45,11 @@ export class SidebarComponent {
       label: 'Collections',
       icon: 'receipt',
       route: '/invoices'
-    },
-    {
-      label: 'Subscriptions',
-      icon: 'subscriptions',
-      route: '/subscriptions'
-    },
-    {
-      label: 'Reports',
-      icon: 'analytics',
-      route: '/reports',
-      roles: ['admin']
-    },
-    {
-      label: 'Settings',
-      icon: 'settings',
-      route: '/settings',
-      roles: ['admin']
     }
   ];
 
   getFilteredMenuItems(): MenuItem[] {
-    return this.menuItems.filter(item => 
+    return this.menuItems.filter(item =>
       !item.roles || item.roles.includes(this.userRole)
     );
   }

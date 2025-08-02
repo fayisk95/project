@@ -1,0 +1,236 @@
+<div class="statement-container" *ngIf="statement$ | async as statement">
+  <div class="statement-header">
+    <div class="header-content">
+      <div class="client-info">
+        <h1 class="page-title">Client Statement</h1>
+        <p class="client-name">{{ statement.client.nameEn }}</p>
+        <p class="client-id">{{ statement.client.clientId }}</p>
+      </div>
+      
+      <div class="outstanding-badge" 
+           [ngClass]="{'has-outstanding': statement.summary.totalOutstanding > 0}">
+        <span class="outstanding-label">Total Outstanding</span>
+        <span class="outstanding-amount">{{ formatCurrency(statement.summary.totalOutstanding) }}</span>
+      </div>
+    </div>
+
+    <div class="header-actions">
+      <button mat-button (click)="onBack()" class="back-button">
+        <mat-icon>arrow_back</mat-icon>
+        Back to Clients
+      </button>
+      
+      <button mat-raised-button color="primary" (click)="onDownloadPDF(statement)">
+        <mat-icon>download</mat-icon>
+        Download PDF
+      </button>
+    </div>
+  </div>
+
+  <!-- Summary Cards -->
+  <div class="summary-grid">
+    <mat-card class="summary-card">
+      <mat-card-content>
+        <div class="summary-header">
+          <mat-icon class="summary-icon">receipt_long</mat-icon>
+          <span class="summary-label">Total Dues</span>
+        </div>
+        <div class="summary-value">{{ statement.summary.totalDues }}</div>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="summary-card active">
+      <mat-card-content>
+        <div class="summary-header">
+          <mat-icon class="summary-icon">schedule</mat-icon>
+          <span class="summary-label">Active Dues</span>
+        </div>
+        <div class="summary-value">{{ statement.summary.activeDues }}</div>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="summary-card paid">
+      <mat-card-content>
+        <div class="summary-header">
+          <mat-icon class="summary-icon">check_circle</mat-icon>
+          <span class="summary-label">Paid Dues</span>
+        </div>
+        <div class="summary-value">{{ statement.summary.paidDues }}</div>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="summary-card overdue">
+      <mat-card-content>
+        <div class="summary-header">
+          <mat-icon class="summary-icon">warning</mat-icon>
+          <span class="summary-label">Overdue</span>
+        </div>
+        <div class="summary-value">{{ statement.summary.expiredDues }}</div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <mat-card class="statement-card">
+    <mat-tab-group class="statement-tabs" animationDuration="300ms">
+      <!-- Products Tab -->
+      <mat-tab label="Subscribed Products">
+        <ng-template matTabContent>
+          <div class="tab-content">
+            <div class="products-section">
+              <h3 class="section-title">
+                <mat-icon>inventory_2</mat-icon>
+                Active Products & Services
+              </h3>
+              
+              <div class="products-list" *ngIf="statement.products.length > 0; else noProducts">
+                <div *ngFor="let product of statement.products" class="product-item">
+                  <div class="product-header">
+                    <div class="product-info">
+                      <span class="product-name">{{ product.name }}</span>
+                      <span class="product-id">{{ product.productId }}</span>
+                    </div>
+                    <div class="product-amount">{{ formatCurrency(product.paymentAmount) }}</div>
+                  </div>
+                  
+                  <div class="product-details">
+                    <div class="product-meta">
+                      <div class="meta-item">
+                        <mat-icon>repeat</mat-icon>
+                        <span>{{ product.isRecurring ? 'Recurring (' + product.recurringFrequency + ')' : 'One-time' }}</span>
+                      </div>
+                      <div class="meta-item" *ngIf="product.nextDueDate">
+                        <mat-icon>schedule</mat-icon>
+                        <span>Next due: {{ formatDate(product.nextDueDate) }}</span>
+                      </div>
+                      <div class="meta-item">
+                        <mat-icon>{{ product.isActive ? 'check_circle' : 'cancel' }}</mat-icon>
+                        <span>{{ product.isActive ? 'Active' : 'Inactive' }}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <ng-template #noProducts>
+                <div class="no-items">
+                  <mat-icon class="no-items-icon">inventory_2</mat-icon>
+                  <p class="no-items-text">No products found</p>
+                  <p class="no-items-subtext">This client has no subscribed products.</p>
+                </div>
+              </ng-template>
+            </div>
+          </div>
+        </ng-template>
+      </mat-tab>
+
+      <!-- Dues Tab -->
+      <mat-tab label="Payment Dues">
+        <ng-template matTabContent>
+          <div class="tab-content">
+            <div class="dues-section">
+              <h3 class="section-title">
+                <mat-icon>receipt_long</mat-icon>
+                Payment Dues History
+              </h3>
+              
+              <div class="dues-list" *ngIf="statement.dues.length > 0; else noDues">
+                <div *ngFor="let due of statement.dues" 
+                     class="due-item" 
+                     [ngClass]="getDueStatusClass(due)">
+                  <div class="due-header">
+                    <div class="due-info">
+                      <span class="due-id">{{ due.dueId }}</span>
+                      <span class="product-name">{{ due.productName }}</span>
+                    </div>
+                    <div class="due-amount">{{ formatCurrency(due.amount) }}</div>
+                  </div>
+                  
+                  <div class="due-details">
+                    <div class="due-dates">
+                      <div class="date-info">
+                        <mat-icon>event</mat-icon>
+                        <span>Due: {{ formatDate(due.dueDate) }}</span>
+                      </div>
+                      <div class="date-info">
+                        <mat-icon>schedule</mat-icon>
+                        <span>Expires: {{ formatDate(due.expiryDate) }}</span>
+                      </div>
+                    </div>
+                    <div class="due-status">
+                      <span class="status-badge" [ngClass]="getDueStatusClass(due)">
+                        {{ getDueStatusText(due) }}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <ng-template #noDues>
+                <div class="no-items">
+                  <mat-icon class="no-items-icon">receipt_long</mat-icon>
+                  <p class="no-items-text">No dues found</p>
+                  <p class="no-items-subtext">No payment dues have been generated for this client.</p>
+                </div>
+              </ng-template>
+            </div>
+          </div>
+        </ng-template>
+      </mat-tab>
+
+      <!-- Payments Tab -->
+      <mat-tab label="Payment History">
+        <ng-template matTabContent>
+          <div class="tab-content">
+            <div class="payments-section">
+              <h3 class="section-title">
+                <mat-icon>payment</mat-icon>
+                Payment Collection History
+              </h3>
+              
+              <div class="payments-list" *ngIf="statement.payments.length > 0; else noPayments">
+                <div *ngFor="let payment of statement.payments" class="payment-item">
+                  <div class="payment-header">
+                    <div class="payment-info">
+                      <span class="payment-id">{{ payment.paymentId }}</span>
+                      <span class="payment-amount">{{ formatCurrency(payment.amount) }}</span>
+                    </div>
+                    <div class="payment-date">{{ formatDate(payment.paymentDate) }}</div>
+                  </div>
+                  
+                  <div class="payment-details">
+                    <div class="payment-method">
+                      <mat-icon>credit_card</mat-icon>
+                      <span>{{ getPaymentMethodText(payment.paymentMethod) }}</span>
+                    </div>
+                    <div class="payment-reference" *ngIf="payment.reference">
+                      <mat-icon>confirmation_number</mat-icon>
+                      <span>Ref: {{ payment.reference }}</span>
+                    </div>
+                  </div>
+                  
+                  <div class="payment-notes" *ngIf="payment.notes">
+                    <p>{{ payment.notes }}</p>
+                  </div>
+                </div>
+              </div>
+
+              <ng-template #noPayments>
+                <div class="no-items">
+                  <mat-icon class="no-items-icon">payment</mat-icon>
+                  <p class="no-items-text">No payments found</p>
+                  <p class="no-items-subtext">No payments have been collected from this client.</p>
+                </div>
+              </ng-template>
+            </div>
+          </div>
+        </ng-template>
+      </mat-tab>
+    </mat-tab-group>
+  </mat-card>
+</div>
+
+<!-- Loading State -->
+<div class="loading-container" *ngIf="isLoading">
+  <mat-progress-spinner mode="indeterminate" diameter="50"></mat-progress-spinner>
+  <p>Loading client statement...</p>
+</div>

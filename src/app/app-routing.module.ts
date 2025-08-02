@@ -38,6 +38,11 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
+    path: 'client-statement',
+    loadChildren: () => import('./modules/client-statement/client-statement.module').then(m => m.ClientStatementModule),
+    canActivate: [AuthGuard]
+  },
+  {
     path: '**',
     redirectTo: '/dashboard'
   }

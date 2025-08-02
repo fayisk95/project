@@ -1,0 +1,551 @@
+@import '../../../../styles/global.scss';
+
+.statement-container {
+  margin: 0 auto;
+  padding: $spacing-md;
+  background: transparent;
+}
+
+.statement-header {
+  margin-bottom: $spacing-md;
+  padding: $spacing-md;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 255, 0.95) 100%);
+  border-radius: 12px;
+  border: 1px solid get-color(primary, 100);
+  box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.1);
+  backdrop-filter: blur(10px);
+
+  .header-content {
+    @include flex-between;
+    align-items: flex-start;
+    margin-bottom: $spacing-sm;
+
+    @include responsive-breakpoint(mobile) {
+      flex-direction: column;
+      gap: $spacing-sm;
+    }
+  }
+
+  .client-info {
+    .page-title {
+      @include typography-heading(24px, $font-weight-semibold);
+      margin-bottom: 4px;
+      color: get-color(neutral, 900);
+      letter-spacing: -0.02em;
+    }
+
+    .client-name {
+      @include typography-body(16px, $font-weight-medium);
+      color: get-color(primary, 700);
+      margin: 0 0 4px 0;
+    }
+
+    .client-id {
+      @include typography-body(12px, $font-weight-regular);
+      color: get-color(neutral, 600);
+      margin: 0;
+      font-family: monospace;
+      background: get-color(primary, 50);
+      padding: 2px 6px;
+      border-radius: 4px;
+      border: 1px solid get-color(primary, 200);
+      display: inline-block;
+    }
+  }
+
+  .outstanding-badge {
+    text-align: right;
+    padding: $spacing-sm;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, get-color(primary, 25) 100%);
+    border: 1px solid get-color(primary, 200);
+    border-radius: 8px;
+    box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.1);
+    min-width: 140px;
+
+    &.has-outstanding {
+      background: linear-gradient(135deg, get-color(warning, 100) 0%, get-color(warning, 50) 100%);
+      border-color: get-color(warning, 300);
+      box-shadow: 0 4px 6px -1px rgba(245, 158, 11, 0.3);
+    }
+
+    .outstanding-label {
+      display: block;
+      @include typography-body(10px, $font-weight-regular);
+      color: get-color(neutral, 600);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 2px;
+    }
+
+    .outstanding-amount {
+      @include typography-heading(18px, $font-weight-semibold);
+      color: get-color(neutral, 800);
+
+      .has-outstanding & {
+        color: get-color(warning, 700);
+      }
+    }
+  }
+
+  .header-actions {
+    @include flex-center;
+    gap: $spacing-sm;
+
+    @include responsive-breakpoint(mobile) {
+      width: 100%;
+      justify-content: space-between;
+    }
+  }
+
+  .back-button {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+}
+
+.summary-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: $spacing-md;
+  margin-bottom: $spacing-md;
+
+  @include responsive-breakpoint(mobile) {
+    grid-template-columns: 1fr 1fr;
+    gap: $spacing-sm;
+  }
+}
+
+.summary-card {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(248, 250, 255, 0.9) 100%);
+  border: 1px solid get-color(primary, 100);
+  box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.1);
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+  }
+
+  &.active::before {
+    background: linear-gradient(135deg, get-color(warning, 500) 0%, get-color(warning, 600) 100%);
+  }
+
+  &.paid::before {
+    background: linear-gradient(135deg, get-color(success, 500) 0%, get-color(success, 600) 100%);
+  }
+
+  &.overdue::before {
+    background: linear-gradient(135deg, get-color(error, 500) 0%, get-color(error, 600) 100%);
+  }
+
+  .summary-header {
+    display: flex;
+    align-items: center;
+    gap: $spacing-xs;
+    margin-bottom: $spacing-sm;
+
+    .summary-icon {
+      width: 20px;
+      height: 20px;
+      font-size: 20px;
+      color: get-color(primary, 600);
+    }
+
+    .summary-label {
+      @include typography-body(12px, $font-weight-medium);
+      color: get-color(neutral, 700);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+  }
+
+  .summary-value {
+    @include typography-heading(24px, $font-weight-bold);
+    color: get-color(neutral, 900);
+    letter-spacing: -0.02em;
+  }
+
+  &.active {
+    .summary-icon { color: get-color(warning, 600); }
+    .summary-value { color: get-color(warning, 700); }
+  }
+
+  &.paid {
+    .summary-icon { color: get-color(success, 600); }
+    .summary-value { color: get-color(success, 700); }
+  }
+
+  &.overdue {
+    .summary-icon { color: get-color(error, 600); }
+    .summary-value { color: get-color(error, 700); }
+  }
+}
+
+.statement-card {
+  overflow: visible;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 255, 0.95) 100%);
+  border: 1px solid get-color(primary, 100);
+  box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.1);
+  backdrop-filter: blur(10px);
+}
+
+.statement-tabs {
+  .mat-tab-header {
+    border-bottom: 2px solid get-color(primary, 100);
+    background: linear-gradient(135deg, get-color(primary, 25) 0%, rgba(255, 255, 255, 0.8) 100%);
+    border-radius: 8px 8px 0 0;
+  }
+
+  .mat-tab-label {
+    font-weight: $font-weight-medium;
+    color: get-color(neutral, 700);
+    opacity: 0.7;
+    transition: all 0.3s ease;
+
+    &.mat-tab-label-active {
+      opacity: 1;
+      color: get-color(neutral, 900);
+    }
+  }
+
+  .mat-ink-bar {
+    background-color: get-color(primary, 500);
+    height: 3px;
+    border-radius: 2px;
+  }
+}
+
+.tab-content {
+  padding: $spacing-md;
+  min-height: 400px;
+}
+
+.section-title {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  @include typography-heading(15px, $font-weight-semibold);
+  margin-bottom: $spacing-md;
+  padding-bottom: 6px;
+  color: get-color(neutral, 800);
+  border-bottom: 2px solid get-color(primary, 200);
+  letter-spacing: -0.01em;
+
+  mat-icon {
+    color: get-color(primary, 600);
+    font-size: 18px;
+    width: 18px;
+    height: 18px;
+  }
+}
+
+.products-list,
+.dues-list,
+.payments-list {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-sm;
+}
+
+.product-item,
+.due-item,
+.payment-item {
+  padding: $spacing-md;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(248, 250, 255, 0.9) 100%);
+  border-radius: 8px;
+  border: 1px solid get-color(primary, 100);
+  box-shadow: 0 2px 4px rgba(37, 99, 235, 0.1);
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(37, 99, 235, 0.15);
+  }
+}
+
+.due-item {
+  &.paid {
+    background: linear-gradient(135deg, get-color(success, 50) 0%, rgba(255, 255, 255, 0.9) 100%);
+    border-color: get-color(success, 200);
+  }
+
+  &.overdue {
+    background: linear-gradient(135deg, get-color(error, 50) 0%, rgba(255, 255, 255, 0.9) 100%);
+    border-color: get-color(error, 200);
+  }
+
+  &.current {
+    background: linear-gradient(135deg, get-color(warning, 50) 0%, rgba(255, 255, 255, 0.9) 100%);
+    border-color: get-color(warning, 200);
+  }
+
+  &.upcoming {
+    background: linear-gradient(135deg, get-color(accent, 50) 0%, rgba(255, 255, 255, 0.9) 100%);
+    border-color: get-color(accent, 200);
+  }
+}
+
+.product-header,
+.due-header,
+.payment-header {
+  @include flex-between;
+  margin-bottom: $spacing-sm;
+
+  .product-info,
+  .due-info,
+  .payment-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+
+    .product-name {
+      @include typography-body(14px, $font-weight-semibold);
+      color: get-color(neutral, 900);
+    }
+
+    .product-id,
+    .due-id,
+    .payment-id {
+      font-family: monospace;
+      font-size: 11px;
+      font-weight: $font-weight-medium;
+      color: get-color(neutral, 700);
+      background: rgba(255, 255, 255, 0.8);
+      padding: 2px 6px;
+      border-radius: 4px;
+      border: 1px solid get-color(primary, 200);
+      align-self: flex-start;
+    }
+  }
+
+  .payment-info {
+    flex-direction: row;
+    align-items: center;
+    gap: $spacing-sm;
+  }
+
+  .product-amount,
+  .due-amount,
+  .payment-amount {
+    @include typography-body(16px, $font-weight-semibold);
+    color: get-color(neutral, 800);
+  }
+
+  .payment-amount {
+    color: get-color(success, 700);
+  }
+}
+
+.product-details,
+.due-details,
+.payment-details {
+  .product-meta {
+    display: flex;
+    gap: $spacing-md;
+    flex-wrap: wrap;
+
+    @include responsive-breakpoint(mobile) {
+      flex-direction: column;
+      gap: $spacing-xs;
+    }
+
+    .meta-item {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+
+      mat-icon {
+        font-size: 16px;
+        width: 16px;
+        height: 16px;
+        color: get-color(primary, 500);
+      }
+
+      span {
+        @include typography-body(12px, $font-weight-regular);
+        color: get-color(neutral, 600);
+      }
+    }
+  }
+
+  .due-dates {
+    display: flex;
+    gap: $spacing-md;
+
+    @include responsive-breakpoint(mobile) {
+      flex-direction: column;
+      gap: $spacing-xs;
+    }
+
+    .date-info {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+
+      mat-icon {
+        font-size: 16px;
+        width: 16px;
+        height: 16px;
+        color: get-color(primary, 500);
+      }
+
+      span {
+        @include typography-body(12px, $font-weight-regular);
+        color: get-color(neutral, 600);
+      }
+    }
+  }
+
+  @include flex-between;
+  align-items: flex-end;
+
+  @include responsive-breakpoint(mobile) {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: $spacing-sm;
+  }
+}
+
+.due-status {
+  .status-badge {
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 10px;
+    font-weight: $font-weight-bold;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border: 1px solid;
+
+    &.paid {
+      background: get-color(success, 100);
+      color: get-color(success, 700);
+      border-color: get-color(success, 300);
+    }
+
+    &.overdue {
+      background: get-color(error, 100);
+      color: get-color(error, 700);
+      border-color: get-color(error, 300);
+    }
+
+    &.current {
+      background: get-color(warning, 100);
+      color: get-color(warning, 700);
+      border-color: get-color(warning, 300);
+    }
+
+    &.upcoming {
+      background: get-color(accent, 100);
+      color: get-color(accent, 700);
+      border-color: get-color(accent, 300);
+    }
+
+    &.future {
+      background: get-color(neutral, 100);
+      color: get-color(neutral, 600);
+      border-color: get-color(neutral, 300);
+    }
+
+    &.cancelled {
+      background: get-color(neutral, 100);
+      color: get-color(neutral, 600);
+      border-color: get-color(neutral, 300);
+    }
+  }
+}
+
+.payment-details {
+  display: flex;
+  gap: $spacing-md;
+  margin-bottom: $spacing-xs;
+
+  @include responsive-breakpoint(mobile) {
+    flex-direction: column;
+    gap: $spacing-xs;
+  }
+
+  .payment-method,
+  .payment-reference {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+
+    mat-icon {
+      font-size: 16px;
+      width: 16px;
+      height: 16px;
+      color: get-color(primary, 500);
+    }
+
+    span {
+      @include typography-body(12px, $font-weight-regular);
+      color: get-color(neutral, 600);
+    }
+  }
+}
+
+.payment-date {
+  @include typography-body(12px, $font-weight-regular);
+  color: get-color(neutral, 600);
+}
+
+.payment-notes {
+  p {
+    @include typography-body(12px, $font-weight-regular);
+    color: get-color(neutral, 600);
+    margin: 0;
+    font-style: italic;
+  }
+}
+
+.no-items {
+  text-align: center;
+  padding: $spacing-xxl;
+  background: linear-gradient(135deg, get-color(primary, 25) 0%, rgba(255, 255, 255, 0.9) 100%);
+  border-radius: 12px;
+  border: 1px solid get-color(primary, 100);
+}
+
+.no-items-icon {
+  font-size: 64px;
+  width: 64px;
+  height: 64px;
+  color: get-color(primary, 400);
+  margin-bottom: $spacing-md;
+}
+
+.no-items-text {
+  @include typography-heading(20px, $font-weight-bold);
+  color: get-color(primary, 600);
+  margin-bottom: $spacing-sm;
+}
+
+.no-items-subtext {
+  @include typography-body(16px, $font-weight-regular);
+  color: get-color(primary, 500);
+  margin: 0;
+}
+
+.loading-container {
+  @include flex-center;
+  flex-direction: column;
+  gap: $spacing-sm;
+  padding: $spacing-xl;
+  text-align: center;
+  background: linear-gradient(135deg, get-color(primary, 25) 0%, rgba(255, 255, 255, 0.9) 100%);
+  border-radius: 8px;
+  margin: $spacing-md;
+  border: 1px solid get-color(primary, 100);
+
+  p {
+    @include typography-body(16px, $font-weight-medium);
+    color: get-color(primary, 600);
+    margin: 0;
+  }
+}

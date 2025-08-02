@@ -1,0 +1,81 @@
+@import '../../../../styles/global.scss';
+
+.confirmation-dialog {
+  min-width: 400px;
+  max-width: 500px;
+
+  @include responsive-breakpoint(mobile) {
+    min-width: 300px;
+  }
+}
+
+.dialog-header {
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+  padding: $spacing-lg;
+  border-radius: 8px 8px 0 0;
+  margin: -24px -24px $spacing-md -24px;
+
+  &.dialog-warning {
+    background: linear-gradient(135deg, get-color(warning, 50) 0%, get-color(warning, 25) 100%);
+    border-bottom: 2px solid get-color(warning, 200);
+  }
+
+  &.dialog-danger {
+    background: linear-gradient(135deg, get-color(error, 50) 0%, get-color(error, 25) 100%);
+    border-bottom: 2px solid get-color(error, 200);
+  }
+
+  &.dialog-info {
+    background: linear-gradient(135deg, get-color(accent, 50) 0%, get-color(accent, 25) 100%);
+    border-bottom: 2px solid get-color(accent, 200);
+  }
+}
+
+.dialog-icon {
+  font-size: 32px;
+  width: 32px;
+  height: 32px;
+
+  .dialog-warning & {
+    color: get-color(warning, 600);
+  }
+
+  .dialog-danger & {
+    color: get-color(error, 600);
+  }
+
+  .dialog-info & {
+    color: get-color(accent, 600);
+  }
+}
+
+.dialog-title {
+  @include typography-heading(20px, $font-weight-semibold);
+  margin: 0;
+  color: get-color(neutral, 900);
+}
+
+.dialog-content {
+  padding: $spacing-md 0;
+}
+
+.dialog-message {
+  @include typography-body(16px, $font-weight-regular);
+  color: get-color(neutral, 700);
+  margin: 0;
+  line-height: 1.5;
+}
+
+.dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: $spacing-sm;
+  margin-top: $spacing-lg;
+}
+
+.cancel-button,
+.confirm-button {
+  min-width: 80px;
+}
