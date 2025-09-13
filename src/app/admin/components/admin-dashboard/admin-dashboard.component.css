@@ -45,6 +45,68 @@
   margin-bottom: 16px;
 }
 
+/* Fix Material Form Field Visibility */
+::ng-deep .mat-form-field {
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+::ng-deep .mat-form-field .mat-form-field-wrapper {
+  padding-bottom: 1.25em;
+}
+
+::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline {
+  color: rgba(0, 0, 0, 0.12);
+}
+
+::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline-thick {
+  color: var(--primary-blue);
+}
+
+::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline-start,
+::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline-gap,
+::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline-end {
+  border-color: rgba(0, 0, 0, 0.12);
+  border-width: 1px;
+  border-style: solid;
+}
+
+::ng-deep .mat-form-field-appearance-outline:not(.mat-form-field-disabled) .mat-form-field-flex:hover .mat-form-field-outline {
+  color: rgba(0, 0, 0, 0.87);
+}
+
+::ng-deep .mat-form-field-appearance-outline.mat-focused .mat-form-field-outline-thick {
+  color: var(--primary-blue);
+}
+
+::ng-deep .mat-input-element {
+  color: var(--dark-text);
+  background: transparent;
+}
+
+::ng-deep .mat-form-field-label {
+  color: rgba(0, 0, 0, 0.6);
+}
+
+::ng-deep .mat-focused .mat-form-field-label {
+  color: var(--primary-blue);
+}
+
+::ng-deep .mat-form-field-appearance-outline .mat-form-field-infix {
+  padding: 1em 0 1em 0;
+  border-top: 0;
+}
+
+::ng-deep .mat-form-field-appearance-outline .mat-form-field-label {
+  top: 1.84375em;
+  margin-top: -0.25em;
+}
+
+::ng-deep .mat-form-field-appearance-outline.mat-form-field-can-float.mat-form-field-should-float .mat-form-field-label {
+  transform: translateY(-1.59375em) scale(0.75);
+  width: 133.33333%;
+}
+
 .row {
   display: flex;
   flex-wrap: wrap;

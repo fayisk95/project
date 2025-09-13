@@ -51,6 +51,33 @@
   margin-bottom: 16px;
 }
 
+/* Fix Material Form Field Visibility */
+::ng-deep .mat-form-field {
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline {
+  color: rgba(0, 0, 0, 0.12);
+}
+
+::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline-thick {
+  color: var(--primary-blue);
+}
+
+::ng-deep .mat-input-element {
+  color: var(--dark-text);
+  background: transparent;
+}
+
+::ng-deep .mat-form-field-label {
+  color: rgba(0, 0, 0, 0.6);
+}
+
+::ng-deep .mat-focused .mat-form-field-label {
+  color: var(--primary-blue);
+}
+
 .row {
   display: flex;
   flex-wrap: wrap;
