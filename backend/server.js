@@ -97,6 +97,14 @@ const QuotationAdditionalCharge = sequelize.define('QuotationAdditionalCharge', 
   total: { type: DataTypes.DECIMAL(10, 2), allowNull: false }
 });
 
+const Customer = sequelize.define('Customer', {
+  companyName: { type: DataTypes.STRING, allowNull: false },
+  contactName: { type: DataTypes.STRING, allowNull: false },
+  email: { type: DataTypes.STRING, allowNull: false },
+  phone: { type: DataTypes.STRING, allowNull: false },
+  address: { type: DataTypes.TEXT, allowNull: false }
+});
+
 const BRD = sequelize.define('BRD', {
   content: { type: DataTypes.TEXT, allowNull: false }
 });
@@ -193,6 +201,76 @@ app.get('/api/quotations', authenticateToken, async (req, res) => {
     res.json(quotations);
   } catch (error) {
     console.error('Error fetching quotations:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+// Customer routes
+app.get('/api/customers', authenticateToken, async (req, res) => {
+  try {
+    const customers = await Customer.findAll({
+      order: [['createdAt', 'DESC']]
+    });
+    res.json(customers);
+  } catch (error) {
+    console.error('Error fetching customers:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+app.get('/api/customers/:id', authenticateToken, async (req, res) => {
+  try {
+    const customer = await Customer.findByPk(req.params.id);
+    
+    if (!customer) {
+      return res.status(404).json({ message: 'Customer not found' });
+    }
+    
+    res.json(customer);
+  } catch (error) {
+    console.error('Error fetching customer:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+app.post('/api/customers', authenticateToken, async (req, res) => {
+  try {
+    const customer = await Customer.create(req.body);
+    res.status(201).json(customer);
+  } catch (error) {
+    console.error('Error creating customer:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+app.put('/api/customers/:id', authenticateToken, async (req, res) => {
+  try {
+    const customer = await Customer.findByPk(req.params.id);
+    
+    if (!customer) {
+      return res.status(404).json({ message: 'Customer not found' });
+    }
+    
+    await customer.update(req.body);
+    res.json(customer);
+  } catch (error) {
+    console.error('Error updating customer:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+app.delete('/api/customers/:id', authenticateToken, async (req, res) => {
+  try {
+    const customer = await Customer.findByPk(req.params.id);
+    
+    if (!customer) {
+      return res.status(404).json({ message: 'Customer not found' });
+    }
+    
+    await customer.destroy();
+    res.status(204).send();
+  } catch (error) {
+    console.error('Error deleting customer:', error);
     res.status(500).json({ message: 'Internal server error' });
   }
 });

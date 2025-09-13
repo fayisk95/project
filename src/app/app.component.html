@@ -1,46 +1,76 @@
 <div class="app-container">
-  <!-- Header -->
-  <mat-toolbar class="app-header" *ngIf="isLoggedIn">
-    <span class="logo">
-      <mat-icon>description</mat-icon>
-      {{ title }}
-    </span>
-    
-    <div class="nav-links">
-      <button mat-button routerLink="/quotations" routerLinkActive="active">
-        <mat-icon>assignment</mat-icon>
-        Quotations
-      </button>
-      <button mat-button routerLink="/brds" routerLinkActive="active">
-        <mat-icon>article</mat-icon>
-        BRDs
-      </button>
-      <button mat-button routerLink="/admin" routerLinkActive="active" *ngIf="isAdmin()">
-        <mat-icon>settings</mat-icon>
-        Admin
-      </button>
-    </div>
-
-    <div class="user-menu">
-      <button mat-icon-button [matMenuTriggerFor]="menu">
-        <mat-icon>account_circle</mat-icon>
-      </button>
-      <mat-menu #menu="matMenu">
-        <div class="user-info">
-          <strong>{{ userName }}</strong><br>
-          <small>{{ userRole }}</small>
+  <mat-sidenav-container class="sidenav-container" *ngIf="isLoggedIn">
+    <!-- Sidebar -->
+    <mat-sidenav #drawer class="sidenav" fixedInViewport mode="side" opened>
+      <div class="sidenav-header">
+        <div class="logo">
+          <mat-icon>description</mat-icon>
+          <span class="logo-text">SmartDocs</span>
         </div>
+      </div>
+      
+      <mat-nav-list class="nav-list">
+        <a mat-list-item routerLink="/quotations" routerLinkActive="active-nav-item">
+          <mat-icon matListItemIcon>assignment</mat-icon>
+          <span matListItemTitle>Quotations</span>
+        </a>
+        <a mat-list-item routerLink="/brds" routerLinkActive="active-nav-item">
+          <mat-icon matListItemIcon>article</mat-icon>
+          <span matListItemTitle>BRDs</span>
+        </a>
+        <a mat-list-item routerLink="/customers" routerLinkActive="active-nav-item">
+          <mat-icon matListItemIcon>people</mat-icon>
+          <span matListItemTitle>Customers</span>
+        </a>
+        <a mat-list-item routerLink="/admin" routerLinkActive="active-nav-item" *ngIf="isAdmin()">
+          <mat-icon matListItemIcon>settings</mat-icon>
+          <span matListItemTitle>Admin</span>
+        </a>
+      </mat-nav-list>
+      
+      <div class="sidenav-footer">
         <mat-divider></mat-divider>
-        <button mat-menu-item (click)="logout()">
-          <mat-icon>logout</mat-icon>
-          <span>Logout</span>
-        </button>
-      </mat-menu>
-    </div>
-  </mat-toolbar>
+        <div class="user-info">
+          <div class="user-avatar">
+            <mat-icon>account_circle</mat-icon>
+          </div>
+          <div class="user-details">
+            <div class="user-name">{{ userName }}</div>
+            <div class="user-role">{{ userRole }}</div>
+          </div>
+          <button mat-icon-button [matMenuTriggerFor]="menu" class="user-menu-button">
+            <mat-icon>more_vert</mat-icon>
+          </button>
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item (click)="logout()">
+              <mat-icon>logout</mat-icon>
+              <span>Logout</span>
+            </button>
+          </mat-menu>
+        </div>
+      </div>
+    </mat-sidenav>
 
-  <!-- Main Content -->
-  <main class="main-content" [class.with-header]="isLoggedIn">
+    <!-- Main Content -->
+    <mat-sidenav-content class="main-content">
+      <!-- Top Header -->
+      <mat-toolbar class="top-header">
+        <button mat-icon-button (click)="drawer.toggle()" class="menu-toggle">
+          <mat-icon>menu</mat-icon>
+        </button>
+        <span class="page-title">{{ getPageTitle() }}</span>
+        <span class="spacer"></span>
+      </mat-toolbar>
+      
+      <!-- Page Content -->
+      <div class="page-content">
+        <router-outlet></router-outlet>
+      </div>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+
+  <!-- Login Content (when not logged in) -->
+  <main class="login-content" *ngIf="!isLoggedIn">
     <router-outlet></router-outlet>
   </main>
 </div>

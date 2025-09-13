@@ -17,6 +17,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 // Components
 import { QuotationListComponent } from './components/quotation-list/quotation-list.component';
@@ -24,7 +25,6 @@ import { QuotationFormComponent } from './components/quotation-form/quotation-fo
 import { QuotationDetailComponent } from './components/quotation-detail/quotation-detail.component';
 import { ModuleDialogComponent } from './components/module-dialog/module-dialog.component';
 import { AdditionalChargesDialogComponent } from './components/additional-charges-dialog/additional-charges-dialog.component';
-import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 const routes = [
   { path: '', component: QuotationListComponent },

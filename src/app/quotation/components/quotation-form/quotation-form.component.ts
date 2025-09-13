@@ -6,6 +6,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { QuotationService, Quotation, QuotationModule, AdditionalCharge } from '../../services/quotation.service';
 import { ModuleDialogComponent } from '../module-dialog/module-dialog.component';
 import { AdditionalChargesDialogComponent } from '../additional-charges-dialog/additional-charges-dialog.component';
+import { CustomerService, Customer } from '../../../customer/services/customer.service';
 
 @Component({
   selector: 'app-quotation-form',
@@ -19,10 +20,13 @@ export class QuotationFormComponent implements OnInit {
   isLoading = false;
   modules: QuotationModule[] = [];
   additionalCharges: AdditionalCharge[] = [];
+  customers: Customer[] = [];
+  selectedCustomer: Customer | null = null;
 
   constructor(
     private fb: FormBuilder,
     private quotationService: QuotationService,
+    private customerService: CustomerService,
     private router: Router,
     private route: ActivatedRoute,
     private snackBar: MatSnackBar,
@@ -31,12 +35,14 @@ export class QuotationFormComponent implements OnInit {
 
   ngOnInit() {
     this.initializeForm();
+    this.loadCustomers();
     this.checkEditMode();
   }
 
   initializeForm() {
     this.quotationForm = this.fb.group({
       projectTitle: ['', Validators.required],
+      customerId: [''],
       clientCompany: ['', Validators.required],
       clientName: ['', Validators.required],
       clientEmail: ['', [Validators.required, Validators.email]],
@@ -52,6 +58,51 @@ export class QuotationFormComponent implements OnInit {
       discountValue: [0, [Validators.min(0)]],
       taxPercent: [5, [Validators.min(0), Validators.max(100)]]
     });
+
+    // Watch for customer selection changes
+    this.quotationForm.get('customerId')?.valueChanges.subscribe(customerId => {
+      this.onCustomerSelected(customerId);
+    });
+  }
+
+  loadCustomers() {
+    this.customerService.getAllCustomers().subscribe({
+      next: (customers) => {
+        this.customers = customers;
+      },
+      error: (error) => {
+        console.error('Error loading customers:', error);
+        this.snackBar.open('Error loading customers', 'Close', {
+          duration: 3000,
+          panelClass: ['error-snackbar']
+        });
+      }
+    });
+  }
+
+  onCustomerSelected(customerId: number) {
+    if (customerId) {
+      const customer = this.customers.find(c => c.id === customerId);
+      if (customer) {
+        this.selectedCustomer = customer;
+        this.quotationForm.patchValue({
+          clientCompany: customer.companyName,
+          clientName: customer.contactName,
+          clientEmail: customer.email,
+          clientPhone: customer.phone,
+          clientAddress: customer.address
+        });
+      }
+    } else {
+      this.selectedCustomer = null;
+      this.quotationForm.patchValue({
+        clientCompany: '',
+        clientName: '',
+        clientEmail: '',
+        clientPhone: '',
+        clientAddress: ''
+      });
+    }
   }
 
   checkEditMode() {

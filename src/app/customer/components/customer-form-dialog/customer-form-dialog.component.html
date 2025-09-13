@@ -1,0 +1,60 @@
+<h2 mat-dialog-title>{{ isEditMode ? 'Edit Customer' : 'Add Customer' }}</h2>
+
+<mat-dialog-content>
+  <form [formGroup]="customerForm">
+    <mat-form-field class="form-field" appearance="outline">
+      <mat-label>Company Name</mat-label>
+      <input matInput formControlName="companyName" required>
+      <mat-error *ngIf="customerForm.get('companyName')?.hasError('required')">
+        Company name is required
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="form-field" appearance="outline">
+      <mat-label>Contact Person</mat-label>
+      <input matInput formControlName="contactName" required>
+      <mat-error *ngIf="customerForm.get('contactName')?.hasError('required')">
+        Contact name is required
+      </mat-error>
+    </mat-form-field>
+
+    <div class="row">
+      <div class="col">
+        <mat-form-field class="form-field" appearance="outline">
+          <mat-label>Email</mat-label>
+          <input matInput type="email" formControlName="email" required>
+          <mat-error *ngIf="customerForm.get('email')?.hasError('required')">
+            Email is required
+          </mat-error>
+          <mat-error *ngIf="customerForm.get('email')?.hasError('email')">
+            Please enter a valid email
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col">
+        <mat-form-field class="form-field" appearance="outline">
+          <mat-label>Phone</mat-label>
+          <input matInput formControlName="phone" required>
+          <mat-error *ngIf="customerForm.get('phone')?.hasError('required')">
+            Phone is required
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <mat-form-field class="form-field" appearance="outline">
+      <mat-label>Address</mat-label>
+      <textarea matInput rows="3" formControlName="address" required></textarea>
+      <mat-error *ngIf="customerForm.get('address')?.hasError('required')">
+        Address is required
+      </mat-error>
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onCancel()">Cancel</button>
+  <button mat-raised-button color="primary" (click)="onSubmit()" [disabled]="!customerForm.valid">
+    {{ isEditMode ? 'Update' : 'Add' }}
+  </button>
+</mat-dialog-actions>
