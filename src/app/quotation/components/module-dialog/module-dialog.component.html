@@ -1,0 +1,55 @@
+<h2 mat-dialog-title>{{ isEditMode ? 'Edit Module' : 'Add Module' }}</h2>
+
+<mat-dialog-content>
+  <form [formGroup]="moduleForm">
+    <mat-form-field class="form-field" appearance="outline">
+      <mat-label>Module Name</mat-label>
+      <input matInput formControlName="name" required>
+      <mat-error *ngIf="moduleForm.get('name')?.hasError('required')">
+        Module name is required
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="form-field" appearance="outline">
+      <mat-label>Description</mat-label>
+      <textarea matInput rows="3" formControlName="description" required></textarea>
+      <mat-error *ngIf="moduleForm.get('description')?.hasError('required')">
+        Description is required
+      </mat-error>
+    </mat-form-field>
+
+    <div class="row">
+      <div class="col">
+        <mat-form-field class="form-field" appearance="outline">
+          <mat-label>Estimated Hours</mat-label>
+          <input matInput type="number" formControlName="hours" required min="1">
+          <mat-error *ngIf="moduleForm.get('hours')?.hasError('required')">
+            Hours is required
+          </mat-error>
+          <mat-error *ngIf="moduleForm.get('hours')?.hasError('min')">
+            Hours must be at least 1
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col">
+        <mat-form-field class="form-field" appearance="outline">
+          <mat-label>Cost ($)</mat-label>
+          <input matInput type="number" formControlName="cost" required min="0">
+          <mat-error *ngIf="moduleForm.get('cost')?.hasError('required')">
+            Cost is required
+          </mat-error>
+          <mat-error *ngIf="moduleForm.get('cost')?.hasError('min')">
+            Cost must be 0 or greater
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onCancel()">Cancel</button>
+  <button mat-raised-button color="primary" (click)="onSubmit()" [disabled]="!moduleForm.valid">
+    {{ isEditMode ? 'Update' : 'Add' }}
+  </button>
+</mat-dialog-actions>

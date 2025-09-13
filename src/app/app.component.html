@@ -1,0 +1,46 @@
+<div class="app-container">
+  <!-- Header -->
+  <mat-toolbar class="app-header" *ngIf="isLoggedIn">
+    <span class="logo">
+      <mat-icon>description</mat-icon>
+      {{ title }}
+    </span>
+    
+    <div class="nav-links">
+      <button mat-button routerLink="/quotations" routerLinkActive="active">
+        <mat-icon>assignment</mat-icon>
+        Quotations
+      </button>
+      <button mat-button routerLink="/brds" routerLinkActive="active">
+        <mat-icon>article</mat-icon>
+        BRDs
+      </button>
+      <button mat-button routerLink="/admin" routerLinkActive="active" *ngIf="isAdmin()">
+        <mat-icon>settings</mat-icon>
+        Admin
+      </button>
+    </div>
+
+    <div class="user-menu">
+      <button mat-icon-button [matMenuTriggerFor]="menu">
+        <mat-icon>account_circle</mat-icon>
+      </button>
+      <mat-menu #menu="matMenu">
+        <div class="user-info">
+          <strong>{{ userName }}</strong><br>
+          <small>{{ userRole }}</small>
+        </div>
+        <mat-divider></mat-divider>
+        <button mat-menu-item (click)="logout()">
+          <mat-icon>logout</mat-icon>
+          <span>Logout</span>
+        </button>
+      </mat-menu>
+    </div>
+  </mat-toolbar>
+
+  <!-- Main Content -->
+  <main class="main-content" [class.with-header]="isLoggedIn">
+    <router-outlet></router-outlet>
+  </main>
+</div>

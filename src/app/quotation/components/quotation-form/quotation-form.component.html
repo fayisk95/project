@@ -1,0 +1,282 @@
+<div class="container">
+  <div class="page-header">
+    <h1 class="page-title">
+      {{ isEditMode ? 'Edit Quotation' : 'New Quotation' }}
+    </h1>
+  </div>
+
+  <form [formGroup]="quotationForm" (ngSubmit)="onSubmit()">
+    <mat-tab-group>
+      <!-- Cover Page -->
+      <mat-tab label="Cover Page">
+        <div class="tab-content">
+          <div class="form-section">
+            <h3><mat-icon>info</mat-icon> Project Information</h3>
+            <div class="row">
+              <div class="col">
+                <mat-form-field class="form-field" appearance="outline">
+                  <mat-label>Project Title</mat-label>
+                  <input matInput formControlName="projectTitle" required>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-section">
+            <h3><mat-icon>business</mat-icon> Client Details</h3>
+            <div class="row">
+              <div class="col-6">
+                <mat-form-field class="form-field" appearance="outline">
+                  <mat-label>Company Name</mat-label>
+                  <input matInput formControlName="clientCompany" required>
+                </mat-form-field>
+              </div>
+              <div class="col-6">
+                <mat-form-field class="form-field" appearance="outline">
+                  <mat-label>Contact Person</mat-label>
+                  <input matInput formControlName="clientName" required>
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-6">
+                <mat-form-field class="form-field" appearance="outline">
+                  <mat-label>Email</mat-label>
+                  <input matInput type="email" formControlName="clientEmail" required>
+                </mat-form-field>
+              </div>
+              <div class="col-6">
+                <mat-form-field class="form-field" appearance="outline">
+                  <mat-label>Phone</mat-label>
+                  <input matInput formControlName="clientPhone" required>
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                <mat-form-field class="form-field" appearance="outline">
+                  <mat-label>Address</mat-label>
+                  <textarea matInput rows="3" formControlName="clientAddress" required></textarea>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+        </div>
+      </mat-tab>
+
+      <!-- Project Details -->
+      <mat-tab label="Project Details">
+        <div class="tab-content">
+          <div class="form-section">
+            <h3><mat-icon>description</mat-icon> Executive Summary</h3>
+            <mat-form-field class="form-field" appearance="outline">
+              <mat-label>Executive Summary</mat-label>
+              <textarea matInput rows="4" formControlName="executiveSummary" required></textarea>
+            </mat-form-field>
+          </div>
+
+          <div class="form-section">
+            <h3><mat-icon>code</mat-icon> Technology Stack</h3>
+            <mat-form-field class="form-field" appearance="outline">
+              <mat-label>Technology Stack</mat-label>
+              <textarea matInput rows="3" formControlName="technologyStack" required></textarea>
+            </mat-form-field>
+          </div>
+
+          <div class="form-section">
+            <h3><mat-icon>schedule</mat-icon> Timeline & Deliverables</h3>
+            <mat-form-field class="form-field" appearance="outline">
+              <mat-label>Timeline & Deliverables</mat-label>
+              <textarea matInput rows="4" formControlName="timeline" required></textarea>
+            </mat-form-field>
+          </div>
+        </div>
+      </mat-tab>
+
+      <!-- Scope of Work -->
+      <mat-tab label="Scope of Work">
+        <div class="tab-content">
+          <div class="form-section">
+            <div class="section-header">
+              <h3><mat-icon>extension</mat-icon> Modules</h3>
+              <button mat-raised-button color="primary" type="button" (click)="addModule()">
+                <mat-icon>add</mat-icon>
+                Add Module
+              </button>
+            </div>
+
+            <div class="modules-list">
+              <mat-card *ngFor="let module of modules; let i = index" class="module-card">
+                <mat-card-content>
+                  <div class="module-header">
+                    <h4>{{ module.name }}</h4>
+                    <div class="module-actions">
+                      <button mat-icon-button color="primary" (click)="editModule(i)">
+                        <mat-icon>edit</mat-icon>
+                      </button>
+                      <button mat-icon-button color="warn" (click)="removeModule(i)">
+                        <mat-icon>delete</mat-icon>
+                      </button>
+                    </div>
+                  </div>
+                  <p>{{ module.description }}</p>
+                  <div class="module-details">
+                    <span class="hours">{{ module.hours }} hours</span>
+                    <span class="cost">${{ module.cost | number:'1.2-2' }}</span>
+                  </div>
+                </mat-card-content>
+              </mat-card>
+
+              <div *ngIf="modules.length === 0" class="empty-modules">
+                <mat-icon>extension</mat-icon>
+                <p>No modules added yet. Click "Add Module" to get started.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </mat-tab>
+
+      <!-- Cost Breakdown -->
+      <mat-tab label="Cost Breakdown">
+        <div class="tab-content">
+          <!-- Additional Charges -->
+          <div class="form-section">
+            <div class="section-header">
+              <h3><mat-icon>attach_money</mat-icon> Additional Charges</h3>
+              <button mat-raised-button color="primary" type="button" (click)="addAdditionalCharge()">
+                <mat-icon>add</mat-icon>
+                Add Charge
+              </button>
+            </div>
+
+            <div class="charges-list">
+              <mat-card *ngFor="let charge of additionalCharges; let i = index" class="charge-card">
+                <mat-card-content>
+                  <div class="charge-header">
+                    <h4>{{ charge.name }}</h4>
+                    <div class="charge-actions">
+                      <button mat-icon-button color="primary" (click)="editAdditionalCharge(i)">
+                        <mat-icon>edit</mat-icon>
+                      </button>
+                      <button mat-icon-button color="warn" (click)="removeAdditionalCharge(i)">
+                        <mat-icon>delete</mat-icon>
+                      </button>
+                    </div>
+                  </div>
+                  <div class="charge-details">
+                    <span>Unit: ${{ charge.unitCost }}</span>
+                    <span>Qty: {{ charge.quantity }}</span>
+                    <span class="total">Total: ${{ charge.total | number:'1.2-2' }}</span>
+                  </div>
+                </mat-card-content>
+              </mat-card>
+
+              <div *ngIf="additionalCharges.length === 0" class="empty-charges">
+                <mat-icon>attach_money</mat-icon>
+                <p>No additional charges added yet.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Pricing Summary -->
+          <div class="form-section">
+            <h3><mat-icon>calculate</mat-icon> Pricing Summary</h3>
+            
+            <div class="row">
+              <div class="col-6">
+                <mat-form-field class="form-field" appearance="outline">
+                  <mat-label>Discount Type</mat-label>
+                  <mat-select formControlName="discountType">
+                    <mat-option value="percentage">Percentage (%)</mat-option>
+                    <mat-option value="flat">Flat Amount ($)</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div class="col-6">
+                <mat-form-field class="form-field" appearance="outline">
+                  <mat-label>Discount Value</mat-label>
+                  <input matInput type="number" formControlName="discountValue" min="0">
+                </mat-form-field>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-6">
+                <mat-form-field class="form-field" appearance="outline">
+                  <mat-label>Tax Percentage (%)</mat-label>
+                  <input matInput type="number" formControlName="taxPercent" min="0" max="100">
+                </mat-form-field>
+              </div>
+            </div>
+
+            <div class="cost-summary">
+              <div class="cost-item">
+                <span>Modules Cost:</span>
+                <span class="amount">${{ getModulesTotal() | number:'1.2-2' }}</span>
+              </div>
+              <div class="cost-item">
+                <span>Additional Charges:</span>
+                <span class="amount">${{ getChargesTotal() | number:'1.2-2' }}</span>
+              </div>
+              <div class="cost-item subtotal">
+                <span>Subtotal:</span>
+                <span class="amount">${{ getSubtotal() | number:'1.2-2' }}</span>
+              </div>
+              <div class="cost-item">
+                <span>Discount:</span>
+                <span class="amount">-${{ getDiscountAmount() | number:'1.2-2' }}</span>
+              </div>
+              <div class="cost-item">
+                <span>Tax:</span>
+                <span class="amount">${{ getTaxAmount() | number:'1.2-2' }}</span>
+              </div>
+              <div class="cost-item total">
+                <span>Grand Total:</span>
+                <span class="amount">${{ getGrandTotal() | number:'1.2-2' }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </mat-tab>
+
+      <!-- Terms & Conditions -->
+      <mat-tab label="Terms & Conditions">
+        <div class="tab-content">
+          <div class="form-section">
+            <h3><mat-icon>payment</mat-icon> Payment Terms</h3>
+            <mat-form-field class="form-field" appearance="outline">
+              <mat-label>Payment Terms</mat-label>
+              <textarea matInput rows="4" formControlName="paymentTerms"></textarea>
+            </mat-form-field>
+          </div>
+
+          <div class="form-section">
+            <h3><mat-icon>assignment</mat-icon> Assumptions & Dependencies</h3>
+            <mat-form-field class="form-field" appearance="outline">
+              <mat-label>Assumptions & Dependencies</mat-label>
+              <textarea matInput rows="4" formControlName="assumptions"></textarea>
+            </mat-form-field>
+          </div>
+
+          <div class="form-section">
+            <h3><mat-icon>gavel</mat-icon> Terms & Conditions</h3>
+            <mat-form-field class="form-field" appearance="outline">
+              <mat-label>Terms & Conditions</mat-label>
+              <textarea matInput rows="6" formControlName="termsConditions"></textarea>
+            </mat-form-field>
+          </div>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+
+    <!-- Form Actions -->
+    <div class="form-actions">
+      <button mat-button type="button" (click)="onCancel()" [disabled]="isLoading">
+        Cancel
+      </button>
+      <button mat-raised-button color="primary" type="submit" [disabled]="!quotationForm.valid || isLoading">
+        {{ isLoading ? 'Saving...' : (isEditMode ? 'Update Quotation' : 'Create Quotation') }}
+      </button>
+    </div>
+  </form>
+</div>

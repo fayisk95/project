@@ -1,0 +1,70 @@
+<div class="container">
+  <div class="page-header">
+    <h1 class="page-title">Business Requirements Documents (BRDs)</h1>
+  </div>
+
+  <mat-card class="brds-card">
+    <mat-card-content>
+      <div class="table-container">
+        <table mat-table [dataSource]="brds" class="brds-table">
+          <!-- Project Title Column -->
+          <ng-container matColumnDef="projectTitle">
+            <th mat-header-cell *matHeaderCellDef class="header-cell">Project Title</th>
+            <td mat-cell *matCellDef="let brd" class="title-cell">
+              <strong>{{ brd.quotation?.projectTitle || 'N/A' }}</strong>
+            </td>
+          </ng-container>
+
+          <!-- Client Company Column -->
+          <ng-container matColumnDef="clientCompany">
+            <th mat-header-cell *matHeaderCellDef class="header-cell">Client Company</th>
+            <td mat-cell *matCellDef="let brd">{{ brd.quotation?.clientCompany || 'N/A' }}</td>
+          </ng-container>
+
+          <!-- Created At Column -->
+          <ng-container matColumnDef="createdAt">
+            <th mat-header-cell *matHeaderCellDef class="header-cell">Generated</th>
+            <td mat-cell *matCellDef="let brd">
+              {{ brd.createdAt | date:'short' }}
+            </td>
+          </ng-container>
+
+          <!-- Actions Column -->
+          <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef class="header-cell">Actions</th>
+            <td mat-cell *matCellDef="let brd" class="actions-cell">
+              <button mat-icon-button 
+                      color="primary" 
+                      (click)="viewBrd(brd.id)"
+                      matTooltip="View Details">
+                <mat-icon>visibility</mat-icon>
+              </button>
+
+              <button mat-icon-button 
+                      (click)="exportPdf(brd)"
+                      matTooltip="Export PDF">
+                <mat-icon>picture_as_pdf</mat-icon>
+              </button>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="brd-row"></tr>
+        </table>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <!-- Empty State -->
+  <div *ngIf="brds.length === 0 && !isLoading" class="empty-state">
+    <mat-icon class="empty-icon">article</mat-icon>
+    <h3>No BRDs Found</h3>
+    <p>BRDs are automatically generated when quotations are approved.</p>
+  </div>
+
+  <!-- Loading State -->
+  <div *ngIf="isLoading" class="loading-container">
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+    <p>Loading BRDs...</p>
+  </div>
+</div>

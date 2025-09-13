@@ -1,0 +1,30 @@
+<div class="container" *ngIf="brd">
+  <div class="page-header">
+    <div class="header-left">
+      <button mat-icon-button (click)="backToList()" class="back-button">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+      <div>
+        <h1 class="page-title">Business Requirements Document</h1>
+        <p class="project-subtitle">{{ brd.quotation?.projectTitle }} - {{ brd.quotation?.clientCompany }}</p>
+      </div>
+    </div>
+    <div class="header-actions">
+      <button mat-raised-button color="primary" (click)="exportPdf()">
+        <mat-icon>picture_as_pdf</mat-icon>
+        Export PDF
+      </button>
+    </div>
+  </div>
+
+  <mat-card class="brd-content">
+    <mat-card-content>
+      <div class="brd-document" [innerHTML]="brd.content"></div>
+    </mat-card-content>
+  </mat-card>
+</div>
+
+<div class="loading-container" *ngIf="isLoading">
+  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+  <p>Loading BRD...</p>
+</div>

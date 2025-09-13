@@ -1,0 +1,178 @@
+<div class="container">
+  <div class="page-header">
+    <h1 class="page-title">Admin Dashboard</h1>
+    <p class="page-subtitle">Manage company settings and branding</p>
+  </div>
+
+  <mat-tab-group>
+    <!-- Company Settings -->
+    <mat-tab label="Company Settings">
+      <div class="tab-content">
+        <form [formGroup]="settingsForm" (ngSubmit)="onSubmit()">
+          <div class="form-section">
+            <h3><mat-icon>business</mat-icon> Company Information</h3>
+            
+            <div class="row">
+              <div class="col">
+                <mat-form-field class="form-field" appearance="outline">
+                  <mat-label>Company Name</mat-label>
+                  <input matInput formControlName="companyName" required>
+                  <mat-error *ngIf="settingsForm.get('companyName')?.hasError('required')">
+                    Company name is required
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col">
+                <mat-form-field class="form-field" appearance="outline">
+                  <mat-label>Company Address</mat-label>
+                  <textarea matInput rows="3" formControlName="address" required></textarea>
+                  <mat-error *ngIf="settingsForm.get('address')?.hasError('required')">
+                    Address is required
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-6">
+                <mat-form-field class="form-field" appearance="outline">
+                  <mat-label>Default Tax Percentage (%)</mat-label>
+                  <input matInput type="number" formControlName="taxPercent" required min="0" max="100">
+                  <mat-error *ngIf="settingsForm.get('taxPercent')?.hasError('required')">
+                    Tax percentage is required
+                  </mat-error>
+                  <mat-error *ngIf="settingsForm.get('taxPercent')?.hasError('min')">
+                    Tax percentage must be 0 or greater
+                  </mat-error>
+                  <mat-error *ngIf="settingsForm.get('taxPercent')?.hasError('max')">
+                    Tax percentage cannot exceed 100%
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-section">
+            <h3><mat-icon>image</mat-icon> Company Logo</h3>
+            
+            <div class="logo-upload">
+              <div class="logo-preview" *ngIf="logoPreview">
+                <img [src]="logoPreview" alt="Company Logo" class="logo-img">
+              </div>
+              
+              <div class="upload-controls">
+                <input type="file" 
+                       #fileInput 
+                       (change)="onFileSelected($event)" 
+                       accept="image/*" 
+                       style="display: none;">
+                <button mat-raised-button 
+                        type="button" 
+                        color="primary" 
+                        (click)="fileInput.click()">
+                  <mat-icon>upload</mat-icon>
+                  {{ logoPreview ? 'Change Logo' : 'Upload Logo' }}
+                </button>
+                <p class="upload-hint">Recommended size: 200x80px (PNG, JPG)</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-section">
+            <h3><mat-icon>gavel</mat-icon> Default Terms & Conditions</h3>
+            
+            <mat-form-field class="form-field" appearance="outline">
+              <mat-label>Terms & Conditions</mat-label>
+              <textarea matInput rows="8" formControlName="termsConditions" required></textarea>
+              <mat-error *ngIf="settingsForm.get('termsConditions')?.hasError('required')">
+                Terms & conditions are required
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="form-actions">
+            <button mat-raised-button 
+                    color="primary" 
+                    type="submit" 
+                    [disabled]="!settingsForm.valid || isLoading">
+              {{ isLoading ? 'Saving...' : 'Save Settings' }}
+            </button>
+          </div>
+        </form>
+      </div>
+    </mat-tab>
+
+    <!-- System Information -->
+    <mat-tab label="System Information">
+      <div class="tab-content">
+        <div class="form-section">
+          <h3><mat-icon>info</mat-icon> Application Information</h3>
+          
+          <div class="info-grid">
+            <div class="info-item">
+              <strong>Application Name:</strong>
+              <span>SmartDocs – Quotation & BRD Generator</span>
+            </div>
+            <div class="info-item">
+              <strong>Version:</strong>
+              <span>1.0.0</span>
+            </div>
+            <div class="info-item">
+              <strong>Company:</strong>
+              <span>brandnbytes</span>
+            </div>
+            <div class="info-item">
+              <strong>Technology Stack:</strong>
+              <span>Angular 17, Node.js, MySQL</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-section">
+          <h3><mat-icon>palette</mat-icon> Brand Colors</h3>
+          
+          <div class="color-palette">
+            <div class="color-item">
+              <div class="color-swatch primary-blue"></div>
+              <div class="color-info">
+                <strong>Primary Blue</strong>
+                <span>#204f96</span>
+              </div>
+            </div>
+            <div class="color-item">
+              <div class="color-swatch secondary-blue"></div>
+              <div class="color-info">
+                <strong>Secondary Blue</strong>
+                <span>#3c7dc0</span>
+              </div>
+            </div>
+            <div class="color-item">
+              <div class="color-swatch accent-gray"></div>
+              <div class="color-info">
+                <strong>Accent Gray</strong>
+                <span>#bfc5cc</span>
+              </div>
+            </div>
+            <div class="color-item">
+              <div class="color-swatch dark-text"></div>
+              <div class="color-info">
+                <strong>Dark Text</strong>
+                <span>#1c1c1c</span>
+              </div>
+            </div>
+            <div class="color-item">
+              <div class="color-swatch background-light"></div>
+              <div class="color-info">
+                <strong>Background Light</strong>
+                <span>#f7fbff</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
+</div>

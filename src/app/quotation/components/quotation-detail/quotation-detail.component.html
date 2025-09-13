@@ -1,0 +1,231 @@
+<div class="container" *ngIf="quotation">
+  <div class="page-header">
+    <div class="header-left">
+      <button mat-icon-button (click)="backToList()" class="back-button">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+      <div>
+        <h1 class="page-title">{{ quotation.projectTitle }}</h1>
+        <p class="project-subtitle">{{ quotation.clientCompany }}</p>
+      </div>
+    </div>
+    <div class="header-actions">
+      <span class="status-badge" [class]="'status-' + quotation.status">
+        {{ quotation.status | titlecase }}
+      </span>
+      <button mat-raised-button color="primary" (click)="exportPdf()">
+        <mat-icon>picture_as_pdf</mat-icon>
+        Export PDF
+      </button>
+      <button mat-raised-button 
+              color="accent" 
+              (click)="editQuotation()" 
+              [disabled]="quotation.status === 'approved'">
+        <mat-icon>edit</mat-icon>
+        Edit
+      </button>
+      <button mat-raised-button 
+              color="primary" 
+              (click)="approveQuotation()"
+              [disabled]="quotation.status === 'approved'"
+              class="approve-btn">
+        <mat-icon>check_circle</mat-icon>
+        Approve & Generate BRD
+      </button>
+    </div>
+  </div>
+
+  <div class="content-tabs">
+    <mat-tab-group>
+      <!-- Overview -->
+      <mat-tab label="Overview">
+        <div class="tab-content">
+          <div class="overview-cards">
+            <mat-card class="info-card">
+              <mat-card-header>
+                <mat-icon mat-card-avatar>business</mat-icon>
+                <mat-card-title>Client Information</mat-card-title>
+              </mat-card-header>
+              <mat-card-content>
+                <div class="info-item">
+                  <strong>Company:</strong> {{ quotation.clientCompany }}
+                </div>
+                <div class="info-item">
+                  <strong>Contact:</strong> {{ quotation.clientName }}
+                </div>
+                <div class="info-item">
+                  <strong>Email:</strong> {{ quotation.clientEmail }}
+                </div>
+                <div class="info-item">
+                  <strong>Phone:</strong> {{ quotation.clientPhone }}
+                </div>
+                <div class="info-item">
+                  <strong>Address:</strong> {{ quotation.clientAddress }}
+                </div>
+              </mat-card-content>
+            </mat-card>
+
+            <mat-card class="info-card">
+              <mat-card-header>
+                <mat-icon mat-card-avatar>calculate</mat-icon>
+                <mat-card-title>Cost Summary</mat-card-title>
+              </mat-card-header>
+              <mat-card-content>
+                <div class="cost-summary">
+                  <div class="cost-item">
+                    <span>Modules Cost:</span>
+                    <span class="amount">${{ getModulesTotal() | number:'1.2-2' }}</span>
+                  </div>
+                  <div class="cost-item">
+                    <span>Additional Charges:</span>
+                    <span class="amount">${{ getChargesTotal() | number:'1.2-2' }}</span>
+                  </div>
+                  <div class="cost-item subtotal">
+                    <span>Subtotal:</span>
+                    <span class="amount">${{ getSubtotal() | number:'1.2-2' }}</span>
+                  </div>
+                  <div class="cost-item">
+                    <span>Discount:</span>
+                    <span class="amount">-${{ getDiscountAmount() | number:'1.2-2' }}</span>
+                  </div>
+                  <div class="cost-item">
+                    <span>Tax ({{ quotation.taxPercent }}%):</span>
+                    <span class="amount">${{ getTaxAmount() | number:'1.2-2' }}</span>
+                  </div>
+                  <div class="cost-item total">
+                    <span>Grand Total:</span>
+                    <span class="amount">${{ quotation.grandTotal | number:'1.2-2' }}</span>
+                  </div>
+                </div>
+              </mat-card-content>
+            </mat-card>
+          </div>
+        </div>
+      </mat-tab>
+
+      <!-- Project Details -->
+      <mat-tab label="Project Details">
+        <div class="tab-content">
+          <mat-card class="detail-card">
+            <mat-card-header>
+              <mat-icon mat-card-avatar>description</mat-icon>
+              <mat-card-title>Executive Summary</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <p class="detail-text">{{ quotation.executiveSummary }}</p>
+            </mat-card-content>
+          </mat-card>
+
+          <mat-card class="detail-card">
+            <mat-card-header>
+              <mat-icon mat-card-avatar>code</mat-icon>
+              <mat-card-title>Technology Stack</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <p class="detail-text">{{ quotation.technologyStack }}</p>
+            </mat-card-content>
+          </mat-card>
+
+          <mat-card class="detail-card">
+            <mat-card-header>
+              <mat-icon mat-card-avatar>schedule</mat-icon>
+              <mat-card-title>Timeline & Deliverables</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <p class="detail-text">{{ quotation.timeline }}</p>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </mat-tab>
+
+      <!-- Modules & Charges -->
+      <mat-tab label="Modules & Charges">
+        <div class="tab-content">
+          <!-- Modules -->
+          <mat-card class="detail-card" *ngIf="quotation.modules && quotation.modules.length > 0">
+            <mat-card-header>
+              <mat-icon mat-card-avatar>extension</mat-icon>
+              <mat-card-title>Project Modules</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <div class="modules-grid">
+                <div class="module-item" *ngFor="let module of quotation.modules">
+                  <div class="module-header">
+                    <h4>{{ module.name }}</h4>
+                    <span class="module-cost">${{ module.cost | number:'1.2-2' }}</span>
+                  </div>
+                  <p class="module-description">{{ module.description }}</p>
+                  <div class="module-meta">
+                    <span class="hours">{{ module.hours }} hours</span>
+                  </div>
+                </div>
+              </div>
+            </mat-card-content>
+          </mat-card>
+
+          <!-- Additional Charges -->
+          <mat-card class="detail-card" *ngIf="quotation.additionalCharges && quotation.additionalCharges.length > 0">
+            <mat-card-header>
+              <mat-icon mat-card-avatar>attach_money</mat-icon>
+              <mat-card-title>Additional Charges</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <div class="charges-grid">
+                <div class="charge-item" *ngFor="let charge of quotation.additionalCharges">
+                  <div class="charge-header">
+                    <h4>{{ charge.name }}</h4>
+                    <span class="charge-total">${{ charge.total | number:'1.2-2' }}</span>
+                  </div>
+                  <div class="charge-details">
+                    <span>Unit Cost: ${{ charge.unitCost }}</span>
+                    <span>Quantity: {{ charge.quantity }}</span>
+                  </div>
+                </div>
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </mat-tab>
+
+      <!-- Terms -->
+      <mat-tab label="Terms & Conditions">
+        <div class="tab-content">
+          <mat-card class="detail-card" *ngIf="quotation.paymentTerms">
+            <mat-card-header>
+              <mat-icon mat-card-avatar>payment</mat-icon>
+              <mat-card-title>Payment Terms</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <p class="detail-text">{{ quotation.paymentTerms }}</p>
+            </mat-card-content>
+          </mat-card>
+
+          <mat-card class="detail-card" *ngIf="quotation.assumptions">
+            <mat-card-header>
+              <mat-icon mat-card-avatar>assignment</mat-icon>
+              <mat-card-title>Assumptions & Dependencies</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <p class="detail-text">{{ quotation.assumptions }}</p>
+            </mat-card-content>
+          </mat-card>
+
+          <mat-card class="detail-card" *ngIf="quotation.termsConditions">
+            <mat-card-header>
+              <mat-icon mat-card-avatar>gavel</mat-icon>
+              <mat-card-title>Terms & Conditions</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <p class="detail-text">{{ quotation.termsConditions }}</p>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+</div>
+
+<div class="loading-container" *ngIf="isLoading">
+  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+  <p>Loading quotation details...</p>
+</div>

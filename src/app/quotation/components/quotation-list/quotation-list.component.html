@@ -1,0 +1,113 @@
+<div class="container">
+  <div class="page-header">
+    <h1 class="page-title">Quotations</h1>
+    <button mat-raised-button color="primary" (click)="createNew()" class="create-btn">
+      <mat-icon>add</mat-icon>
+      New Quotation
+    </button>
+  </div>
+
+  <mat-card class="quotations-card">
+    <mat-card-content>
+      <div class="table-container">
+        <table mat-table [dataSource]="quotations" class="quotations-table">
+          <!-- Project Title Column -->
+          <ng-container matColumnDef="projectTitle">
+            <th mat-header-cell *matHeaderCellDef class="header-cell">Project Title</th>
+            <td mat-cell *matCellDef="let quotation" class="title-cell">
+              <strong>{{ quotation.projectTitle }}</strong>
+            </td>
+          </ng-container>
+
+          <!-- Client Company Column -->
+          <ng-container matColumnDef="clientCompany">
+            <th mat-header-cell *matHeaderCellDef class="header-cell">Client Company</th>
+            <td mat-cell *matCellDef="let quotation">{{ quotation.clientCompany }}</td>
+          </ng-container>
+
+          <!-- Status Column -->
+          <ng-container matColumnDef="status">
+            <th mat-header-cell *matHeaderCellDef class="header-cell">Status</th>
+            <td mat-cell *matCellDef="let quotation">
+              <span class="status-badge" [class]="'status-' + quotation.status">
+                {{ quotation.status | titlecase }}
+              </span>
+            </td>
+          </ng-container>
+
+          <!-- Grand Total Column -->
+          <ng-container matColumnDef="grandTotal">
+            <th mat-header-cell *matHeaderCellDef class="header-cell">Grand Total</th>
+            <td mat-cell *matCellDef="let quotation" class="amount-cell">
+              <strong>${{ quotation.grandTotal | number:'1.2-2' }}</strong>
+            </td>
+          </ng-container>
+
+          <!-- Created At Column -->
+          <ng-container matColumnDef="createdAt">
+            <th mat-header-cell *matHeaderCellDef class="header-cell">Created</th>
+            <td mat-cell *matCellDef="let quotation">
+              {{ quotation.createdAt | date:'short' }}
+            </td>
+          </ng-container>
+
+          <!-- Actions Column -->
+          <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef class="header-cell">Actions</th>
+            <td mat-cell *matCellDef="let quotation" class="actions-cell">
+              <button mat-icon-button 
+                      color="primary" 
+                      (click)="viewQuotation(quotation.id!)"
+                      matTooltip="View Details">
+                <mat-icon>visibility</mat-icon>
+              </button>
+              
+              <button mat-icon-button 
+                      color="accent" 
+                      (click)="editQuotation(quotation.id!)"
+                      matTooltip="Edit"
+                      [disabled]="quotation.status === 'approved'">
+                <mat-icon>edit</mat-icon>
+              </button>
+
+              <button mat-icon-button 
+                      color="primary" 
+                      (click)="approveQuotation(quotation)"
+                      matTooltip="Approve & Generate BRD"
+                      [disabled]="quotation.status === 'approved'">
+                <mat-icon>check_circle</mat-icon>
+              </button>
+
+              <button mat-icon-button 
+                      (click)="exportPdf(quotation)"
+                      matTooltip="Export PDF">
+                <mat-icon>picture_as_pdf</mat-icon>
+              </button>
+
+              <button mat-icon-button 
+                      color="warn" 
+                      (click)="deleteQuotation(quotation)"
+                      matTooltip="Delete">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="quotation-row"></tr>
+        </table>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <!-- Empty State -->
+  <div *ngIf="quotations.length === 0 && !isLoading" class="empty-state">
+    <mat-icon class="empty-icon">description</mat-icon>
+    <h3>No Quotations Found</h3>
+    <p>Create your first quotation to get started.</p>
+    <button mat-raised-button color="primary" (click)="createNew()">
+      <mat-icon>add</mat-icon>
+      Create Quotation
+    </button>
+  </div>
+</div>

@@ -1,0 +1,261 @@
+.container {
+  padding: 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 24px;
+  background: white;
+  padding: 24px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.header-left {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.back-button {
+  margin-top: 8px;
+}
+
+.page-title {
+  color: var(--primary-blue);
+  margin: 0 0 4px 0;
+  font-weight: 500;
+}
+
+.project-subtitle {
+  color: var(--accent-gray);
+  margin: 0;
+  font-size: 14px;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.status-badge {
+  padding: 6px 16px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+}
+
+.status-draft {
+  background-color: #fff3cd;
+  color: #856404;
+}
+
+.status-approved {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.approve-btn {
+  background-color: var(--success);
+  color: white;
+}
+
+.content-tabs {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.tab-content {
+  padding: 24px;
+}
+
+.overview-cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+.info-card, .detail-card {
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 24px;
+}
+
+.info-item {
+  margin-bottom: 12px;
+  padding: 8px 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.info-item:last-child {
+  border-bottom: none;
+}
+
+.info-item strong {
+  color: var(--primary-blue);
+  display: inline-block;
+  width: 80px;
+}
+
+.cost-summary {
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 16px;
+}
+
+.cost-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.cost-item:last-child {
+  border-bottom: none;
+}
+
+.cost-item.subtotal {
+  border-top: 1px solid #e0e0e0;
+  margin-top: 8px;
+  font-weight: 500;
+}
+
+.cost-item.total {
+  border-top: 2px solid var(--primary-blue);
+  margin-top: 8px;
+  font-weight: 600;
+  font-size: 18px;
+  color: var(--primary-blue);
+}
+
+.amount {
+  font-weight: 500;
+  color: var(--secondary-blue);
+}
+
+.detail-text {
+  line-height: 1.6;
+  color: var(--dark-text);
+  margin: 0;
+  white-space: pre-wrap;
+}
+
+.modules-grid, .charges-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 16px;
+}
+
+.module-item, .charge-item {
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 16px;
+  background-color: var(--background-light);
+}
+
+.module-header, .charge-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.module-header h4, .charge-header h4 {
+  margin: 0;
+  color: var(--primary-blue);
+  font-size: 16px;
+}
+
+.module-cost, .charge-total {
+  font-weight: 600;
+  color: var(--secondary-blue);
+  font-size: 18px;
+}
+
+.module-description {
+  color: var(--dark-text);
+  margin: 8px 0;
+  line-height: 1.5;
+}
+
+.module-meta, .charge-details {
+  display: flex;
+  gap: 16px;
+  font-size: 14px;
+  color: var(--accent-gray);
+}
+
+.hours {
+  background-color: rgba(32, 79, 150, 0.1);
+  color: var(--primary-blue);
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+}
+
+.loading-container {
+  text-align: center;
+  padding: 48px;
+  color: var(--accent-gray);
+}
+
+/* Material Tab Overrides */
+::ng-deep .mat-tab-group {
+  border-radius: 12px;
+}
+
+::ng-deep .mat-tab-header {
+  border-bottom: 1px solid #e0e0e0;
+}
+
+::ng-deep .mat-tab-label {
+  color: var(--dark-text);
+  font-weight: 500;
+}
+
+::ng-deep .mat-tab-label.mat-tab-label-active {
+  color: var(--primary-blue);
+}
+
+::ng-deep .mat-ink-bar {
+  background-color: var(--primary-blue);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .container {
+    padding: 16px;
+  }
+  
+  .page-header {
+    flex-direction: column;
+    gap: 16px;
+    align-items: stretch;
+  }
+  
+  .header-actions {
+    justify-content: center;
+  }
+  
+  .overview-cards {
+    grid-template-columns: 1fr;
+  }
+  
+  .modules-grid, .charges-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .info-item strong {
+    width: auto;
+    display: block;
+    margin-bottom: 4px;
+  }
+}
