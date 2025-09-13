@@ -1,4 +1,6 @@
 /* brandnbytes Corporate Theme */
+@import "@angular/material/prebuilt-themes/indigo-pink.css";
+
 :root {
   --primary-blue: #204f96;
   --secondary-blue: #3c7dc0;
